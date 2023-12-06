@@ -4,6 +4,7 @@ import { Stack } from 'expo-router';
 import { UserContext } from '../contexts/UserContext';
 import LoginForm from '../components/forms/LoginForm';
 import { LoadingContext } from '../contexts/LoadingContext';
+import { AntDesign } from '@expo/vector-icons';
 
 const login = () => {
   const { user } = useContext(UserContext)
@@ -13,15 +14,7 @@ const login = () => {
   if (!loading && !user)
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <View style={{
-          flexDirection: 'row',
-          height: 250,
-          width: '100%',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}>
-          <Image source={{ uri: 'https://img.icons8.com/fluency/96/null/instagram-new.png', height: 100, width: 100 }} />
-        </View>
+        <AntDesign name="stepforward" size={24} color="black" />
         <LoginForm />
       </View>
     )
