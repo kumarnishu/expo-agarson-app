@@ -3,7 +3,6 @@ import { UserProvider } from '../contexts/UserContext';
 import { LoadingProvider } from '../contexts/LoadingContext';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 
 export const queryClient = new QueryClient({
@@ -30,14 +29,12 @@ export default function Root() {
 
         };
     return (
-        <SafeAreaProvider>
-            <QueryClientProvider client={queryClient}>
-                <LoadingProvider>
-                    <UserProvider>
-                        <Slot />
-                    </UserProvider>
-                </LoadingProvider>
-            </QueryClientProvider>
-        </SafeAreaProvider>
+        <QueryClientProvider client={queryClient}>
+            <LoadingProvider>
+                <UserProvider>
+                    <Slot />
+                </UserProvider>
+            </LoadingProvider>
+        </QueryClientProvider>
     );
 }
