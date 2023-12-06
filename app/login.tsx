@@ -4,6 +4,7 @@ import { Stack } from 'expo-router';
 import { UserContext } from '../contexts/UserContext';
 import LoginForm from '../components/forms/LoginForm';
 import { LoadingContext } from '../contexts/LoadingContext';
+import { Avatar } from '@rneui/themed';
 
 const login = () => {
   const { user } = useContext(UserContext)
@@ -12,9 +13,20 @@ const login = () => {
     return <Stack />
   if (!loading && !user)
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <LoginForm />
-      </View>
+      <>
+        <View style={{ flex: 1, flexDirection: 'column', gap: 10, paddingTop: 50 }}>
+          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <Avatar
+              size={150}
+              source={require("../assets/favicon.png")}
+            />
+          </View>
+          <View>
+            <LoginForm />
+          </View>
+        </View>
+      </>
+
     )
 }
 

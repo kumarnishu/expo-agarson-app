@@ -9,6 +9,7 @@ import { AxiosResponse } from 'axios';
 import { IUser } from '../../types/user.types';
 import { BackendError } from '../..';
 import { Login } from '../../services/UserServices';
+import { LinearProgress } from '@rneui/themed';
 
 const LoginFormSchema = yup.object({
     username: yup.string().required("required field"),
@@ -50,8 +51,9 @@ const LoginForm = () => {
                 <>
                     <View style={{ padding: 20 }}>
                         <TextInput style={styles.input}
-                            placeholder='username or username'
+                            placeholder='username or email'
                             autoCapitalize='none'
+                            autoFocus
                             onChangeText={handleChange('username')}
                             onBlur={handleBlur('username')}
                             value={values.username}
@@ -71,18 +73,8 @@ const LoginForm = () => {
                         <Text style={styles.errorText} >
                             {errors.password && touched.password && errors.password ? errors.password : ""}
                         </Text>
-
-                        <Button onPress={() => handleSubmit()} disabled={isLoading} title={isLoading ? "Logging in..." : "Log in"} />
-                    </View>
-
-                    {/* bottom view */}
-                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingTop: 25 }}>
-                        <Text>Don't have an account?
-                        </Text>
-                        <TouchableOpacity
-                            onPress={() => router.replace('/')}            >
-                            <Text style={{ color: '#6880F5', fontWeight: '600', marginLeft: 2 }}>Sign up</Text>
-                        </TouchableOpacity>
+                        {isLoading && <LinearProgress style={{ marginVertical: 10 }} />}
+                        <Button onPress={() => handleSubmit()} disabled={isLoading} title={"Submit"} />
                     </View>
                 </>
             )}
@@ -100,6 +92,7 @@ const styles = StyleSheet.create({
     },
     errorText: {
         color: 'red',
+        fontSize: 10
     }
 })
 export default LoginForm

@@ -1,4 +1,5 @@
-import { Text, View, Button } from 'react-native';
+import { Text, View } from 'react-native';
+import { Button } from '@rneui/base';
 import { UserContext } from '../../contexts/UserContext';
 import { useContext, useEffect } from 'react';
 import { useMutation } from 'react-query';
@@ -24,7 +25,7 @@ export default function Index() {
             <View>
                 <Link href="/bot">Bot</Link>
             </View>
-            <Text>{user?.username}</Text>
+           
             <Button onPress={() => mutate()} title=" Sign Out" />
         </View>
     );
