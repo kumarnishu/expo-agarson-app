@@ -25,7 +25,8 @@ export default function AppLayout() {
             name="index"
             options={{
                 drawerLabel: user.username,
-                title: 'Home',
+                title: 'Home'
+
             }}
         />
         <Drawer.Screen
