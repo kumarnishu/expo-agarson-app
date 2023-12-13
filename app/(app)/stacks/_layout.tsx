@@ -1,7 +1,6 @@
-import { Redirect } from 'expo-router';
+import { Redirect, Stack } from 'expo-router';
 import { useContext } from 'react';
 import { LinearProgress } from '@rneui/themed/dist/LinearProgress';
-import { Stack } from 'expo-router/Stack';
 import { UserContext } from '../../../contexts/UserContext';
 import { LoadingContext } from '../../../contexts/LoadingContext';
 
