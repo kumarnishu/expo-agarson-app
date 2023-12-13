@@ -2,8 +2,8 @@ import { Redirect } from 'expo-router';
 import { useContext } from 'react';
 import { UserContext } from '../../contexts/UserContext';
 import { LoadingContext } from '../../contexts/LoadingContext';
-import { LinearProgress } from '@rneui/themed/dist/LinearProgress';
 import { Drawer } from 'expo-router/drawer';
+import { ProgressBar } from 'react-native-paper';
 
 const Profile = () => {
     const { user } = useContext(UserContext);
@@ -14,7 +14,7 @@ export default function AppLayout() {
     const { loading } = useContext(LoadingContext)
     if (loading) {
         return (
-            <LinearProgress />
+            <ProgressBar />
         )
     }
     if (!user) {
