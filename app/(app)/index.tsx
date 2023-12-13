@@ -1,11 +1,13 @@
-import { View } from 'react-native';
 import { Link } from 'expo-router';
+import * as React from 'react';
+import { View } from 'react-native';
 
-export default function Index() {
-
+const MyComponent = () => {
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Link href="/stacks/" style={{ fontSize: 30, padding: 10 }}>View Cart</Link>
+        <View>
+            <Link href="/(app)/catalouge">Catalouge</Link>
         </View>
-    );
+    )
+
 }
+export default MyComponent;

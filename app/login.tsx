@@ -1,10 +1,9 @@
-import { View } from 'react-native'
+import { Image, View } from 'react-native'
 import React, { useContext } from 'react'
 import { Stack } from 'expo-router';
 import { UserContext } from '../contexts/UserContext';
 import LoginForm from '../components/LoginForm';
 import { LoadingContext } from '../contexts/LoadingContext';
-import { Avatar } from '@rneui/themed';
 
 const login = () => {
   const { user } = useContext(UserContext)
@@ -16,8 +15,8 @@ const login = () => {
       <>
         <View style={{ flex: 1, flexDirection: 'column', gap: 10, paddingTop: 50 }}>
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-            <Avatar
-              size={180}
+            <Image
+              height={100}
               source={require("../assets/favicon.png")}
             />
           </View>

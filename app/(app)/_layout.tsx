@@ -2,8 +2,10 @@ import { Redirect } from 'expo-router';
 import { useContext } from 'react';
 import { UserContext } from '../../contexts/UserContext';
 import { LoadingContext } from '../../contexts/LoadingContext';
-import { Drawer } from 'expo-router/drawer';
+import { Stack } from 'expo-router';
 import { ProgressBar } from 'react-native-paper';
+import * as React from 'react';
+import { Appbar } from 'react-native-paper';
 
 const Profile = () => {
     const { user } = useContext(UserContext);
@@ -20,56 +22,66 @@ export default function AppLayout() {
     if (!user) {
         return <Redirect href="/login" />;
     }
-    return <Drawer >
-        <Drawer.Screen
-            name="index"
-            options={{
-                drawerLabel: user.username,
-                title: 'Home'
+    return (
+        <>
+            <Appbar.Header>
+                <Appbar.Action icon="menu" onPress={() => { }} />
+                <Appbar.Content title="" />
+                <Appbar.Action icon="label" color="green" onPress={() => { }} />
+                <Appbar.Action icon="cart" color='red' onPress={() => { }} />
+            </Appbar.Header>
 
-            }}
-        />
-        <Drawer.Screen
-            name="catalouge"
-            options={{
-                drawerLabel: 'Catalouge',
-                title: 'Catalouge',
-            }}
-        />
-        <Drawer.Screen
-            name="customers"
-            options={{
-                drawerLabel: 'Customers',
-                title: 'Customers',
-            }}
-        />
-        <Drawer.Screen
-            name="orders"
-            options={{
-                drawerLabel: 'Orders',
-                title: 'Orders',
-            }}
-        />
-        <Drawer.Screen
-            name="ledger"
-            options={{
-                drawerLabel: 'Ledgers',
-                title: 'Ledgers',
-            }}
-        />
-        <Drawer.Screen
-            name="privacy"
-            options={{
-                drawerLabel: 'Privacy Policy',
-                title: 'Privacy Policy',
-            }}
-        />
-        <Drawer.Screen
-            name="signout"
-            options={{
-                drawerLabel: 'Sign Out',
-                title: 'Sign Out',
-            }}
-        />
-    </Drawer>
+            <Stack>
+                <Stack.Screen
+                    name="index"
+                    options={{
+                        headerShown: false,
+
+                    }}
+                />
+                <Stack.Screen
+                    name="catalouge"
+                    options={{
+                        headerShown: false,
+                        animation:'none'
+                    }}
+                />
+                <Stack.Screen
+                    name="customers"
+                    options={{
+                        headerShown: false,
+                        animation:'none'
+                    }}
+                />
+                <Stack.Screen
+                    name="orders"
+                    options={{
+                        headerShown: false,
+                        animation:'none'
+                    }}
+                />
+                <Stack.Screen
+                    name="ledger"
+                    options={{
+                        headerShown: false,
+                        animation:'none'
+                    }}
+                />
+                <Stack.Screen
+                    name="privacy"
+                    options={{
+                        headerShown: false,
+                        animation:'none'
+                    }}
+                />
+                <Stack.Screen
+                    name="signout"
+                    options={{
+                        headerShown: false,
+                        animation:'none'
+                    }}
+                />
+            </Stack>
+        </>
+    )
 }
