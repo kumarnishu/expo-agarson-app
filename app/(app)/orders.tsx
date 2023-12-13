@@ -1,12 +1,12 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-const BOT = () => {
+const orders = () => {
   return (
     <View>
-      <Text>BOT</Text>
+      <Text>orders</Text>
     </View>
   )
 }
 
-export default BOT
+export default orders

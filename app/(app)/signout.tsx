@@ -1,12 +1,12 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-const CRM = () => {
+const signout = () => {
   return (
     <View>
-      <Text>CRM</Text>
+      <Text>signout</Text>
     </View>
   )
 }
 
-export default CRM
+export default signout

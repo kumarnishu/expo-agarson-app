@@ -25,7 +25,7 @@ export default function Index() {
             <View>
                 <Link href="/bot">Bot</Link>
             </View>
-           
+
             <Button onPress={() => mutate()} title=" Sign Out" />
         </View>
     );

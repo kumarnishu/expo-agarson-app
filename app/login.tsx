@@ -17,7 +17,7 @@ const login = () => {
         <View style={{ flex: 1, flexDirection: 'column', gap: 10, paddingTop: 50 }}>
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
             <Avatar
-              size={150}
+              size={180}
               source={require("../assets/favicon.png")}
             />
           </View>

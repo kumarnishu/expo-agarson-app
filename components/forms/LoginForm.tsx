@@ -1,4 +1,4 @@
-import { View, Text, TextInput, Button, Alert, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, TextInput, Button, Alert, StyleSheet, Pressable } from 'react-native'
 import React, { useContext, useEffect } from 'react'
 import { Formik } from 'formik'
 import * as yup from "yup";
@@ -9,7 +9,6 @@ import { AxiosResponse } from 'axios';
 import { IUser } from '../../types/user.types';
 import { BackendError } from '../..';
 import { Login } from '../../services/UserServices';
-import { LinearProgress } from '@rneui/themed';
 
 const LoginFormSchema = yup.object({
     username: yup.string().required("required field"),
@@ -49,32 +48,39 @@ const LoginForm = () => {
         >
             {({ handleChange, errors, touched, handleBlur, handleSubmit, values }) => (
                 <>
-                    <View style={{ padding: 20 }}>
-                        <TextInput style={styles.input}
-                            placeholder='username or email'
-                            autoCapitalize='none'
-                            autoFocus
-                            onChangeText={handleChange('username')}
-                            onBlur={handleBlur('username')}
-                            value={values.username}
-                        />
-                        <Text style={styles.errorText} >
-                            {errors.username && touched.username && errors.username ? errors.username : ""}
-                        </Text>
-                        <TextInput style={styles.input}
-                            placeholder='Password'
-                            autoCapitalize='none'
-                            autoCorrect={false}
-                            secureTextEntry={true}
-                            onChangeText={handleChange('password')}
-                            onBlur={handleBlur('password')}
-                            value={values.password}
-                        />
-                        <Text style={styles.errorText} >
-                            {errors.password && touched.password && errors.password ? errors.password : ""}
-                        </Text>
-                        {isLoading && <LinearProgress style={{ marginVertical: 10 }} />}
-                        <Button onPress={() => handleSubmit()} disabled={isLoading} title={"Submit"} />
+                    <View style={styles.container}>
+                        <View>
+                            <TextInput style={styles.input}
+                                placeholder='Username,email or mobile'
+                                autoCapitalize='none'
+                                onChangeText={handleChange('username')}
+                                onBlur={handleBlur('username')}
+                                value={values.username}
+                            />
+                            <Text style={styles.errorText} >
+                                {errors.username && touched.username && errors.username ? errors.username : ""}
+                            </Text>
+                        </View>
+                        <View>
+                            <TextInput style={styles.input}
+                                placeholder='Password'
+                                autoCapitalize='none'
+                                autoCorrect={false}
+                                secureTextEntry={true}
+                                onChangeText={handleChange('password')}
+                                onBlur={handleBlur('password')}
+                                value={values.password}
+                            />
+                            <Text style={styles.errorText} >
+                                {errors.password && touched.password && errors.password ? errors.password : ""}
+                            </Text>
+                        </View>
+
+                        <Pressable style={styles.btn} onPress={() => handleSubmit()} disabled={isLoading} >
+                            <Text style={{ fontSize: 25, alignItems: 'center', textAlign: 'center', color: 'white' }}>
+                                {isLoading ? "Signing in ..." : "Sign In"}
+                            </Text>
+                        </Pressable>
                     </View>
                 </>
             )}
@@ -82,17 +88,31 @@ const LoginForm = () => {
     )
 }
 const styles = StyleSheet.create({
+    container: {
+        padding: 20,
+        flexDirection: 'column',
+        gap: 5
+    },
     input: {
-        padding: 10,
+        padding: 15,
+        fontSize: 25,
         borderWidth: 1,
         borderColor: 'grey',
-        borderRadius: 5,
-        fontSize: 16,
+        borderRadius: 10,
+        gap: 5,
         backgroundColor: 'rgba(0,0,0,0.04)'
     },
     errorText: {
         color: 'red',
         fontSize: 10
+    },
+    btn: {
+        padding: 10,
+        borderWidth: 1,
+        borderColor: 'grey',
+        borderRadius: 10,
+        gap: 5,
+        backgroundColor: 'rgba(0,0,0,0.8)'
     }
 })
 export default LoginForm
