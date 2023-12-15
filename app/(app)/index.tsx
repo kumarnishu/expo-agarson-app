@@ -1,12 +1,9 @@
-import { Link } from 'expo-router';
 import * as React from 'react';
-import { View } from 'react-native';
+import NavModal from '../../components/NavModal';
 
 const MyComponent = () => {
     return (
-        <View>
-            <Link href="/(app)/catalouge">Catalouge</Link>
-        </View>
+        <></>
     )
 
 }

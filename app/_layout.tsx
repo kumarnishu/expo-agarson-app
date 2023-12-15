@@ -3,6 +3,7 @@ import { UserProvider } from '../contexts/UserContext';
 import { LoadingProvider } from '../contexts/LoadingContext';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ChoiceProvider } from '../contexts/ModalContext';
 
 
 export const queryClient = new QueryClient({
@@ -32,7 +33,9 @@ export default function Root() {
         <QueryClientProvider client={queryClient}>
             <LoadingProvider>
                 <UserProvider>
-                    <Slot />
+                    <ChoiceProvider>
+                        <Slot />
+                    </ChoiceProvider>
                 </UserProvider>
             </LoadingProvider>
         </QueryClientProvider>

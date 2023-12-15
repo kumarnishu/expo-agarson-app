@@ -1,4 +1,4 @@
-import { View, Text, TextInput, Button, Alert, StyleSheet, Pressable } from 'react-native'
+import { View, Alert, StyleSheet, TextInput, ScrollView, Image, Button, Pressable, Text, TouchableOpacity } from 'react-native'
 import React, { useContext, useEffect } from 'react'
 import { Formik } from 'formik'
 import * as yup from "yup";
@@ -16,7 +16,7 @@ const LoginFormSchema = yup.object({
 })
 const LoginForm = () => {
     const { setUser } = useContext(UserContext)
-    const { mutate, data, isSuccess, isLoading, isError, error } = useMutation
+    const { mutate, data, isSuccess, isLoading, isError } = useMutation
         <AxiosResponse<IUser>,
             BackendError,
             { username: string, password: string, multi_login_token?: string }
@@ -40,48 +40,47 @@ const LoginForm = () => {
 
     return (
         <Formik
-            initialValues={{ username: '', password: '' }}
+            initialValues={{ username: 'nishu', password: 'nishu' }}
             validationSchema={LoginFormSchema}
             onSubmit={async (values) => {
                 mutate(values)
             }}
         >
-            {({ handleChange, errors, touched, handleBlur, handleSubmit, values }) => (
+            {({ handleChange, handleBlur, handleSubmit, values }) => (
                 <>
-                    <View style={styles.container}>
-                        <View>
-                            <TextInput style={styles.input}
-                                placeholder='Username,email or mobile'
-                                autoCapitalize='none'
-                                onChangeText={handleChange('username')}
-                                onBlur={handleBlur('username')}
-                                value={values.username}
-                            />
-                            <Text style={styles.errorText} >
-                                {errors.username && touched.username && errors.username ? errors.username : ""}
-                            </Text>
+                    <ScrollView contentContainerStyle={styles.container}>
+                        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                            <Image style={{ borderRadius: 10, height: 150, width: 150 }} source={require("../assets/icon.png")} />
                         </View>
                         <View>
-                            <TextInput style={styles.input}
-                                placeholder='Password'
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Username,email or mobile"
+                                onChangeText={handleChange('username')}
+                                onBlur={handleBlur('username')}
                                 autoCapitalize='none'
+                                value={values.username}
+                            />
+                        </View>
+                        <View>
+                            <TextInput
+                                style={styles.input}
+                                placeholder='Password'
                                 autoCorrect={false}
+                                autoCapitalize='none'
                                 secureTextEntry={true}
                                 onChangeText={handleChange('password')}
                                 onBlur={handleBlur('password')}
                                 value={values.password}
                             />
-                            <Text style={styles.errorText} >
-                                {errors.password && touched.password && errors.password ? errors.password : ""}
-                            </Text>
-                        </View>
 
-                        <Pressable style={styles.btn} onPress={() => handleSubmit()} disabled={isLoading} >
-                            <Text style={{ fontSize: 25, alignItems: 'center', textAlign: 'center', color: 'white' }}>
-                                {isLoading ? "Signing in ..." : "Sign In"}
-                            </Text>
-                        </Pressable>
-                    </View>
+                        </View>
+                        <TouchableOpacity>
+                            <Pressable style={styles.btn} disabled={isLoading} onPress={() => handleSubmit()}>
+                                <Text style={{ fontSize: 20, textAlign: 'center', color: 'white' }}>{isLoading ? "loading..." : "Log In"}</Text>
+                            </Pressable>
+                        </TouchableOpacity>
+                    </ScrollView>
                 </>
             )}
         </Formik >
@@ -89,30 +88,28 @@ const LoginForm = () => {
 }
 const styles = StyleSheet.create({
     container: {
-        padding: 20,
+        flex: 1,
+        marginTop: 100,
         flexDirection: 'column',
-        gap: 5
+        width: '100%',
+        gap: 10,
+        padding: 20
     },
     input: {
-        padding: 15,
-        fontSize: 25,
-        borderWidth: 1,
-        borderColor: 'grey',
         borderRadius: 10,
-        gap: 5,
+        padding: 20,
+        fontSize: 20,
         backgroundColor: 'rgba(0,0,0,0.04)'
     },
     errorText: {
-        color: 'red',
-        fontSize: 10
+        color: 'grey',
+        fontSize: 10,
+        paddingLeft: 5
     },
     btn: {
         padding: 10,
-        borderWidth: 1,
-        borderColor: 'grey',
         borderRadius: 10,
-        gap: 5,
-        backgroundColor: 'rgba(0,0,0,0.8)'
+        backgroundColor: 'rgba(0,0,0,0.7)'
     }
 })
 export default LoginForm

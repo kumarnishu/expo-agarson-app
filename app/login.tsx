@@ -1,4 +1,3 @@
-import { Image, View } from 'react-native'
 import React, { useContext } from 'react'
 import { Stack } from 'expo-router';
 import { UserContext } from '../contexts/UserContext';
@@ -12,19 +11,7 @@ const login = () => {
     return <Stack />
   if (!loading && !user)
     return (
-      <>
-        <View style={{ flex: 1, flexDirection: 'column', gap: 10, paddingTop: 50 }}>
-          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-            <Image
-              height={100}
-              source={require("../assets/favicon.png")}
-            />
-          </View>
-          <View>
-            <LoginForm />
-          </View>
-        </View>
-      </>
+      <LoginForm />
 
     )
 }
