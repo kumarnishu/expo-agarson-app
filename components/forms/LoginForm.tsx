@@ -2,13 +2,13 @@ import { View, Alert, StyleSheet, TextInput, ScrollView, Image, Button, Pressabl
 import React, { useContext, useEffect } from 'react'
 import { Formik } from 'formik'
 import * as yup from "yup";
-import { UserContext } from '../contexts/UserContext';
+import { UserContext } from '../../contexts/UserContext';
 import { router } from 'expo-router';
 import { useMutation } from 'react-query';
 import { AxiosResponse } from 'axios';
-import { IUser } from '../types/user.types';
-import { BackendError } from '..';
-import { Login } from '../services/UserServices';
+import { IUser } from '../../types/user.types';
+import { BackendError } from '../..';
+import { Login } from '../../services/UserServices';
 
 const LoginFormSchema = yup.object({
     username: yup.string().required("required field"),
@@ -50,7 +50,7 @@ const LoginForm = () => {
                 <>
                     <ScrollView contentContainerStyle={styles.container}>
                         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                            <Image style={{ borderRadius: 10, height: 150, width: 150 }} source={require("../assets/icon.png")} />
+                            <Image style={{ borderRadius: 10, height: 150, width: 150 }} source={require("../../assets/icon.png")} />
                         </View>
                         <View>
                             <TextInput

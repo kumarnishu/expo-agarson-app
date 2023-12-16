@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { Stack } from 'expo-router';
 import { UserContext } from '../contexts/UserContext';
-import LoginForm from '../components/LoginForm';
+import LoginForm from '../components/forms/LoginForm';
 import { LoadingContext } from '../contexts/LoadingContext';
 
 const login = () => {

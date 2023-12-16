@@ -3,7 +3,7 @@ import React, { useContext } from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { UserContext } from '../contexts/UserContext';
 import { ChoiceContext, NavChoiceActions } from '../contexts/ModalContext';
-import NavModal from './NavModal';
+import SideNavBarDialog from './dialogs/navbar/SideNavBarDialog';
 
 const NavBar = () => {
     const { user } = useContext(UserContext)
@@ -12,11 +12,8 @@ const NavBar = () => {
         <>
             <View style={{ paddingTop: 20 }}>
                 <View style={{ padding: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <View>
-                        <Image style={{ height: 50, width: 50 }} source={require("../assets/icon.png")} />
-                    </View>
+                    <Image style={{ height: 40, marginTop: 10, width: 40, borderRadius: 50 }} source={{ uri: user?.dp?.public_url || "https://www.bo.agarson.in/logo.png" }} />
                     <View style={{ flexDirection: 'row', gap: 20, alignItems: 'center' }}>
-                        <Image style={{ height: 50, width: 50 }} source={{ uri: user?.dp?.public_url || "" }} />
                         <TouchableOpacity>
                             <Pressable onPress={() => setChoice({ type: NavChoiceActions.view_home_sidebar })}>
                                 <Ionicons name="md-menu" size={50} color='rgba(0,0,0,0.4)' />
@@ -25,7 +22,7 @@ const NavBar = () => {
                     </View>
                 </View>
             </View>
-            <NavModal />
+            <SideNavBarDialog />
         </>
     )
 }
