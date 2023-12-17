@@ -52,10 +52,10 @@ const MyComponent = () => {
               <View key={index}
               >
                 <Text >
-                  Party : <b>{visit.party_name}</b>
+                  Party : {visit.party_name}
                 </Text>
                 <Text >
-                  Station : <b>{visit.city}</b>
+                  Station : {visit.city}
                 </Text>
                 <Text>
                   Visit In : {new Date(visit.visit_in_credientials && visit.visit_in_credientials.timestamp).toLocaleTimeString()}
