@@ -19,13 +19,13 @@ export const queryClient = new QueryClient({
 export default function Root() {
     return (
         <QueryClientProvider client={queryClient}>
-            <LoadingProvider>
-                <UserProvider>
+            <UserProvider>
+                <LoadingProvider>
                     <ChoiceProvider>
                         <Slot />
                     </ChoiceProvider>
-                </UserProvider>
-            </LoadingProvider>
+                </LoadingProvider>
+            </UserProvider>
         </QueryClientProvider>
     );
 }

@@ -1,20 +1,24 @@
-import { apiClient } from "./ApiClient"
+import { getApiClient } from "./ApiClient";
 
 
 export const getMyTodayVisit = async () => {
-    return await apiClient.get("visit/today")
+    let client = await getApiClient()
+    return await client.get("visit/today")
 }
 
 export const StartMyDay = async (body: FormData) => {
-    return await apiClient.post("day/start", body)
+    let client = await getApiClient()
+    return await client.post("day/start", body)
 }
 
 export const EndMyDay = async ({ id, body }: { id: string, body: FormData }) => {
-    return await apiClient.patch(`day/end/${id}`, body)
+    let client = await getApiClient()
+    return await client.patch(`day/end/${id}`, body)
 }
 
 export const MakeVisitIn = async ({ id, body }: { id: string, body: FormData }) => {
-    return await apiClient.post(`visit/in/${id}`, body)
+    let client = await getApiClient()
+    return await client.post(`visit/in/${id}`, body)
 }
 export const AddVisitSummary = async ({ id, body }: {
     id: string, body: {
@@ -26,7 +30,8 @@ export const AddVisitSummary = async ({ id, body }: {
         turnover: string
     }
 }) => {
-    return await apiClient.patch(`visit/summary/${id}`, body)
+    let client = await getApiClient()
+    return await client.patch(`visit/summary/${id}`, body)
 }
 
 export const EditVisitSummary = async ({ id, body }: {
@@ -39,9 +44,9 @@ export const EditVisitSummary = async ({ id, body }: {
         turnover: string
     }
 }) => {
-    return await apiClient.patch(`visit/summary/edit/${id}`, body)
+    return await client.patch(`visit/summary/edit/${id}`, body)
 }
 
 export const MakeVisitOut = async ({ id, body }: { id: string, body: FormData }) => {
-    return await apiClient.patch(`visit/out/${id}`, body)
+    return await client.patch(`visit/out/${id}`, body)
 }
