@@ -5,14 +5,21 @@ import { GetProfile } from "../services/UserServices";
 import { BackendError } from "..";
 import { IUser } from "../types/user.types";
 import { UserContext } from "./UserContext";
+import * as SecureStore from 'expo-secure-store';
 
 function useRemoteLoading() {
     const [user, setUser] = useState<IUser | null>(null)
-    const { data, isSuccess, isLoading, isError } = useQuery<AxiosResponse<IUser>, BackendError>("profile", GetProfile)
+    const { data, isSuccess, isLoading, isError } = useQuery<AxiosResponse<{ user: IUser, token: string }>, BackendError>("profile", GetProfile)
 
     useEffect(() => {
-        if (data)
-            setUser(data.data)
+        async function save() {
+            await SecureStore.setItemAsync("accessToken", data?.data.token || "");
+        }
+        if (data) {
+            save()
+            setUser(data.data.user)
+        }
+
     }, [isSuccess])
 
     return { remoteUser: user, remoteLoading: isLoading, isError: isError }

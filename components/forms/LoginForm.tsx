@@ -9,6 +9,7 @@ import { AxiosResponse } from 'axios';
 import { IUser } from '../../types/user.types';
 import { BackendError } from '../..';
 import { Login } from '../../services/UserServices';
+import * as SecureStore from 'expo-secure-store';
 
 const LoginFormSchema = yup.object({
     username: yup.string().required("required field"),
@@ -17,7 +18,7 @@ const LoginFormSchema = yup.object({
 const LoginForm = () => {
     const { setUser } = useContext(UserContext)
     const { mutate, data, isSuccess, isLoading, isError } = useMutation
-        <AxiosResponse<IUser>,
+        <AxiosResponse<{ user: IUser, token: string }>,
             BackendError,
             { username: string, password: string, multi_login_token?: string }
         >(Login)
@@ -25,8 +26,12 @@ const LoginForm = () => {
 
     useEffect(() => {
         if (isSuccess) {
+            async function save() {
+                await SecureStore.setItemAsync("accessToken", data?.data.token || "");
+            }
             setTimeout(() => {
-                setUser(data.data)
+                setUser(data.data.user)
+                save()
                 router.replace("/")
             }, 400)
         }

@@ -1,5 +1,12 @@
-import { apiClient } from "./ApiClient";
+import { getApiClient } from "./ApiClient";
 
+
+const client = async () => {
+    await getApiClient()
+}
+if(client){
+    
+}
 export const Login = async (
     body: {
         username: string,
@@ -7,31 +14,31 @@ export const Login = async (
         multi_login_token?: string
     }
 ) => {
-    return await apiClient.post("login", body);
+    return await client.post("login", body);
 };
 
 export const Logout = async () => {
-    return await apiClient.post("logout");
+    return await client.post("logout");
 };
 export const GetProfile = async () => {
-    return await apiClient.get("profile");
+    return await client.get("profile");
 };
 export const UpdateProfile = async (body: FormData) => {
-    return await apiClient.put("profile", body);
+    return await client.put("profile", body);
 };
 
 export const UpdatePassword = async (body: { oldPassword: string, newPassword: string, confirmPassword: string }) => {
-    return await apiClient.patch("password/update", body)
+    return await client.patch("password/update", body)
 };
 
 export const VerifyEmail = async (token: string) => {
-    return await apiClient.patch(`email/verify/${token}`)
+    return await client.patch(`email/verify/${token}`)
 };
 
 export const SendVerifyEmail = async ({ email }:
     {
         email: string
     }) => {
-    return await apiClient.post(`email/verify`, { email: email })
+    return await client.post(`email/verify`, { email: email })
 };
 
