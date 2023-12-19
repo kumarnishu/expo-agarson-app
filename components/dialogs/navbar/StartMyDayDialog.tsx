@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import Dialog from '../../styled/Dialog';
 import { ChoiceContext, VisitChoiceActions } from '../../../contexts/ModalContext';
 import { Text, View } from 'react-native';
-import StartMydayForm from '../../forms/visit/StartMyDayForm';
+import StartMydayForm from '../../forms/StartMyDayForm';
 
 function StartMydayDialog() {
     const { choice, setChoice } = useContext(ChoiceContext)
@@ -20,6 +20,5 @@ function StartMydayDialog() {
 }
 
 export default StartMydayDialog
-
 
 

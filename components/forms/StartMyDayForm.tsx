@@ -1,12 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import { Button, Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Camera, CameraCapturedPicture, CameraType } from 'expo-camera';
-import useLocation from '../../hooks/useLocation';
+import useLocation from '../../components/hooks/useLocation';
 import { LocationObject } from 'expo-location';
-import { useMutation } from 'react-query';
-import { AxiosResponse } from 'axios';
-import { BackendError } from '../../..';
-import { StartMyDay } from '../../../services/VisitServices';
+import { BackendError } from '../..';
+import { StartMyDay } from '../../services/VisitServices';
+
 
 function StartMydayForm() {
     const [type, setType] = useState(CameraType.back);
@@ -15,11 +14,8 @@ function StartMydayForm() {
     const [localLoc, setLocalLoc] = useState<LocationObject | undefined>(location)
     const cameraRef = useRef<Camera | any>()
     const [photo, setPhoto] = useState<CameraCapturedPicture>()
-
-    const { mutate, isLoading, isSuccess, isError, error } = useMutation
-        <AxiosResponse<any>, BackendError, FormData>
-        (StartMyDay)
-
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState<BackendError>()
 
     function toggleCameraType() {
         setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
@@ -39,7 +35,8 @@ function StartMydayForm() {
         if (location)
             setLocalLoc(location)
     }, [localLoc, location])
-    console.log(error)
+
+    console.log(photo)
     return (
         <>
             {!localLoc && <Text style={{ color: 'red' }}>Please Allow Location Access</Text>}
@@ -47,11 +44,9 @@ function StartMydayForm() {
             <View style={styles.container}>
                 {photo ?
                     <>
-                        {isSuccess && alert("started day")}
                         <Image style={{ height: 700, width: '100%' }} source={{ uri: photo.uri }} />
                         <Pressable style={{ padding: 10 }}
-                            disabled={isLoading}
-                            onPress={() => {
+                            onPress={async () => {
                                 let formdata = new FormData()
                                 formdata.append("body", JSON.stringify({
                                     start_day_credientials: {
@@ -64,9 +59,14 @@ function StartMydayForm() {
                                 formdata.append('media', {
                                     uri: photo.uri,
                                     name: 'selfie.jpg',
-                                    type: 'image/jpg'
+                                    type: 'image/jpeg'
                                 })
-                                mutate(formdata)
+                                console.log(formdata)
+                                setLoading(true)
+                                await StartMyDay(formdata).then((data) => {
+                                    return console.log(data)
+                                }).catch((err: BackendError) => { console.log(err.response.data.message) })
+                                setLoading(false)
                             }}><Text>SUBMIT</Text></Pressable>
                     </>
                     : <Camera style={styles.camera} type={type} ref={cameraRef}>

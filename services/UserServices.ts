@@ -1,4 +1,6 @@
-import { getApiClient } from "./ApiClient";
+import axios, { AxiosResponse } from "axios";
+import { BaseURL } from "./baseUrl";
+import { IUser } from "../types/user.types";
 
 export const Login = async (
     body: {
@@ -6,39 +8,33 @@ export const Login = async (
         password: string,
         multi_login_token?: string
     }
-) => {
-    let client = await getApiClient()
-    return await client.post("login", body);
+): Promise<AxiosResponse<{ user: IUser, token: string }, any>> => {
+    return await axios.post(`${BaseURL}/login`, body);
 };
 
-export const Logout = async () => {
-    let client = await getApiClient()
-    return await client.post("logout");
+export const Logout = async (): Promise<AxiosResponse<any, any>> => {
+
+    return await axios.post(`${BaseURL}/logout`);
 };
-export const GetProfile = async () => {
-    let client = await getApiClient()
-    return await client.get("profile");
+export const GetProfile = async (): Promise<AxiosResponse<{ user: IUser, token: string }, any>> => {
+    return await axios.get(`${BaseURL}/profile`);
 };
-export const UpdateProfile = async (body: FormData) => {
-    let client = await getApiClient()
-    return await client.put("profile", body);
+export const UpdateProfile = async (body: FormData): Promise<AxiosResponse<any, any>> => {
+    return await axios.put(`${BaseURL}/profile`, body);
 };
 
-export const UpdatePassword = async (body: { oldPassword: string, newPassword: string, confirmPassword: string }) => {
-    let client = await getApiClient()
-    return await client.patch("password/update", body)
+export const UpdatePassword = async (body: { oldPassword: string, newPassword: string, confirmPassword: string }): Promise<AxiosResponse<any, any>> => {
+    return await axios.patch(`${BaseURL}/password/update`, body)
 };
 
-export const VerifyEmail = async (token: string) => {
-    let client = await getApiClient()
-    return await client.patch(`email/verify/${token}`)
+export const VerifyEmail = async (token: string): Promise<AxiosResponse<any, any>> => {
+    return await axios.patch(`${BaseURL}/email/verify/${token}`)
 };
 
 export const SendVerifyEmail = async ({ email }:
     {
         email: string
-    }) => {
-    let client = await getApiClient()
-    return await client.post(`email/verify`, { email: email })
+    }): Promise<AxiosResponse<any, any>> => {
+    return await axios.post(`${BaseURL}/email/verify`, { email: email })
 };
 

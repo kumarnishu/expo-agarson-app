@@ -13,8 +13,8 @@ export default function AppLayout() {
 
     if (loading) {
         return (
-            <View>
-                <Text>Loading...</Text>
+            <View style={{ flex: 1, justifyContent: 'center' }}>
+                <Text style={{ padding: 40, fontSize: 40 }}>Loading...</Text>
             </View>
         )
     }

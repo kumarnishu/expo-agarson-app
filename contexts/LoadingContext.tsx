@@ -1,28 +1,26 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { useQuery } from 'react-query'
-import { AxiosResponse } from 'axios'
-import { GetProfile } from "../services/UserServices";
-import { BackendError } from "..";
 import { IUser } from "../types/user.types";
 import { UserContext } from "./UserContext";
-import * as SecureStore from 'expo-secure-store';
+import { GetProfile } from "../services/UserServices";
+import { BackendError } from "..";
 
 function useRemoteLoading() {
     const [user, setUser] = useState<IUser | null>(null)
-    const { data, isSuccess, isLoading, isError } = useQuery<AxiosResponse<{ user: IUser, token: string }>, BackendError>("profile", GetProfile)
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<BackendError>()
 
     useEffect(() => {
-        async function save() {
-            await SecureStore.setItemAsync("accessToken", data?.data.token || "");
+        async function fetchProfile() {
+            await GetProfile().then((data) => {
+                setUser(data.data.user)
+            }).catch((err) => {
+                setError(err)
+            })
+            setLoading(false)
         }
-        if (data) {
-            save()
-            setUser(data.data.user)
-        }
-
-    }, [isSuccess])
-
-    return { remoteUser: user, remoteLoading: isLoading, isError: isError }
+        fetchProfile()
+    }, [])
+    return { remoteUser: user, remoteLoading: loading, error: error }
 }
 
 // usercontext
@@ -38,7 +36,7 @@ export const LoadingContext = createContext<Context>({
 
 // user provider
 export function LoadingProvider(props: { children: JSX.Element }) {
-    const { remoteUser, remoteLoading, isError } = useRemoteLoading()
+    const { remoteUser, remoteLoading, error } = useRemoteLoading()
     const [loading, setLoading] = useState(remoteLoading);
     const { setUser } = useContext(UserContext)
 
@@ -47,11 +45,11 @@ export function LoadingProvider(props: { children: JSX.Element }) {
             setLoading(false)
             setUser(remoteUser)
         }
-        if (isError) {
+        if (error) {
             setLoading(false)
             setUser(undefined)
         }
-    }, [remoteUser, isError])
+    }, [remoteUser, error])
 
     return (
         <LoadingContext.Provider value={{ loading, setLoading }}>

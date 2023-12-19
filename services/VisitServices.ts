@@ -1,24 +1,25 @@
-import { getApiClient } from "./ApiClient";
+import axios, { AxiosResponse } from "axios"
+import { BaseURL } from "./baseUrl"
+import { IVisit } from "../types/visit.types"
 
-
-export const getMyTodayVisit = async () => {
-    let client = await getApiClient()
-    return await client.get("visit/today")
+export const getMyTodayVisit = async (): Promise<AxiosResponse<IVisit, any>> => {
+    return await axios.get(`${BaseURL}/visit/today`)
 }
 
-export const StartMyDay = async (body: FormData) => {
-    let client = await getApiClient()
-    return await client.post("day/start", body)
+export const StartMyDay = async (body: FormData): Promise<AxiosResponse<any, any>> => {
+    return await axios.post(`${BaseURL}/day/start`, body, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
 }
 
-export const EndMyDay = async ({ id, body }: { id: string, body: FormData }) => {
-    let client = await getApiClient()
-    return await client.patch(`day/end/${id}`, body)
+export const EndMyDay = async ({ id, body }: { id: string, body: FormData }): Promise<AxiosResponse<any, any>> => {
+    return await axios.patch(`${BaseURL}/day/end/${id}`, body)
 }
 
-export const MakeVisitIn = async ({ id, body }: { id: string, body: FormData }) => {
-    let client = await getApiClient()
-    return await client.post(`visit/in/${id}`, body)
+export const MakeVisitIn = async ({ id, body }: { id: string, body: FormData }): Promise<AxiosResponse<any, any>> => {
+    return await axios.post(`${BaseURL}/visit/in/${id}`, body)
 }
 export const AddVisitSummary = async ({ id, body }: {
     id: string, body: {
@@ -29,9 +30,8 @@ export const AddVisitSummary = async ({ id, body }: {
         reviews_taken: number,
         turnover: string
     }
-}) => {
-    let client = await getApiClient()
-    return await client.patch(`visit/summary/${id}`, body)
+}): Promise<AxiosResponse<any, any>> => {
+    return await axios.patch(`${BaseURL}/visit/summary/${id}`, body)
 }
 
 export const EditVisitSummary = async ({ id, body }: {
@@ -43,10 +43,10 @@ export const EditVisitSummary = async ({ id, body }: {
         reviews_taken: number,
         turnover: string
     }
-}) => {
-    return await client.patch(`visit/summary/edit/${id}`, body)
+}): Promise<AxiosResponse<any, any>> => {
+    return await axios.patch(`${BaseURL}/visit/summary/edit/${id}`, body)
 }
 
-export const MakeVisitOut = async ({ id, body }: { id: string, body: FormData }) => {
-    return await client.patch(`visit/out/${id}`, body)
+export const MakeVisitOut = async ({ id, body }: { id: string, body: FormData }): Promise<AxiosResponse<any, any>> => {
+    return await axios.patch(`${BaseURL}/visit/out/${id}`, body)
 }
