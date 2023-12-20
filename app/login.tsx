@@ -64,7 +64,10 @@ const login = () => {
                   </View>
 
                   <TextInput
-                    style={{ borderRadius: 10, borderWidth: 2, borderColor: MD2Colors.red500, padding: 5 ,fontSize:20}}
+                    mode="outlined"
+                    style={{ borderRadius: 10, borderWidth: 2, borderColor: MD2Colors.red500, padding: 5, fontSize: 20 }}
+                    contentStyle={{ fontSize: 20 }}
+                    outlineStyle={{ display: 'none' }}
                     label="Username,email or mobile"
                     onChangeText={handleChange('username')}
                     onBlur={handleBlur('username')}
@@ -72,7 +75,10 @@ const login = () => {
                     value={values.username}
                   />
                   <TextInput
-                    style={{ borderRadius: 10, borderWidth: 2, borderColor: MD2Colors.red500, padding: 5 ,fontSize:20}}
+                    mode="outlined"
+                    style={{ borderRadius: 10, borderWidth: 2, borderColor: MD2Colors.red500, padding: 5, fontSize: 20 }}
+                    contentStyle={{ fontSize: 20 }}
+                    outlineStyle={{ display: 'none' }}
                     label='Password'
                     autoCorrect={false}
                     autoCapitalize='none'
@@ -81,14 +87,16 @@ const login = () => {
                     onBlur={handleBlur('password')}
                     value={values.password}
                   />
-                  <Button
+                  {loading && <ActivityIndicator size={'large'} animating={true} color={MD2Colors.red500} />}
+                  {!loading && <Button
                     mode="contained"
+
                     disabled={loading}
-                    style={{ padding: 10 }}
+                    style={{ padding: 10, borderRadius: 10 }}
                     onPress={() => handleSubmit()}>
-                    {loading ?
-                      <ActivityIndicator animating={true} color={MD2Colors.white} /> : <Text style={{ color: 'white', fontSize: 20 }}>Login</Text>}
-                  </Button>
+
+                    <Text style={{ color: 'white', fontSize: 20 }}>Login</Text>
+                  </Button>}
                 </View>
               </ScrollView>
             </>
