@@ -1,11 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
-import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { Camera, CameraCapturedPicture, CameraType } from 'expo-camera';
 import useLocation from '../../components/hooks/useLocation';
 import { LocationObject } from 'expo-location';
 import { BackendError } from '../..';
-import { StartMyDay } from '../../services/VisitServices';
-
+import { StartMyDay, getMyTodayVisit } from '../../services/VisitServices';
+import { ChoiceContext, VisitChoiceActions } from '../../contexts/ModalContext';
+import { IconButton, MD2Colors } from 'react-native-paper';
 
 function StartMydayForm() {
     const [type, setType] = useState(CameraType.back);
@@ -16,10 +17,9 @@ function StartMydayForm() {
     const [photo, setPhoto] = useState<CameraCapturedPicture>()
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<BackendError>()
+    const { setChoice } = useContext(ChoiceContext)
 
-    function toggleCameraType() {
-        setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
-    }
+
     async function clickPicure() {
         if (!cameraRef) return;
         const camera: Camera = cameraRef.current;
@@ -36,80 +36,89 @@ function StartMydayForm() {
             setLocalLoc(location)
     }, [localLoc, location])
 
-    console.log(photo)
     return (
         <>
             {!localLoc && <Text style={{ color: 'red' }}>Please Allow Location Access</Text>}
             {!permission?.granted && <Text style={{ color: 'red' }}>Please Allow camera Access</Text>}
-            <View style={styles.container}>
-                {photo ?
-                    <>
-                        <Image style={{ height: 700, width: '100%' }} source={{ uri: photo.uri }} />
-                        <Pressable style={{ padding: 10 }}
-                            onPress={async () => {
-                                let formdata = new FormData()
-                                formdata.append("body", JSON.stringify({
-                                    start_day_credientials: {
-                                        latitude: localLoc?.coords.latitude,
-                                        longitude: localLoc?.coords.longitude,
-                                        timestamp: localLoc?.timestamp
+            {photo ?
+                <>
+                    <Image style={{ height: 730, width: '100%' }} source={{ uri: photo.uri }} />
+                    <View style={{ flexDirection: 'row', height: '100%', justifyContent: 'space-evenly', backgroundColor: MD2Colors.red500 }}>
+                        <TouchableOpacity>
+                            <IconButton
+                                icon="content-save"
+                                iconColor={MD2Colors.white}
+                                disabled={loading}
+                                size={40}
+                                onPress={async () => {
+                                    if (localLoc && photo) {
+                                        let formdata = new FormData()
+                                        formdata.append("body", JSON.stringify({
+                                            start_day_credientials: {
+                                                latitude: localLoc?.coords.latitude,
+                                                longitude: localLoc?.coords.longitude,
+                                                timestamp: new Date(localLoc?.timestamp)
+                                            }
+                                        }))
+                                        //@ts-ignore
+                                        formdata.append('media', {
+                                            uri: photo.uri,
+                                            name: 'photo.jpg',
+                                            type: 'image/jpeg'
+                                        })
+                                        setLoading(true)
+                                        await StartMyDay(formdata).then((data) => {
+                                            setChoice({ type: VisitChoiceActions.close_visit })
+                                            getMyTodayVisit()
+                                            return console.log(data)
+                                        }).catch((err: BackendError) => { console.log(err.response.data.message) })
+                                        setLoading(false)
                                     }
-                                }))
-                                // @ts-ignore
-                                formdata.append('media', {
-                                    uri: photo.uri,
-                                    name: 'selfie.jpg',
-                                    type: 'image/jpeg'
-                                })
-                                console.log(formdata)
-                                setLoading(true)
-                                await StartMyDay(formdata).then((data) => {
-                                    return console.log(data)
-                                }).catch((err: BackendError) => { console.log(err.response.data.message) })
-                                setLoading(false)
-                            }}><Text>SUBMIT</Text></Pressable>
-                    </>
-                    : <Camera style={styles.camera} type={type} ref={cameraRef}>
-                        <View style={styles.buttonContainer}>
-                            <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
-                                <Text style={styles.text}>Flip Camera</Text>
-                                <Text></Text>
-                                <Text style={styles.text} onPress={clickPicure}>Take Picture</Text>
 
-                            </TouchableOpacity>
-                        </View>
+                                }}
+                            />
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <IconButton
+                                disabled={loading}
+                                icon="lock-reset"
+                                iconColor={MD2Colors.white}
+                                size={40}
+                                onPress={() => setPhoto(undefined)}
+                            />
+                        </TouchableOpacity>
+                    </View>
+                </>
+                :
+                <View style={{ flex: 1, justifyContent: 'space-between' }}>
+                    <Camera style={{ minHeight: 730 }} type={type} ref={cameraRef}>
                     </Camera>
-                }
-            </View>
+                    <View style={{ flexDirection: 'row', height: '100%', justifyContent: 'space-evenly', backgroundColor: MD2Colors.red500 }}>
+                        <TouchableOpacity>
+                            <IconButton
+                                icon="flip-horizontal"
+                                iconColor={MD2Colors.white}
+                                size={40}
+                                onPress={() => {
+                                    setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
+                                }}
+                            />
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <IconButton
+                                icon="camera"
+                                iconColor={MD2Colors.white}
+                                size={40}
+                                onPress={clickPicure}
+                            />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+
+            }
         </>
     )
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-    },
-    camera: {
-        flex: 1,
-        height: 600
-    },
-    buttonContainer: {
-        flex: 1,
-        flexDirection: 'row',
-        backgroundColor: 'transparent',
-        margin: 64,
-    },
-    button: {
-        flex: 1,
-        alignSelf: 'flex-end',
-        alignItems: 'center',
-    },
-    text: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: 'white',
-    },
-});
 
 export default StartMydayForm

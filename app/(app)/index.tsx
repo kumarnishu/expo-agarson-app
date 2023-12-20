@@ -5,6 +5,7 @@ import { Text, View, Pressable } from 'react-native';
 import StartMydayDialog from '../../components/dialogs/navbar/StartMyDayDialog';
 import { BackendError } from '../..';
 import { getMyTodayVisit } from '../../services/VisitServices';
+import { Button } from 'react-native-paper';
 
 const MyComponent = () => {
     const [visits, setVisits] = useState<IVisitReport[]>([])
@@ -84,18 +85,24 @@ const MyComponent = () => {
             {visitReport && visitReport.summary && <EditSummaryInDialog visit={visitReport} />}
             {visit && <MakeVisitInDialog visit={visit} />} */}
 
-
+            {/* strat day button */}
             {
-                !visit && <View>
-                    < Pressable
+                !visit && <View style={{ flex: 1, alignItems: 'center', marginTop: 50, padding: 10 }}>
+                    < Button
+                        mode='contained'
                         disabled={loading}
+                        style={{ position: 'absolute', bottom: 0, width: '100%', paddingVertical: 10, marginBottom: 10 }}
                         onPress={
                             () => {
                                 setChoice({ type: VisitChoiceActions.start_day })
                             }
-                        }><Text>Start My Day</Text></Pressable >
-                </View>
+                        }
+                    ><Text style={{ padding: 20, fontSize: 20, fontWeight: 'bold' }}>START MY DAY</Text>
+                    </Button>
+                </View >
             }
+
+
             {!visit && <StartMydayDialog />}
 
             {
