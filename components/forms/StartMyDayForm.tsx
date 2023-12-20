@@ -35,7 +35,6 @@ function StartMydayForm() {
         if (location)
             setLocalLoc(location)
     }, [localLoc, location])
-
     return (
         <>
             {!localLoc && <Text style={{ color: 'red' }}>Please Allow Location Access</Text>}
