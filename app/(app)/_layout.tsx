@@ -11,12 +11,11 @@ export default function AppLayout() {
     if (!user) {
         return <Redirect href="/login" />;
     }
-    if (user)
-        return (
-            <>
-                <StatusBar style="auto" />
-                <NavBar />
-                <Stack screenOptions={{ headerShown: false, animation: 'none' }} />
-            </>
-        )
+    return (
+        <>
+            <StatusBar style="auto" />
+            <NavBar />
+            <Stack screenOptions={{ headerShown: false, animation: 'none' }} />
+        </>
+    )
 }

@@ -14,11 +14,19 @@ export const StartMyDay = async (body: FormData) => {
 }
 
 export const EndMyDay = async ({ id, body }: { id: string, body: FormData }) => {
-    return await axios.patch(`${BaseURL}/day/end/${id}`, body)
+    return await axios.patch(`${BaseURL}/day/end/${id}`, body, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
 }
 
 export const MakeVisitIn = async ({ id, body }: { id: string, body: FormData }) => {
-    return await axios.post(`${BaseURL}/visit/in/${id}`, body)
+    return await axios.post(`${BaseURL}/visit/in/${id}`, body, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
 }
 export const AddVisitSummary = async ({ id, body }: {
     id: string, body: {

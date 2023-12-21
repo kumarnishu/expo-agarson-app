@@ -37,7 +37,7 @@ function StartMydayForm() {
                 //@ts-ignore
                 formdata.append('media', {
                     uri: photo.uri,
-                    name: 'photo.jpg',
+                    name: 'photo' + new Date().toDateString() + ".jpg",
                     type: 'image/jpeg'
                 })
                 mutate(formdata)
@@ -53,7 +53,7 @@ function StartMydayForm() {
     }, [isSuccess])
     return (
         <>
-           
+
             {!location && <Text style={{ color: 'red' }}>Please Allow Location Access</Text>}
             {location && <CameraComponent photo={photo} setPhoto={setPhoto} isLoading={isLoading} handlePress={handlePress} />}
         </>

@@ -1,113 +1,147 @@
-import React, { useContext, useEffect } from 'react'
-import { Stack, router } from 'expo-router';
-import { BackendError } from '..';
+import React, { useContext, useEffect, useState } from 'react'
 import { Formik } from 'formik'
-import * as yup from "yup";
-import { Image, ScrollView, View } from 'react-native';
-import { Button, Snackbar, Text, TextInput } from 'react-native-paper';
-import { ActivityIndicator, MD2Colors } from 'react-native-paper';
+import * as Yup from "yup";
+import { ScrollView, View } from 'react-native';
+import { Button, Snackbar, Switch, Text, TextInput } from 'react-native-paper';
+import { MD2Colors } from 'react-native-paper';
 import { useMutation } from 'react-query';
 import { AxiosResponse } from 'axios';
-import { IUser } from '../types/user.types';
+import { BackendError } from '../..';
+import { IVisit } from '../../types/visit.types';
+import { MakeVisitIn } from '../../services/VisitServices';
+import { queryClient } from '../../app/_layout';
+import { ChoiceContext, VisitChoiceActions } from '../../contexts/ModalContext';
+import CameraComponent from '../Camera';
+import { LocationContext } from '../../contexts/LocationContext';
+import { CameraCapturedPicture } from 'expo-camera';
 
-const LoginFormSchema = yup.object({
-    username: yup.string().required("required field"),
-    password: yup.string().required('required field')
+const Schema = Yup.object({
+    party_name: Yup.string().required("required"),
+    city: Yup.string().required("required"),
 })
+const NewVisitForm = ({ visit }: { visit: IVisit }) => {
+    const [isOld, setIsOld] = React.useState(false);
 
-const NewVisitForm = () => {
-    const { user, setUser } = useContext(UserContext)
-    const { loading } = useContext(LoadingContext)
-    const { mutate, data, isSuccess, isLoading, isError, error } = useMutation
-        <AxiosResponse<{ user: IUser, token: string }>,
-            BackendError,
-            { username: string, password: string, multi_login_token?: string }
-        >(Login)
+    const [display, setDisplay] = useState(true)
+    const { location } = useContext(LocationContext)
+    const [photo, setPhoto] = useState<CameraCapturedPicture>()
+    const { setChoice } = useContext(ChoiceContext)
+    const { mutate, isLoading, isSuccess, error } = useMutation
+        <AxiosResponse<IVisit>, BackendError, { id: string, body: FormData }>
+        (MakeVisitIn, {
+            onSuccess: () => {
+                queryClient.invalidateQueries('visit')
+            }
+        })
 
     useEffect(() => {
         if (isSuccess) {
-            setTimeout(() => {
-                setUser(data.data.user)
-                router.replace("/")
-            }, 400)
+            setChoice({ type: VisitChoiceActions.close_visit })
         }
-    }, [setUser, isSuccess, data])
+    }, [isSuccess])
 
-    if (!loading && user)
-        return <Stack />
-    if (!loading && !user)
-        return (
-            <>
+    return (
+        <>
 
-                <Formik
-                    initialValues={{ username: 'nishu', password: 'nishu' }}
-                    validationSchema={LoginFormSchema}
-                    onSubmit={async (values) => {
-                        mutate({
-                            ...values,
-                            multi_login_token: "akknahkh"
+            <Formik
+                initialValues={{
+                    party_name: "",
+                    city: ""
+                }}
+                validationSchema={Schema}
+                onSubmit={async (values) => {
+                    if (location && photo) {
+                        let formdata = new FormData()
+                        let Data = {
+                            visit_in_credientials: {
+                                latitude: location?.coords.latitude,
+                                longitude: location?.coords.longitude,
+                                timestamp: new Date(location?.timestamp)
+                            },
+                            party_name: values.party_name,
+                            city: values.city,
+                            is_old_party: isOld
+                        }
+
+                        formdata.append("body", JSON.stringify(Data))
+                        //@ts-ignore
+                        formdata.append('media', {
+                            uri: photo?.uri,
+                            name: 'photo' + new Date().toDateString() + ".jpg",
+                            type: 'image/jpeg'
                         })
-                    }}
-                >
-                    {({ handleChange, handleBlur, handleSubmit, values }) => (
-                        <>
-                            <ScrollView contentContainerStyle={{ flex: 1, marginTop: 60, justifyContent: 'center', padding: 10 }}>
-                                <Snackbar
-                                    visible={Boolean(error)}
-                                    onDismiss={() => null}
-                                    action={{
-                                        label: 'Undo',
-                                        onPress: () => {
-                                            null
-                                        },
-                                    }}>
-                                    {error && error.response.data.message || ""}
-                                </Snackbar>
+                        console.log(formdata)
+                        // mutate({
+                        //     id: visit._id,
+                        //     body: formdata
+                        // })
+                    }
 
-                                <View style={{ flex: 1, gap: 15 }}>
-                                    <View style={{ alignItems: 'center' }}>
-                                        <Image style={{ height: 200, width: 200 }} source={require("../assets/icon.png")} />
-                                    </View>
+                }}
+            >
+                {({ isValid, handleChange, handleBlur, handleSubmit, values }) => (
+                    <>
+                        {display && <ScrollView contentContainerStyle={{ paddingTop: 60, justifyContent: 'center', padding: 10 }}>
+                            <Snackbar
+                                visible={Boolean(error)}
+                                onDismiss={() => null}
+                                action={{
+                                    label: 'Undo',
+                                    onPress: () => {
+                                        null
+                                    },
+                                }}>
+                                {error && error.response.data.message || ""}
+                            </Snackbar>
 
-                                    <TextInput
-                                        mode="outlined"
-                                        style={{ borderRadius: 10, borderWidth: 2, borderColor: MD2Colors.red500, padding: 5, fontSize: 20 }}
-                                        contentStyle={{ fontSize: 20 }}
-                                        outlineStyle={{ display: 'none' }}
-                                        label="Username,email or mobile"
-                                        onChangeText={handleChange('username')}
-                                        onBlur={handleBlur('username')}
-                                        autoCapitalize='none'
-                                        value={values.username}
+                            <View style={{ flex: 1, gap: 15 }}>
+                                <TextInput
+                                    mode="outlined"
+                                    style={{ borderRadius: 10, borderWidth: 2, borderColor: MD2Colors.red500, padding: 5, fontSize: 20 }}
+                                    contentStyle={{ fontSize: 20 }}
+                                    outlineStyle={{ display: 'none' }}
+                                    label="Party name"
+                                    onChangeText={handleChange('party_name')}
+                                    onBlur={handleBlur('party_name')}
+                                    autoCapitalize='none'
+                                    value={values.party_name}
+                                />
+                                <TextInput
+                                    mode="outlined"
+                                    style={{ borderRadius: 10, borderWidth: 2, borderColor: MD2Colors.red500, padding: 5, fontSize: 20 }}
+                                    contentStyle={{ fontSize: 20 }}
+                                    outlineStyle={{ display: 'none' }}
+                                    label="City"
+                                    onChangeText={handleChange('city')}
+                                    onBlur={handleBlur('city')}
+                                    autoCapitalize='none'
+                                    value={values.city}
+                                />
+                                <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
+                                    <Text style={{ fontWeight: 'bold' }}>Is Old ?</Text>
+                                    <Switch
+                                        value={isOld} onValueChange={() => setIsOld(!isOld)}
                                     />
-                                    <TextInput
-                                        mode="outlined"
-                                        style={{ borderRadius: 10, borderWidth: 2, borderColor: MD2Colors.red500, padding: 5, fontSize: 20 }}
-                                        contentStyle={{ fontSize: 20 }}
-                                        outlineStyle={{ display: 'none' }}
-                                        label='Password'
-                                        autoCorrect={false}
-                                        autoCapitalize='none'
-                                        secureTextEntry={true}
-                                        onChangeText={handleChange('password')}
-                                        onBlur={handleBlur('password')}
-                                        value={values.password}
-                                    />
-                                    {isLoading && <ActivityIndicator size={'large'} animating={true} color={MD2Colors.red500} />}
-                                    {!isLoading && <Button
-                                        mode="contained"
-                                        disabled={isLoading}
-                                        style={{ padding: 10, borderRadius: 10 }}
-                                        onPress={() => handleSubmit()}>
-                                        <Text style={{ color: 'white', fontSize: 20 }}>Login</Text>
-                                    </Button>}
                                 </View>
-                            </ScrollView>
-                        </>
-                    )}
-                </Formik >
-            </>
-        )
+                                {!isLoading && <Button
+                                    mode="contained"
+                                    disabled={isLoading}
+                                    style={{ padding: 10, borderRadius: 10 }}
+                                    onPress={() => {
+                                        if (isValid)
+                                            setDisplay(false)
+                                    }
+                                    }>
+                                    <Text style={{ color: 'white', fontSize: 20 }}>Done</Text>
+                                </Button>}
+                            </View>
+                        </ScrollView>}
+                        {location && <CameraComponent photo={photo} setPhoto={setPhoto} isLoading={isLoading} handlePress={handleSubmit} />}
+                    </>
+                )}
+            </Formik >
+        </>
+    )
 }
 
 

@@ -25,7 +25,7 @@ const Drawer = ({ visible, handleClose, position, children }: Props) => {
 
 const styles = StyleSheet.create({
     rightDrawer: {
-        marginLeft: 150,
+        marginLeft: 100,
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'space-between',
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
         elevation: 10,
     },
     leftDrawer: {
-        marginRight: 150,
+        marginRight: 100,
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'space-between',
