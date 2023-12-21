@@ -3,7 +3,7 @@ import React, { useContext } from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { UserContext } from '../contexts/UserContext';
 import { ChoiceContext, NavChoiceActions } from '../contexts/ModalContext';
-import SideNavBarDialog from './dialogs/navbar/SideNavBarDialog';
+import SideNavBarDialog from './dialogs/SideNavBarDialog';
 import { Avatar, MD2Colors } from "react-native-paper"
 const NavBar = () => {
     const { user } = useContext(UserContext)

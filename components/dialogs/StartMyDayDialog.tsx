@@ -1,7 +1,7 @@
 import { useContext } from 'react';
-import Dialog from '../../styled/Dialog';
-import { ChoiceContext, VisitChoiceActions } from '../../../contexts/ModalContext';
-import StartMydayForm from '../../forms/StartMyDayForm';
+import Dialog from '../styled/Dialog';
+import { ChoiceContext, VisitChoiceActions } from '../../contexts/ModalContext';
+import StartMydayForm from '../forms/StartMyDayForm';
 
 function StartMydayDialog() {
     const { choice, setChoice } = useContext(ChoiceContext)

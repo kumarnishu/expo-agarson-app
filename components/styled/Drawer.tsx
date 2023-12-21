@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, ScrollView, StyleSheet, Text } from 'react-native';
+import { Modal, ScrollView, StyleSheet } from 'react-native';
 
 
 type Props = {

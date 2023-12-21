@@ -1,8 +1,9 @@
 import { Slot } from 'expo-router';
 import { UserProvider } from '../contexts/UserContext';
-import { LoadingProvider } from '../contexts/LoadingContext';
 import { ChoiceProvider } from '../contexts/ModalContext';
 import { MD3LightTheme as DefaultTheme, PaperProvider } from 'react-native-paper';
+import { QueryClientProvider, QueryClient } from "react-query";
+import { LocationProvider } from '../contexts/LocationContext';
 
 const theme = {
     ...DefaultTheme,
@@ -12,17 +13,28 @@ const theme = {
         secondary: 'yellow',
     },
 };
-
+export const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            refetchOnReconnect: true,
+            refetchOnMount: true,
+            retry: false,
+            staleTime: 200
+        }
+    }
+});
 export default function Root() {
     return (
-        <PaperProvider theme={theme}>
-            <LoadingProvider>
-                <UserProvider>
+        <LocationProvider>
+            <QueryClientProvider client={queryClient}>
+                <PaperProvider theme={theme}>
                     <ChoiceProvider>
-                        <Slot />
+                        <UserProvider>
+                            <Slot />
+                        </UserProvider>
                     </ChoiceProvider>
-                </UserProvider>
-            </LoadingProvider>
-        </PaperProvider>
+                </PaperProvider>
+            </QueryClientProvider>
+        </LocationProvider>
     );
 }

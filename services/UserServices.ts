@@ -1,6 +1,5 @@
 import axios, { AxiosResponse } from "axios";
 import { BaseURL } from "./baseUrl";
-import { IUser } from "../types/user.types";
 
 export const Login = async (
     body: {
@@ -8,7 +7,7 @@ export const Login = async (
         password: string,
         multi_login_token?: string
     }
-): Promise<AxiosResponse<{ user: IUser, token: string }, any>> => {
+) => {
     return await axios.post(`${BaseURL}/login`, body);
 };
 
@@ -16,9 +15,7 @@ export const Logout = async (): Promise<AxiosResponse<any, any>> => {
 
     return await axios.post(`${BaseURL}/logout`);
 };
-export const GetProfile = async (): Promise<AxiosResponse<{ user: IUser, token: string }, any>> => {
-    return await axios.get(`${BaseURL}/profile`);
-};
+
 export const UpdateProfile = async (body: FormData): Promise<AxiosResponse<any, any>> => {
     return await axios.put(`${BaseURL}/profile`, body);
 };

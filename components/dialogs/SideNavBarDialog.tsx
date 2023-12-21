@@ -3,11 +3,11 @@ import { Pressable, Text, View } from 'react-native';
 import { router } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
-import { ChoiceContext, NavChoiceActions } from '../../../contexts/ModalContext';
-import Drawer from '../../styled/Drawer';
-import { Logout } from '../../../services/UserServices';
-import { BackendError } from '../../..';
-import { UserContext } from '../../../contexts/UserContext';
+import { ChoiceContext, NavChoiceActions } from '../../contexts/ModalContext';
+import Drawer from '../styled/Drawer';
+import { Logout } from '../../services/UserServices';
+import { BackendError } from '../..';
+import { UserContext } from '../../contexts/UserContext';
 import { MD2Colors } from 'react-native-paper';
 
 const SideNavBarDialog = () => {

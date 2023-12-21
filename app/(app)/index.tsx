@@ -1,153 +1,138 @@
-import { useContext, createContext, useEffect, useState } from 'react';
+import { useContext,  useEffect, useState } from 'react';
 import { IVisit, IVisitReport } from '../../types/visit.types';
 import { ChoiceContext, VisitChoiceActions } from '../../contexts/ModalContext';
-import { Text, View, Pressable } from 'react-native';
-import StartMydayDialog from '../../components/dialogs/navbar/StartMyDayDialog';
+import { Text, View, Pressable, ScrollView } from 'react-native';
+import StartMydayDialog from '../../components/dialogs/StartMyDayDialog';
 import { BackendError } from '../..';
 import { getMyTodayVisit } from '../../services/VisitServices';
-import { Button } from 'react-native-paper';
-
-
-type Context = {
-    visitReport: IVisitReport | undefined,
-    setVisitReport: React.Dispatch<React.SetStateAction<IVisitReport | undefined>>,
-    visits: IVisitReport[] | []
-    setVisits: React.Dispatch<React.SetStateAction<IVisitReport[]>>
-};
-export const VisitsContext = createContext<Context>({
-    visitReport: undefined,
-    setVisitReport: () => null,
-    visits: [],
-    setVisits: () => null,
-});
-
-
-function VisitsProvider(props: { children: JSX.Element }) {
-    const [visits, setVisits] = useState<IVisitReport[]>([])
-    const [visitReport, setVisitReport] = useState<IVisitReport>()
-    return (
-        <VisitsContext.Provider value={{ visits, visitReport, setVisitReport, setVisits }}>
-            {props.children}
-        </VisitsContext.Provider>
-    );
-}
+import { Button, MD2Colors } from 'react-native-paper';
+import { useQuery } from 'react-query';
+import { AxiosResponse } from 'axios';
 
 
 const MyComponent = () => {
-    const { visits, setVisits, visitReport, setVisitReport } = useContext(VisitsContext)
+    const [visits, setVisits] = useState<IVisitReport[]>([])
+    const [visitReport, setVisitReport] = useState<IVisitReport>()
     const [visit, setVisit] = useState<IVisit>()
     const { setChoice } = useContext(ChoiceContext)
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState<BackendError>()
+    const { data, isLoading, isSuccess } = useQuery<AxiosResponse<IVisit>, BackendError>("visit", getMyTodayVisit)
 
     useEffect(() => {
-        async function myVisits() {
-            await getMyTodayVisit().then((data) => {
-                setVisit(data.data)
-            }).catch((err: BackendError) => {
-                setError(err)
-            })
-            setLoading(false)
+        if (data && data.data) {
+            setVisit(data.data)
+            setVisits(data.data.visit_reports)
         }
-        myVisits()
-    }, [])
+        else {
+            setVisit(undefined)
+            setVisits([])
+        }
+
+    }, [isSuccess, data])
 
     return (
-        <VisitsProvider>
-            <>
-                {loading && <Text> Loading....</Text>}
+        <>
+            {isLoading && <Text> Loading....</Text>}
 
-                {visit && visit.start_day_credientials &&
-                    <>
-                        <Text >Started day at {new Date(visit?.start_day_credientials.timestamp).toLocaleTimeString()}</Text>
-                        <View >
-                            {!Boolean(visit.end_day_credentials) && < Pressable
-                                disabled={visit.visit_reports.filter((report) => {
-                                    if (!Boolean(report.visit_out_credentials))
-                                        return report
-                                }).length > 0}
-                                onPress={() => {
-                                    setChoice({ type: VisitChoiceActions.visit_in })
-                                }}><Text>New Visit</Text></Pressable>}
-                        </View >
-                    </>}
-
+            {visit && visit.start_day_credientials &&
                 <>
-                    {visits && visits.map((visit, index) => {
-                        return (
-                            <View >
-                                <View key={index}
-                                >
-                                    <Text >
-                                        Party : <b>{visit.party_name}</b>
-                                    </Text>
-                                    <Text >
-                                        Station : <b>{visit.city}</b>
-                                    </Text>
-                                    <Text>
-                                        Visit In : {new Date(visit.visit_in_credientials && visit.visit_in_credientials.timestamp).toLocaleTimeString()}
-                                    </Text>
-                                    <Text>
-                                        Visit Out : {new Date(visit.visit_out_credentials && visit.visit_out_credentials.timestamp).toLocaleTimeString()}
-                                    </Text>
-                                    <View >
-                                        {visit && !Boolean(visit.visit_out_credentials) && <Pressable onPress={() => {
-                                            setVisitReport(visit)
-                                            setChoice({ type: VisitChoiceActions.visit_out })
-                                        }}><Text>Visit Out</Text></Pressable>}
+                    {/* new visit */}
+                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                        <Text style={{ textAlign: 'center', fontWeight: 'bold', width: '100%', padding: 5, backgroundColor: MD2Colors.red400, color: 'white' }} >Started day at {new Date(visit?.start_day_credientials.timestamp).toLocaleTimeString()}</Text>
 
-                                        {!visit.summary ? <Pressable onPress={() => { setVisitReport(visit); setChoice({ type: VisitChoiceActions.add_summary }) }}><Text>Add Summary</Text></Pressable> : <Pressable onPress={() => { setVisitReport(visit); setChoice({ type: VisitChoiceActions.edit_summary }) }}><Text>Edit Summary</Text></Pressable>}
-                                    </View>
+                        < Button
+                            mode='contained'
+                            style={{ position: 'absolute', top: 40 }}
+                            disabled={visit.visit_reports.filter((report) => {
+                                if (!Boolean(report.visit_out_credentials))
+                                    return report
+                            }).length > 0}
+                            onPress={() => {
+                                setChoice({ type: VisitChoiceActions.visit_in })
+                            }}
+                        ><Text style={{ fontSize: 20, fontWeight: 'bold' }}>New Visit</Text>
+                        </Button>
+                    </View>
+                </>}
 
+            {/* list visits */}
+            <>
+                {visits && visits.map((visit, index) => {
+                    return (
+                        <ScrollView >
+                            <View key={index}
+                            >
+                                <Text >
+                                    Party : <b>{visit.party_name}</b>
+                                </Text>
+                                <Text >
+                                    Station : <b>{visit.city}</b>
+                                </Text>
+                                <Text>
+                                    Visit In : {new Date(visit.visit_in_credientials && visit.visit_in_credientials.timestamp).toLocaleTimeString()}
+                                </Text>
+                                <Text>
+                                    Visit Out : {new Date(visit.visit_out_credentials && visit.visit_out_credentials.timestamp).toLocaleTimeString()}
+                                </Text>
+                                <View >
+                                    {visit && !Boolean(visit.visit_out_credentials) && <Pressable onPress={() => {
+                                        setVisitReport(visit)
+                                        setChoice({ type: VisitChoiceActions.visit_out })
+                                    }}><Text>Visit Out</Text></Pressable>}
+
+                                    {!visit.summary ? <Pressable onPress={() => { setVisitReport(visit); setChoice({ type: VisitChoiceActions.add_summary }) }}><Text>Add Summary</Text></Pressable> : <Pressable onPress={() => { setVisitReport(visit); setChoice({ type: VisitChoiceActions.edit_summary }) }}><Text>Edit Summary</Text></Pressable>}
                                 </View>
+
                             </View>
+                        </ScrollView>
+                    )
+                })}
+            </>
 
-                        )
-                    })}
-                </>
-
-                {/* {visitReport && !Boolean(visitReport.visit_out_credentials) && <MakeVisitOutDialog visit={visitReport} />}
+            {/* {visitReport && !Boolean(visitReport.visit_out_credentials) && <MakeVisitOutDialog visit={visitReport} />}
             {visitReport && !visitReport.summary && <AddSummaryInDialog visit={visitReport} />}
             {visitReport && visitReport.summary && <EditSummaryInDialog visit={visitReport} />}
             {visit && <MakeVisitInDialog visit={visit} />} */}
 
-                {/* strat day button */}
-                {
-                    !visit && <View style={{ flex: 1, alignItems: 'center', marginTop: 50, padding: 10 }}>
-                        < Button
-                            mode='contained'
-                            disabled={loading}
-                            style={{ position: 'absolute', bottom: 0, width: '100%', paddingVertical: 10, marginBottom: 10 }}
-                            onPress={
-                                () => {
-                                    setChoice({ type: VisitChoiceActions.start_day })
-                                }
+            {/* start day button */}
+            {
+                !visit && <View style={{ flex: 1, alignItems: 'center', marginTop: 50, padding: 10 }}>
+                    < Button
+                        mode='contained'
+                        disabled={isLoading}
+                        style={{ position: 'absolute', bottom: 0, width: '100%', paddingVertical: 10, marginBottom: 10 }}
+                        onPress={
+                            () => {
+                                setChoice({ type: VisitChoiceActions.start_day })
                             }
-                        ><Text style={{ padding: 20, fontSize: 20, fontWeight: 'bold' }}>START MY DAY</Text>
-                        </Button>
-                    </View >
-                }
+                        }
+                    ><Text style={{ padding: 20, fontSize: 20, fontWeight: 'bold' }}>START MY DAY</Text>
+                    </Button>
+                </View >
+            }
+            {!visit && <StartMydayDialog />}
 
-
-                {!visit && <StartMydayDialog />}
-
-                {
-                    visit && <View>
-                        < Pressable
-                            disabled={loading || Boolean(visit.end_day_credentials) || visit.visit_reports.filter((report) => {
-                                if (!Boolean(report.visit_out_credentials))
-                                    return report
-                            }).length > 0}
-                            onPress={
-                                () => {
-                                    setChoice({ type: VisitChoiceActions.end_day })
-                                }
-                            }>{Boolean(visit.end_day_credentials) ? <Text>`Day ended at ${new Date(visit.end_day_credentials.timestamp).toLocaleTimeString()}`</Text> : <Text>"End My Day"</Text>}</Pressable >
-                    </View>
-                }
-                {/* {visit && <EndMydayDialog visit={visit} />} */}
-            </>
-        </VisitsProvider>
+            {/* end my day */}
+            {
+                visit && <View style={{ position: 'absolute', bottom: 0, width: '100%', padding: 10 }}>
+                    < Button
+                        mode='outlined'
+                        disabled={isLoading || Boolean(visit.end_day_credentials) || visit.visit_reports.filter((report) => {
+                            if (!Boolean(report.visit_out_credentials))
+                                return report
+                        }).length > 0}
+                        onPress={
+                            () => {
+                                setChoice({ type: VisitChoiceActions.end_day })
+                            }
+                        }
+                    >
+                        <Text style={{ fontWeight: 'bold', fontSize: 16 }}> {Boolean(visit.end_day_credentials) ? `Day ended at ${new Date(visit.end_day_credentials.timestamp).toLocaleTimeString()}` : "End My Day"}
+                        </Text>
+                    </Button>
+                </View>
+            }
+            {/* {visit && <EndMydayDialog visit={visit} />} */}
+        </>
     )
 }
 
