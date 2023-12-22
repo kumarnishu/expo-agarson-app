@@ -19,7 +19,7 @@ const LoginFormSchema = yup.object({
 })
 
 const login = () => {
-  const { user, setUser } = useContext(UserContext)
+  const {  setUser } = useContext(UserContext)
   const { mutate, data, isSuccess, isLoading, error } = useMutation
     <AxiosResponse<{ user: IUser, token: string }>,
       BackendError,

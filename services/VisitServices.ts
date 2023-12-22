@@ -55,5 +55,9 @@ export const EditVisitSummary = async ({ id, body }: {
 }
 
 export const MakeVisitOut = async ({ id, body }: { id: string, body: FormData }) => {
-    return await axios.patch(`${BaseURL}/visit/out/${id}`, body)
+    return await axios.patch(`${BaseURL}/visit/out/${id}`, body, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
 }

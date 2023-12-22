@@ -34,8 +34,8 @@ function CameraComponent({ isLoading, handlePress, photo, setPhoto }: Props) {
                 <>
                     <Image style={{ height: 730, width: '100%' }} source={{ uri: photo.uri }} />
                     <View style={{ flexDirection: 'row', height: '100%', justifyContent: 'space-evenly', backgroundColor: MD2Colors.red500 }}>
-                        {isLoading && <ActivityIndicator size="large" color={MD2Colors.amber400} />}
-                        <TouchableOpacity>
+                        {isLoading && <ActivityIndicator size="large" />}
+                        {!isLoading && <TouchableOpacity>
                             <IconButton
                                 icon="content-save"
                                 iconColor={MD2Colors.blue600}
@@ -43,7 +43,7 @@ function CameraComponent({ isLoading, handlePress, photo, setPhoto }: Props) {
                                 size={40}
                                 onPress={handlePress}
                             />
-                        </TouchableOpacity>
+                        </TouchableOpacity>}
                         {!isLoading && <TouchableOpacity>
                             <IconButton
                                 disabled={isLoading}
@@ -57,11 +57,12 @@ function CameraComponent({ isLoading, handlePress, photo, setPhoto }: Props) {
                 </>
                 :
                 <View style={{ flex: 1, justifyContent: 'space-between' }}>
-                    <Camera style={{ minHeight: 730 }} type={type} ref={cameraRef}>
+                    <Camera style={{ minHeight: 730 }} autoFocus type={type} ref={cameraRef}>
                     </Camera>
                     <View style={{ flexDirection: 'row', height: '100%', justifyContent: 'space-evenly', backgroundColor: MD2Colors.red500 }}>
                         <TouchableOpacity>
                             <IconButton
+                                disabled={isLoading} 
                                 icon="flip-horizontal"
                                 iconColor={MD2Colors.yellow400}
                                 size={40}
@@ -72,6 +73,7 @@ function CameraComponent({ isLoading, handlePress, photo, setPhoto }: Props) {
                         </TouchableOpacity>
                         <TouchableOpacity>
                             <IconButton
+                                disabled={isLoading} 
                                 icon="camera"
                                 iconColor={MD2Colors.blue400}
                                 size={40}
