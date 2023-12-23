@@ -14,12 +14,13 @@
     "experiments": {
       "typedRoutes": true
     },
-    "scheme": "StackNavigation",
+    "scheme": "expo-router",
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.kumarnishu437.agarsonapp"
     },
     "android": {
       "adaptiveIcon": {

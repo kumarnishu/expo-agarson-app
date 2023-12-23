@@ -38,7 +38,7 @@ const login = () => {
   return (
     <>
       <Formik
-        initialValues={{ username: 'nishu', password: 'nishu' }}
+        initialValues={{ username: '', password: '' }}
         validationSchema={LoginFormSchema}
         onSubmit={async (values) => {
           mutate({
