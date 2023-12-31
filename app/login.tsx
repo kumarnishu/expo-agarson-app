@@ -1,7 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import { router } from 'expo-router';
 import { UserContext } from '../contexts/UserContext';
-import { BackendError } from '..';
 import { Formik } from 'formik'
 import * as yup from "yup";
 import { Login } from '../services/UserServices';
@@ -11,6 +9,8 @@ import { ActivityIndicator, MD2Colors } from 'react-native-paper';
 import { useMutation } from 'react-query';
 import { AxiosResponse } from 'axios';
 import { IUser } from '../types/user.types';
+import { BackendError } from '..';
+import { router } from 'expo-router';
 
 
 const LoginFormSchema = yup.object({
@@ -18,8 +18,8 @@ const LoginFormSchema = yup.object({
   password: yup.string().required('required field')
 })
 
-const login = () => {
-  const {  setUser } = useContext(UserContext)
+const LoginScreen = () => {
+  const { setUser } = useContext(UserContext)
   const { mutate, data, isSuccess, isLoading, error } = useMutation
     <AxiosResponse<{ user: IUser, token: string }>,
       BackendError,
@@ -64,7 +64,7 @@ const login = () => {
 
               <View style={{ flex: 1, gap: 15 }}>
                 <View style={{ alignItems: 'center' }}>
-                  <Image style={{ height: 200, width: 200 }} source={require("../assets/logo.png")} />
+                  <Image style={{ height: 250, width: 250 }} source={require("../assets/icon.png")} />
                 </View>
 
                 <TextInput
@@ -110,4 +110,4 @@ const login = () => {
 
 
 
-export default login
+export default LoginScreen
