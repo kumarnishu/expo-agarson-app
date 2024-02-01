@@ -1,6 +1,7 @@
-import axios, { AxiosResponse } from "axios";
-import { BaseURL } from "./baseUrl";
+import { apiClient } from "./AxiosInterceptor";
 
+
+// login
 export const Login = async (
     body: {
         username: string,
@@ -8,30 +9,59 @@ export const Login = async (
         multi_login_token?: string
     }
 ) => {
-    return await axios.post(`${BaseURL}/login`, body);
+    return await apiClient.post("login", body);
 };
 
-export const Logout = async (): Promise<AxiosResponse<any, any>> => {
-
-    return await axios.post(`${BaseURL}/logout`);
+// logout
+export const Logout = async () => {
+    return await apiClient.post("logout");
 };
 
-export const UpdateProfile = async (body: FormData): Promise<AxiosResponse<any, any>> => {
-    return await axios.put(`${BaseURL}/profile`, body);
+
+// get profile
+export const GetProfile = async () => {
+    return await apiClient.get("profile");
+};
+// update profile
+export const UpdateProfile = async (body: FormData) => {
+    return await apiClient.put("profile", body, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    });
 };
 
-export const UpdatePassword = async (body: { oldPassword: string, newPassword: string, confirmPassword: string }): Promise<AxiosResponse<any, any>> => {
-    return await axios.patch(`${BaseURL}/password/update`, body)
+// //update password
+export const UpdatePassword = async (body: { oldPassword: string, newPassword: string, confirmPassword: string }) => {
+    return await apiClient.patch("password/update", body)
 };
 
-export const VerifyEmail = async (token: string): Promise<AxiosResponse<any, any>> => {
-    return await axios.patch(`${BaseURL}/email/verify/${token}`)
+// //update password
+export const ResetPassword = async ({ token, body }:
+    {
+        token: string,
+        body: { newPassword: string, confirmPassword: string }
+    }) => {
+    return await apiClient.patch(`password/reset/${token}`, body)
 };
 
+// send reset password
+export const ResetPasswordSendMail = async ({ email }:
+    {
+        email: string
+    }) => {
+    return await apiClient.post(`password/reset`, { email: email })
+};
+
+// verify email
+export const VerifyEmail = async (token: string) => {
+    return await apiClient.patch(`email/verify/${token}`)
+};
+
+// send verification main
 export const SendVerifyEmail = async ({ email }:
     {
         email: string
-    }): Promise<AxiosResponse<any, any>> => {
-    return await axios.post(`${BaseURL}/email/verify`, { email: email })
+    }) => {
+    return await apiClient.post(`email/verify`, { email: email })
 };
-

@@ -1,12 +1,12 @@
-import axios from "axios"
-import { BaseURL } from "./baseUrl"
+import { apiClient } from "./AxiosInterceptor"
+
 
 export const getMyTodayVisit = async () => {
-    return await axios.get(`${BaseURL}/visit/today`)
+    return await apiClient.get("visit/today")
 }
 
 export const StartMyDay = async (body: FormData) => {
-    return await axios.post(`${BaseURL}/day/start`, body, {
+    return await apiClient.post("day/start", body, {
         headers: {
             'Content-Type': 'multipart/form-data'
         }
@@ -14,15 +14,16 @@ export const StartMyDay = async (body: FormData) => {
 }
 
 export const EndMyDay = async ({ id, body }: { id: string, body: FormData }) => {
-    return await axios.patch(`${BaseURL}/day/end/${id}`, body, {
+    return await apiClient.patch(`day/end/${id}`, body, {
         headers: {
             'Content-Type': 'multipart/form-data'
         }
     })
 }
 
+
 export const MakeVisitIn = async ({ id, body }: { id: string, body: FormData }) => {
-    return await axios.post(`${BaseURL}/visit/in/${id}`, body, {
+    return await apiClient.post(`visit/in/${id}`, body, {
         headers: {
             'Content-Type': 'multipart/form-data'
         }
@@ -38,7 +39,7 @@ export const AddVisitSummary = async ({ id, body }: {
         turnover: string
     }
 }) => {
-    return await axios.patch(`${BaseURL}/visit/summary/${id}`, body)
+    return await apiClient.patch(`visit/summary/${id}`, body)
 }
 
 export const EditVisitSummary = async ({ id, body }: {
@@ -51,13 +52,23 @@ export const EditVisitSummary = async ({ id, body }: {
         turnover: string
     }
 }) => {
-    return await axios.patch(`${BaseURL}/visit/summary/edit/${id}`, body)
+    return await apiClient.patch(`visit/summary/edit/${id}`, body)
 }
 
+
 export const MakeVisitOut = async ({ id, body }: { id: string, body: FormData }) => {
-    return await axios.patch(`${BaseURL}/visit/out/${id}`, body, {
+    return await apiClient.patch(`visit/out/${id}`, body, {
         headers: {
             'Content-Type': 'multipart/form-data'
         }
     })
 }
+
+export const UploadVisitSamplesPhoto = async ({ id, body }: { id: string, body: FormData }) => {
+    return await apiClient.patch(`visit/samples/upload/${id}`, body, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+}
+

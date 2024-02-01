@@ -18,6 +18,7 @@ const NewVisitForm = ({ visit }: { visit: IVisit }) => {
     const [isOld, setIsOld] = React.useState(false);
     const [party, setParty] = React.useState("");
     const [city, setCity] = React.useState("");
+    const [mobile, setMobile] = React.useState("");
 
     const [display, setDisplay] = useState(true)
     const { location } = useContext(LocationContext)
@@ -38,7 +39,7 @@ const NewVisitForm = ({ visit }: { visit: IVisit }) => {
     }, [isSuccess])
 
     function handleValidation() {
-        if (party && city) {
+        if (party && city && mobile && String(mobile).length === 10) {
             setDisplay(false)
         }
     }
@@ -55,6 +56,7 @@ const NewVisitForm = ({ visit }: { visit: IVisit }) => {
                     },
                     party_name: party,
                     city: city,
+                    mobile: mobile,
                     is_old_party: isOld
                 }
 
@@ -91,7 +93,7 @@ const NewVisitForm = ({ visit }: { visit: IVisit }) => {
                 </Snackbar>
 
                 <View style={{ flex: 1, gap: 15 }}>
-                    <Text style={{ textAlign: 'center',fontWeight:'bold', fontSize: 20}}>NEW VISIT FORM</Text>
+                    <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 20 }}>NEW VISIT FORM</Text>
                     <TextInput
                         mode="outlined"
                         style={{ borderRadius: 10, borderWidth: 2, borderColor: MD2Colors.red500, padding: 5, fontSize: 20 }}
@@ -109,6 +111,17 @@ const NewVisitForm = ({ visit }: { visit: IVisit }) => {
                         label="City"
                         value={city}
                         onChangeText={(value) => setCity(value)}
+
+                    />
+                    <TextInput
+                        mode="outlined"
+                        keyboardType='numeric'
+                        style={{ borderRadius: 10, borderWidth: 2, borderColor: MD2Colors.red500, padding: 5, fontSize: 20 }}
+                        contentStyle={{ fontSize: 20 }}
+                        outlineStyle={{ display: 'none' }}
+                        label="Mobile"
+                        value={mobile}
+                        onChangeText={(value) => setMobile(value)}
 
                     />
                     <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>

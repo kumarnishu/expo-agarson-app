@@ -13,6 +13,7 @@ import MakeVisitOutDialog from '../../components/dialogs/MakeVisitOutDialog';
 import AddSummaryDialog from '../../components/dialogs/AddSummaryDialog';
 import UpdateSummaryDialog from '../../components/dialogs/UpdateSummaryDialog';
 import EndMydayDialog from '../../components/dialogs/EndMydayDialog';
+import UploadSamplesDialog from '../../components/dialogs/UploadSamplesDialog';
 
 
 const Visits = () => {
@@ -90,11 +91,14 @@ const Visits = () => {
                                 Visit Out : {new Date(visit.visit_out_credentials && visit.visit_out_credentials.timestamp).toLocaleTimeString()}
                             </Text>
                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingTop: 5 }}>
-                                {visit && !Boolean(visit.visit_out_credentials) && <Button onPress={() => {
+                                {visit && !Boolean(visit.visit_out_credentials) && visit.visit_samples_photo && <Button onPress={() => {
                                     setVisitReport(visit)
                                     setChoice({ type: VisitChoiceActions.visit_out })
                                 }}><Text style={{ fontWeight: 'bold', fontSize: 16 }}>Visit Out</Text></Button>}
-
+                                {visit && !Boolean(visit.visit_out_credentials) && !visit.visit_samples_photo && <Button onPress={() => {
+                                    setVisitReport(visit)
+                                    setChoice({ type: VisitChoiceActions.upload_sample })
+                                }}><Text style={{ fontWeight: 'bold', fontSize: 16 }}>Upload Samples</Text></Button>}
                                 {!visit.summary ? <Button onPress={() => { setVisitReport(visit); setChoice({ type: VisitChoiceActions.add_summary }) }}><Text style={{ fontWeight: 'bold', fontSize: 16 }}>Add Summary</Text></Button> : <Button onPress={() => { setVisitReport(visit); setChoice({ type: VisitChoiceActions.edit_summary }) }}><Text style={{ fontWeight: 'bold', color: 'blue', fontSize: 16 }}>Edit Summary</Text></Button>}
                             </View>
 
@@ -124,6 +128,8 @@ const Visits = () => {
                         </Button>
                     </View>
                 }
+
+                {visitReport && <UploadSamplesDialog visit={visitReport} />}
             </ScrollView>}
 
             {/* start day button */}

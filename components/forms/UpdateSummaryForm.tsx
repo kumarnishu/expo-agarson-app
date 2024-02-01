@@ -14,6 +14,7 @@ import { EditVisitSummary } from '../../services/VisitServices';
 
 
 const Schema = Yup.object({
+    mobile: Yup.string().required("required"),
     summary: Yup.string().required("required"),
     is_old_party: Yup.boolean().required("required"),
     dealer_of: Yup.string().required("required"),
@@ -29,6 +30,7 @@ const UpdateSummaryForm = ({ visit }: { visit: IVisitReport }) => {
         <AxiosResponse<any>, BackendError, {
             id: string;
             body: {
+                mobile: string;
                 summary: string;
                 is_old_party: boolean;
                 dealer_of: string;
@@ -53,6 +55,7 @@ const UpdateSummaryForm = ({ visit }: { visit: IVisitReport }) => {
         <>
             <Formik
                 initialValues={{
+                    mobile: visit.mobile || "",
                     summary: visit.summary || "NA",
                     is_old_party: visit.is_old_party || isOld,
                     dealer_of: visit.dealer_of || "NA",
@@ -63,6 +66,7 @@ const UpdateSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                 validationSchema={Schema}
                 onSubmit={async (values) => {
                     let Data = {
+                        mobile: values.mobile,
                         summary: values.summary,
                         is_old_party: isOld,
                         dealer_of: values.dealer_of,
@@ -90,6 +94,17 @@ const UpdateSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                             </Snackbar>
 
                             <View style={{ flex: 1, gap: 15 }}>
+                                <TextInput
+                                    mode="outlined"
+                                    style={{ borderRadius: 10, borderWidth: 2, borderColor: MD2Colors.red500, padding: 5, fontSize: 16 }}
+                                    contentStyle={{ fontSize: 16 }}
+                                    outlineStyle={{ display: 'none' }}
+                                    label="Party Mobile"
+                                    onChangeText={handleChange('mobile')}
+                                    onBlur={handleBlur('mobile')}
+                                    autoCapitalize='none'
+                                    value={values.mobile}
+                                />
                                 <TextInput
                                     mode="outlined"
                                     style={{ borderRadius: 10, borderWidth: 2, borderColor: MD2Colors.red500, padding: 5, fontSize: 16 }}

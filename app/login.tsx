@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../contexts/UserContext';
 import { Formik } from 'formik'
 import * as yup from "yup";
@@ -19,13 +19,12 @@ const LoginFormSchema = yup.object({
 })
 
 const LoginScreen = () => {
-  const { setUser } = useContext(UserContext)
+  const { user, setUser } = useContext(UserContext)
   const { mutate, data, isSuccess, isLoading, error } = useMutation
     <AxiosResponse<{ user: IUser, token: string }>,
       BackendError,
       { username: string, password: string, multi_login_token?: string }
     >(Login)
-
 
 
   useEffect(() => {
@@ -38,7 +37,7 @@ const LoginScreen = () => {
   return (
     <>
       <Formik
-        initialValues={{ username: '', password: '' }}
+        initialValues={{ username: "", password: "" }}
         validationSchema={LoginFormSchema}
         onSubmit={async (values) => {
           mutate({

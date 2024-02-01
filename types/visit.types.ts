@@ -17,14 +17,17 @@ export type IVisitReport = {
     },
     person: IUser,
     party_name: string,
+    mobile: string,
     city: string,
     summary: string,
     is_old_party: boolean,
     dealer_of: string,
     refs_given: string,
-    turnover: string,
+    real_city: string
     reviews_taken: number,
+    turnover: string,
     visit_in_photo: Asset,
+    visit_samples_photo: Asset
     ankit_input: { input: string, created_by: IUser, timestamp: Date },
     brijesh_input: { input: string, created_by: IUser, timestamp: Date },
     visit_validated: boolean,
@@ -38,6 +41,8 @@ export type IVisit = {
     _id: string,
     start_day_photo: Asset,
     end_day_photo: Asset,
+    is_present: boolean
+    real_city: string,
     start_day_credientials: {
         latitude: string,
         longitude: string,
@@ -57,5 +62,3 @@ export type IVisit = {
     updated_by: IUser
 }
 
-export type IVisitBody = Request['body'] & IVisit;
-export type IVisitReportBody = Request['body'] & IVisitReport;
