@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Dialog from '../styled/Dialog';
 import { ChoiceContext, VisitChoiceActions } from '../../contexts/ModalContext';
 import { IVisitReport } from '../../types/visit.types';
@@ -9,12 +9,15 @@ import { MakeVisitOut } from '../../services/VisitServices';
 import { queryClient } from '../../app/_layout';
 import { View } from 'react-native';
 import { ActivityIndicator, Button, Text } from 'react-native-paper';
-import { LocationContext } from '../../contexts/LocationContext';
-
+import { LocationObject } from "expo-location";
+import * as Location from "expo-location"
 
 function MakeVisitOutDialog({ visit }: { visit: IVisitReport }) {
     const { choice, setChoice } = useContext(ChoiceContext)
-    const { location } = useContext(LocationContext)
+    const [location, setLocation] = useState<LocationObject>();
+
+   
+
     const { mutate, isLoading } = useMutation
         <AxiosResponse<any>, BackendError, {
             id: string;
@@ -48,6 +51,16 @@ function MakeVisitOutDialog({ visit }: { visit: IVisitReport }) {
         }
         submit()
     }
+    useEffect(() => {
+        (async () => {
+            let result = await Location.requestForegroundPermissionsAsync();
+            if (!result.granted) {
+                return
+            }
+            let location = await Location.getCurrentPositionAsync({});
+            setLocation(location);
+        })();
+    }, []);
     return (
         <>
             <Dialog fullScreen visible={choice === VisitChoiceActions.visit_out ? true : false} handleClose={() => setChoice({ type: VisitChoiceActions.close_visit })}

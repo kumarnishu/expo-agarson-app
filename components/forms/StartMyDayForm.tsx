@@ -8,11 +8,10 @@ import { useMutation } from 'react-query';
 import { AxiosResponse } from 'axios';
 import { IVisit } from '../../types/visit.types';
 import { queryClient } from '../../app/_layout';
-import { LocationContext } from '../../contexts/LocationContext';
 import CameraComponent from '../Camera';
+import { LocationObject } from 'expo-location';
 
-function StartMydayForm() {
-    const { location } = useContext(LocationContext)
+function StartMydayForm({ location }: { location: LocationObject }) {
     const [photo, setPhoto] = useState<CameraCapturedPicture>()
     const { mutate, isLoading, isSuccess, error } = useMutation
         <AxiosResponse<IVisit>, BackendError, FormData>

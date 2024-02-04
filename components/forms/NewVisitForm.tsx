@@ -10,18 +10,17 @@ import { MakeVisitIn } from '../../services/VisitServices';
 import { queryClient } from '../../app/_layout';
 import { ChoiceContext, VisitChoiceActions } from '../../contexts/ModalContext';
 import CameraComponent from '../Camera';
-import { LocationContext } from '../../contexts/LocationContext';
 import { CameraCapturedPicture } from 'expo-camera';
+import { LocationObject } from 'expo-location';
 
 
-const NewVisitForm = ({ visit }: { visit: IVisit }) => {
+const NewVisitForm = ({ visit,location }: { visit: IVisit, location: LocationObject }) => {
     const [isOld, setIsOld] = React.useState(false);
     const [party, setParty] = React.useState("");
     const [city, setCity] = React.useState("");
     const [mobile, setMobile] = React.useState("");
 
     const [display, setDisplay] = useState(true)
-    const { location } = useContext(LocationContext)
     const [photo, setPhoto] = useState<CameraCapturedPicture>()
     const { setChoice } = useContext(ChoiceContext)
     const { mutate, isLoading, isSuccess, error } = useMutation
