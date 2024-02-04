@@ -97,8 +97,7 @@ const AddSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                             <View style={{ flex: 1, gap: 15 }}>
                                 <TextInput
                                     mode="outlined"
-                                    style={{ borderRadius: 10, borderWidth: 2, borderColor: MD2Colors.red500, padding: 5, fontSize: 16 }}
-                                    contentStyle={{ fontSize: 16 }}
+                                    style={{ borderRadius: 15, borderWidth: 1, paddingTop: 4}}
                                     outlineStyle={{ display: 'none' }}
                                     label="Party Mobile"
                                     onChangeText={handleChange('mobile')}
@@ -109,8 +108,7 @@ const AddSummaryForm = ({ visit }: { visit: IVisitReport }) => {
 
                                 <TextInput
                                     mode="outlined"
-                                    style={{ borderRadius: 10, borderWidth: 2, borderColor: MD2Colors.red500, padding: 5, fontSize: 16 }}
-                                    contentStyle={{ fontSize: 16 }}
+                                    style={{ borderRadius: 15, borderWidth: 1, paddingTop: 4}}
                                     outlineStyle={{ display: 'none' }}
                                     label="Dealer Of"
                                     onChangeText={handleChange('dealer_of')}
@@ -121,8 +119,7 @@ const AddSummaryForm = ({ visit }: { visit: IVisitReport }) => {
 
                                 <TextInput
                                     mode="outlined"
-                                    style={{ borderRadius: 10, borderWidth: 2, borderColor: MD2Colors.red500, padding: 5, fontSize: 16 }}
-                                    contentStyle={{ fontSize: 16 }}
+                                    style={{ borderRadius: 15, borderWidth: 1, paddingTop: 4}}
                                     outlineStyle={{ display: 'none' }}
                                     label="Turn Over"
                                     onChangeText={handleChange('turnover')}
@@ -132,8 +129,7 @@ const AddSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                                 />
                                 <TextInput
                                     mode="outlined"
-                                    style={{ borderRadius: 10, borderWidth: 2, borderColor: MD2Colors.red500, padding: 5, fontSize: 16 }}
-                                    contentStyle={{ fontSize: 16 }}
+                                    style={{ borderRadius: 15, borderWidth: 1, paddingTop: 4}}
                                     outlineStyle={{ display: 'none' }}
                                     label="Refs Given"
                                     onChangeText={handleChange('refs_given')}
@@ -144,8 +140,7 @@ const AddSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                                 <TextInput
                                     mode="outlined"
                                     keyboardType='numeric'
-                                    style={{ borderRadius: 10, borderWidth: 2, borderColor: MD2Colors.red500, padding: 5, fontSize: 16 }}
-                                    contentStyle={{ fontSize: 16 }}
+                                    style={{ borderRadius: 15, borderWidth: 1, paddingTop: 4}}
                                     outlineStyle={{ display: 'none' }}
                                     label="Google Review Taken"
                                     onChangeText={handleChange('reviews_taken')}
@@ -164,8 +159,7 @@ const AddSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                                 <TextInput
                                     mode="outlined"
                                     multiline
-                                    style={{ borderRadius: 10, borderWidth: 2, borderColor: MD2Colors.red500, padding: 5, fontSize: 16 }}
-                                    contentStyle={{ fontSize: 16 }}
+                                    style={{ borderRadius: 15, borderWidth: 1, paddingTop: 4}}
                                     outlineStyle={{ display: 'none' }}
                                     label="Summary"
                                     onChangeText={handleChange('summary')}
@@ -179,7 +173,7 @@ const AddSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                                     disabled={isLoading}
                                     style={{ padding: 10, borderRadius: 10 }}
                                     onPress={() => handleSubmit()}>
-                                    <Text style={{ color: 'white', fontSize: 16 }}>Submit</Text>
+                                    <Text style={{ color: 'white', }}>Submit</Text>
                                 </Button>}
                             </View>
                         </ScrollView>

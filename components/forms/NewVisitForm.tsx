@@ -14,7 +14,7 @@ import { CameraCapturedPicture } from 'expo-camera';
 import { LocationObject } from 'expo-location';
 
 
-const NewVisitForm = ({ visit,location }: { visit: IVisit, location: LocationObject }) => {
+const NewVisitForm = ({ visit, location }: { visit: IVisit, location: LocationObject }) => {
     const [isOld, setIsOld] = React.useState(false);
     const [party, setParty] = React.useState("");
     const [city, setCity] = React.useState("");
@@ -92,10 +92,10 @@ const NewVisitForm = ({ visit,location }: { visit: IVisit, location: LocationObj
                 </Snackbar>
 
                 <View style={{ flex: 1, gap: 15 }}>
-                    <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 20 }}>NEW VISIT FORM</Text>
+                    <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 20, paddingBottom: 10 }}>NEW VISIT DETAILS</Text>
                     <TextInput
                         mode="outlined"
-                        style={{ borderRadius: 10, borderWidth: 2, borderColor: MD2Colors.red500, padding: 5, fontSize: 20 }}
+                        style={{ borderRadius: 20, borderWidth: 1, paddingTop: 4 }}
                         contentStyle={{ fontSize: 20 }}
                         outlineStyle={{ display: 'none' }}
                         label="Party name"
@@ -104,7 +104,7 @@ const NewVisitForm = ({ visit,location }: { visit: IVisit, location: LocationObj
                     />
                     <TextInput
                         mode="outlined"
-                        style={{ borderRadius: 10, borderWidth: 2, borderColor: MD2Colors.red500, padding: 5, fontSize: 20 }}
+                        style={{ borderRadius: 20, borderWidth: 1, paddingTop: 4 }}
                         contentStyle={{ fontSize: 20 }}
                         outlineStyle={{ display: 'none' }}
                         label="City"
@@ -115,7 +115,7 @@ const NewVisitForm = ({ visit,location }: { visit: IVisit, location: LocationObj
                     <TextInput
                         mode="outlined"
                         keyboardType='numeric'
-                        style={{ borderRadius: 10, borderWidth: 2, borderColor: MD2Colors.red500, padding: 5, fontSize: 20 }}
+                        style={{ borderRadius: 20, borderWidth: 1, paddingTop: 4 }}
                         contentStyle={{ fontSize: 20 }}
                         outlineStyle={{ display: 'none' }}
                         label="Mobile"

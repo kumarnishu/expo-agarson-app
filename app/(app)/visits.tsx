@@ -36,27 +36,25 @@ const Visits = () => {
     }, [isSuccess, data])
     return (
         <>
-            {!isLoading && <ScrollView contentContainerStyle={{ flexDirection: 'column', gap: 10, alignItems: 'flex-start', padding: 10 }}>
+            {!isLoading && <ScrollView contentContainerStyle={{ flexDirection: 'column', backgroundColor: 'white', gap: 10, alignItems: 'flex-start', padding: 10 }}>
 
-                {/* new visit */}
                 {visit && visit.start_day_credientials &&
                     <>
                         {/* new visit */}
 
-                        <Text style={{ textAlign: 'center', fontWeight: 'bold', width: '100%', padding: 5, fontSize: 15, color: MD2Colors.red400 }} >STARTED DAY AT : <Text style={{ color: 'black' }}>{new Date(visit?.start_day_credientials.timestamp).toLocaleTimeString()}</Text></Text>
+                        <Text style={{ textAlign: 'center', fontWeight: 'bold', width: '100%', padding: 5, fontSize: 15 }} >STARTED DAY AT : {new Date(visit?.start_day_credientials.timestamp).toLocaleTimeString()}</Text>
 
-                        {!Boolean(visit.end_day_credentials) && <TouchableOpacity style={{ padding: 10, width: '100%' }}>
+                        {!Boolean(visit.end_day_credentials) &&
                             < Button
                                 disabled={visit.visit_reports.filter((report) => {
                                     if (!Boolean(report.visit_out_credentials))
                                         return report
                                 }).length > 0}
-                                style={{ borderRadius: 10, width: '100%' }}
-                                mode='outlined'
+                                style={{ borderRadius: 10, width: '100%', paddingHorizontal: 10 }}
+                                mode="contained"
                                 onPress={() => setChoice({ type: VisitChoiceActions.visit_in })}
-                            ><Text style={{ fontSize: 20, fontWeight: 'bold' }}>New Visit</Text>
-                            </Button>
-                        </TouchableOpacity>}
+                            ><Text style={{ fontSize: 20, fontWeight: 'bold' }}>NEW VISIT</Text>
+                            </Button>}
                     </>}
 
                 {/* list visits */}
@@ -70,36 +68,40 @@ const Visits = () => {
                                     width: 2,
                                     height: 2,
                                 },
-                                borderRadius: 5,
+                                borderRadius: 15,
                                 shadowOpacity: 0.25,
-                                shadowRadius: 4,
-                                elevation: 1,
-                                padding: 10,
+                                shadowRadius: 6,
+                                elevation: 4,
+                                padding: 15,
                                 width: '100%'
                             }}
                         >
-                            <Text style={{ fontWeight: 'bold', fontSize: 16, padding: 5 }}>
-                                Party : {visit.party_name}
+                            <Text style={{ textTransform: 'uppercase', fontSize: 14, padding: 5 }}>
+                                Party   :   {visit.party_name}
                             </Text>
-                            <Text style={{ fontWeight: 'bold', fontSize: 16, padding: 5 }}>
-                                Station : {visit.city}
+                            <Text style={{ textTransform: 'uppercase', fontSize: 14, padding: 5 }}>
+                                Station   :   {visit.city}
                             </Text>
-                            <Text style={{ fontWeight: 'bold', fontSize: 16, padding: 5 }}>
-                                Visit In : {new Date(visit.visit_in_credientials && visit.visit_in_credientials.timestamp).toLocaleTimeString()}
+                            <Text style={{ textTransform: 'uppercase', fontSize: 14, padding: 5 }}>
+                                Visit In   :   {new Date(visit.visit_in_credientials && visit.visit_in_credientials.timestamp).toLocaleTimeString()}
                             </Text>
-                            <Text style={{ fontWeight: 'bold', fontSize: 16, padding: 5 }}>
-                                Visit Out : {new Date(visit.visit_out_credentials && visit.visit_out_credentials.timestamp).toLocaleTimeString()}
+                            <Text style={{ textTransform: 'uppercase', fontSize: 14, padding: 5 }}>
+                                Visit Out   :   {new Date(visit.visit_out_credentials && visit.visit_out_credentials.timestamp).toLocaleTimeString()}
                             </Text>
                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingTop: 5 }}>
                                 {visit && !Boolean(visit.visit_out_credentials) && visit.visit_samples_photo && <Button onPress={() => {
                                     setVisitReport(visit)
                                     setChoice({ type: VisitChoiceActions.visit_out })
-                                }}><Text style={{ fontWeight: 'bold', fontSize: 16 }}>Visit Out</Text></Button>}
-                                {visit && !Boolean(visit.visit_out_credentials) && !visit.visit_samples_photo && <Button onPress={() => {
-                                    setVisitReport(visit)
-                                    setChoice({ type: VisitChoiceActions.upload_sample })
-                                }}><Text style={{ fontWeight: 'bold', fontSize: 16 }}>Upload Samples</Text></Button>}
-                                {!visit.summary ? <Button onPress={() => { setVisitReport(visit); setChoice({ type: VisitChoiceActions.add_summary }) }}><Text style={{ fontWeight: 'bold', fontSize: 16 }}>Add Summary</Text></Button> : <Button onPress={() => { setVisitReport(visit); setChoice({ type: VisitChoiceActions.edit_summary }) }}><Text style={{ fontWeight: 'bold', color: 'blue', fontSize: 16 }}>Edit Summary</Text></Button>}
+                                }}><Text style={{ fontWeight: 'bold', fontSize: 16, color: 'red' }}>VISIT OUT</Text></Button>}
+                                {visit && !Boolean(visit.visit_out_credentials) && !visit.visit_samples_photo && <Button
+                                    textColor='violet'
+                                    onPress={() => {
+                                        setVisitReport(visit)
+                                        setChoice({ type: VisitChoiceActions.upload_sample })
+                                    }}><Text style={{ fontWeight: 'bold', fontSize: 14 }}>UPLOAD SAMPLES</Text></Button>}
+                                {!visit.summary ? <Button onPress={() => { setVisitReport(visit); setChoice({ type: VisitChoiceActions.add_summary }) }}><Text style={{ fontWeight: 'bold', fontSize: 14 }}>ADD SUMMARY</Text>
+                                </Button> :
+                                    <Button onPress={() => { setVisitReport(visit); setChoice({ type: VisitChoiceActions.edit_summary }) }}><Text style={{ fontWeight: 'bold', color: 'green', fontSize: 14 }}>EDIT SUMMARY</Text></Button>}
                             </View>
 
                         </View>
@@ -112,7 +114,8 @@ const Visits = () => {
                 {
                     visit && <View style={{ width: '100%', padding: 10 }}>
                         < Button
-                            mode='outlined'
+                            mode="elevated"
+                            textColor='red'
                             disabled={isLoading || Boolean(visit.end_day_credentials) || visit.visit_reports.filter((report) => {
                                 if (!Boolean(report.visit_out_credentials))
                                     return report

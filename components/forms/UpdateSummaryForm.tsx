@@ -96,7 +96,7 @@ const UpdateSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                             <View style={{ flex: 1, gap: 15 }}>
                                 <TextInput
                                     mode="outlined"
-                                    style={{ borderRadius: 10, borderWidth: 2, borderColor: MD2Colors.red500, padding: 5, fontSize: 16 }}
+                                    style={{ borderRadius: 15, borderWidth: 1,padding: 4}}
                                     contentStyle={{ fontSize: 16 }}
                                     outlineStyle={{ display: 'none' }}
                                     label="Party Mobile"
@@ -107,7 +107,7 @@ const UpdateSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                                 />
                                 <TextInput
                                     mode="outlined"
-                                    style={{ borderRadius: 10, borderWidth: 2, borderColor: MD2Colors.red500, padding: 5, fontSize: 16 }}
+                                    style={{ borderRadius: 15, borderWidth: 1,padding: 4}}
                                     contentStyle={{ fontSize: 16 }}
                                     outlineStyle={{ display: 'none' }}
                                     label="Dealer Of"
@@ -119,7 +119,7 @@ const UpdateSummaryForm = ({ visit }: { visit: IVisitReport }) => {
 
                                 <TextInput
                                     mode="outlined"
-                                    style={{ borderRadius: 10, borderWidth: 2, borderColor: MD2Colors.red500, padding: 5, fontSize: 16 }}
+                                    style={{ borderRadius: 15, borderWidth: 1,padding: 4}}
                                     contentStyle={{ fontSize: 16 }}
                                     outlineStyle={{ display: 'none' }}
                                     label="Turn Over"
@@ -130,7 +130,7 @@ const UpdateSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                                 />
                                 <TextInput
                                     mode="outlined"
-                                    style={{ borderRadius: 10, borderWidth: 2, borderColor: MD2Colors.red500, padding: 5, fontSize: 16 }}
+                                    style={{ borderRadius: 15, borderWidth: 1,padding: 4}}
                                     contentStyle={{ fontSize: 16 }}
                                     outlineStyle={{ display: 'none' }}
                                     label="Refs Given"
@@ -142,7 +142,7 @@ const UpdateSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                                 <TextInput
                                     mode="outlined"
                                     keyboardType='numeric'
-                                    style={{ borderRadius: 10, borderWidth: 2, borderColor: MD2Colors.red500, padding: 5, fontSize: 16 }}
+                                    style={{ borderRadius: 15, borderWidth: 1,padding: 4}}
                                     contentStyle={{ fontSize: 16 }}
                                     outlineStyle={{ display: 'none' }}
                                     label="Google Review Taken"
@@ -162,7 +162,7 @@ const UpdateSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                                 <TextInput
                                     mode="outlined"
                                     multiline
-                                    style={{ borderRadius: 10, borderWidth: 2, borderColor: MD2Colors.red500, padding: 5, fontSize: 16 }}
+                                    style={{ borderRadius: 15, borderWidth: 1,padding: 4}}
                                     contentStyle={{ fontSize: 16 }}
                                     outlineStyle={{ display: 'none' }}
                                     label="Summary"

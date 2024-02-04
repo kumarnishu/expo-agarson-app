@@ -1,15 +1,15 @@
 import { Slot } from 'expo-router';
 import { UserProvider } from '../contexts/UserContext';
 import { ChoiceProvider } from '../contexts/ModalContext';
-import { MD3LightTheme as DefaultTheme, PaperProvider } from 'react-native-paper';
+import { MD3LightTheme as DefaultTheme, MD2Colors, PaperProvider } from 'react-native-paper';
 import { QueryClientProvider, QueryClient } from "react-query";
 
 const theme = {
     ...DefaultTheme,
     colors: {
         ...DefaultTheme.colors,
-        primary: 'tomato',
-        secondary: 'yellow',
+        primary: MD2Colors.blue400,
+        secondary: MD2Colors.grey400,
     },
 };
 export const queryClient = new QueryClient({

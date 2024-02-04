@@ -36,6 +36,18 @@ const LoginScreen = () => {
 
   return (
     <>
+      <Snackbar
+        visible={Boolean(error)}
+        onDismiss={() => null}
+        action={{
+          label: 'Undo',
+          onPress: () => {
+            null
+          },
+        }}>
+        {error && error.response.data.message || ""}
+      </Snackbar>
+
       <Formik
         initialValues={{ username: "", password: "" }}
         validationSchema={LoginFormSchema}
@@ -48,57 +60,42 @@ const LoginScreen = () => {
       >
         {({ handleChange, handleBlur, handleSubmit, values }) => (
           <>
-            <ScrollView contentContainerStyle={{ flex: 1, marginTop: 60, justifyContent: 'center', padding: 10 }}>
-              <Snackbar
-                visible={Boolean(error)}
-                onDismiss={() => null}
-                action={{
-                  label: 'Undo',
-                  onPress: () => {
-                    null
-                  },
-                }}>
-                {error && error.response.data.message || ""}
-              </Snackbar>
 
-              <View style={{ flex: 1, gap: 15 }}>
-                <View style={{ alignItems: 'center' }}>
-                  <Image style={{ height: 250, width: 250 }} source={require("../assets/icon.png")} />
-                </View>
-
-                <TextInput
-                  mode="outlined"
-                  style={{ borderRadius: 10, borderWidth: 2, borderColor: MD2Colors.red500, padding: 5, fontSize: 20 }}
-                  contentStyle={{ fontSize: 20 }}
-                  outlineStyle={{ display: 'none' }}
-                  label="Username,email or mobile"
-                  onChangeText={handleChange('username')}
-                  onBlur={handleBlur('username')}
-                  autoCapitalize='none'
-                  value={values.username}
-                />
-                <TextInput
-                  mode="outlined"
-                  style={{ borderRadius: 10, borderWidth: 2, borderColor: MD2Colors.red500, padding: 5, fontSize: 20 }}
-                  contentStyle={{ fontSize: 20 }}
-                  outlineStyle={{ display: 'none' }}
-                  label='Password'
-                  autoCorrect={false}
-                  autoCapitalize='none'
-                  secureTextEntry={true}
-                  onChangeText={handleChange('password')}
-                  onBlur={handleBlur('password')}
-                  value={values.password}
-                />
-                {isLoading && <ActivityIndicator size={'large'} animating={true} color={MD2Colors.red500} />}
-                {!isLoading && <Button
-                  mode="contained"
-                  disabled={isLoading}
-                  style={{ padding: 10, borderRadius: 10 }}
-                  onPress={() => handleSubmit()}>
-                  <Text style={{ color: 'white', fontSize: 20 }}>Login</Text>
-                </Button>}
+            <ScrollView contentContainerStyle={{ flex: 1, gap: 15, justifyContent: 'flex-start', padding: 20, marginTop: 40 }}>
+              <View style={{ alignItems: 'center' }}>
+                <Image style={{ height: 150, width: 150 }} source={require("../assets/icon.png")} />
               </View>
+
+              <TextInput
+                mode="outlined"
+                style={{ borderRadius: 20, borderWidth: 2, paddingTop: 2 }}
+                outlineStyle={{ display: 'none' }}
+                label="Username,email or mobile"
+                onChangeText={handleChange('username')}
+                onBlur={handleBlur('username')}
+                autoCapitalize='none'
+                value={values.username}
+              />
+              <TextInput
+                mode="outlined"
+                style={{ borderRadius: 20, borderWidth: 2, paddingTop: 2 }}
+                outlineStyle={{ display: 'none' }}
+                label='Password'
+                autoCorrect={false}
+                autoCapitalize='none'
+                secureTextEntry={true}
+                onChangeText={handleChange('password')}
+                onBlur={handleBlur('password')}
+                value={values.password}
+              />
+
+              {<Button
+                mode="contained"
+                disabled={isLoading}
+                style={{ borderRadius: 10 }}
+                onPress={() => handleSubmit()}>
+                <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16, padding: 5 }}>{!isLoading ? "SIGN IN" : "LOGGING IN ..."}</Text>
+              </Button>}
             </ScrollView>
           </>
         )}
