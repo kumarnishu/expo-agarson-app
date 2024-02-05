@@ -35,12 +35,12 @@ function CameraComponent({ isLoading, handlePress, photo, setPhoto }: Props) {
                     {photo ?
                         <>
                             <Image style={{ height: 730, width: '100%' }} source={{ uri: photo.uri }} />
-                            <View style={{ flexDirection: 'row', height: '100%', justifyContent: 'space-evenly', backgroundColor: MD2Colors.red500 }}>
+                            <View style={{ flexDirection: 'row', height: '100%', justifyContent: 'space-evenly', backgroundColor: MD2Colors.blue400 }}>
                                 {isLoading && <ActivityIndicator size="large" />}
                                 {!isLoading && <TouchableOpacity>
                                     <IconButton
                                         icon="content-save"
-                                        iconColor={MD2Colors.blue600}
+                                        iconColor={MD2Colors.white}
                                         disabled={isLoading}
                                         size={40}
                                         onPress={handlePress}
@@ -50,7 +50,7 @@ function CameraComponent({ isLoading, handlePress, photo, setPhoto }: Props) {
                                     <IconButton
                                         disabled={isLoading}
                                         icon="lock-reset"
-                                        iconColor={MD2Colors.yellow400}
+                                        iconColor={MD2Colors.red400}
                                         size={40}
                                         onPress={() => setPhoto(undefined)}
                                     />
@@ -61,12 +61,12 @@ function CameraComponent({ isLoading, handlePress, photo, setPhoto }: Props) {
                         <View style={{ flex: 1, justifyContent: 'space-between' }}>
                             <Camera style={{ minHeight: 730 }} autoFocus type={type} ref={cameraRef}>
                             </Camera>
-                            <View style={{ flexDirection: 'row', height: '100%', justifyContent: 'space-evenly', backgroundColor: MD2Colors.red500 }}>
+                            <View style={{ flexDirection: 'row', height: '100%', justifyContent: 'space-evenly', backgroundColor: MD2Colors.blue400 }}>
                                 <TouchableOpacity>
                                     <IconButton
                                         disabled={isLoading}
                                         icon="flip-horizontal"
-                                        iconColor={MD2Colors.yellow400}
+                                        iconColor={MD2Colors.black}
                                         size={40}
                                         onPress={() => {
                                             setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
@@ -77,7 +77,7 @@ function CameraComponent({ isLoading, handlePress, photo, setPhoto }: Props) {
                                     <IconButton
                                         disabled={isLoading}
                                         icon="camera"
-                                        iconColor={MD2Colors.blue400}
+                                        iconColor={MD2Colors.black}
                                         size={40}
                                         onPress={onClickPicure}
                                     />
