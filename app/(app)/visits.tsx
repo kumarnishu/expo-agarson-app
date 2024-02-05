@@ -36,7 +36,7 @@ const Visits = () => {
     }, [isSuccess, data])
     return (
         <>
-            {!isLoading && <ScrollView contentContainerStyle={{ flexDirection: 'column', backgroundColor: 'white', gap: 10, alignItems: 'flex-start', padding: 10 }}>
+            {!isLoading && <ScrollView contentContainerStyle={{ flexDirection: 'column', backgroundColor: 'white', gap: 15, alignItems: 'flex-start', padding: 10 }}>
 
                 {visit && visit.start_day_credientials &&
                     <>
