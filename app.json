@@ -61,23 +61,15 @@
             "usesCleartextTraffic": true
           }
         }
-      ],
-      [
-        "expo-font",
-        {
-          "fonts": [
-            "./assets/Roboto-Regular.ttf"
-          ]
-        }
       ]
-  ],
-  "extra": {
-    "router": {
-      "origin": false
-    },
-    "eas": {
-      "projectId": "b305f346-210b-4c70-b9a8-abe96da3bc1c"
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "b305f346-210b-4c70-b9a8-abe96da3bc1c"
+      }
     }
   }
-}
 }

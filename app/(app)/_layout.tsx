@@ -6,7 +6,7 @@ import NavBar from '../../components/NavBar';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -14,7 +14,7 @@ SplashScreen.preventAutoHideAsync();
 export default function AppLayout() {
     const { user } = useContext(UserContext);
     const [fontsLoaded, fontError] = useFonts({
-        'Inter-Black': require('./assets/fonts/Inter-Black.otf'),
+        'Roboto-Regular': require("../../assets/Roboto-Regular.ttf"),
     });
 
     const onLayoutRootView = React.useCallback(async () => {
@@ -32,7 +32,7 @@ export default function AppLayout() {
         }
         if (user)
             return (
-                <View onLayout={onLayoutRootView}>
+                <View  onLayout={onLayoutRootView}>
                     <StatusBar style="auto" />
                     <NavBar />
                     <Stack screenOptions={{ headerShown: false, animation: 'none' }} />

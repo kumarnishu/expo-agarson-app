@@ -64,6 +64,7 @@ const LoginScreen = () => {
             <ScrollView contentContainerStyle={{ flex: 1, gap: 15, justifyContent: 'flex-start', padding: 20, marginTop: 40 }}>
               <View style={{ alignItems: 'center' }}>
                 <Image style={{ height: 150, width: 150 }} source={require("../assets/icon.png")} />
+                <Text>Long Lasting safety shoes</Text>
               </View>
 
               <TextInput
