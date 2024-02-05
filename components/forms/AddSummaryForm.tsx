@@ -97,7 +97,7 @@ const AddSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                             <View style={{ flex: 1, gap: 15 }}>
                                 <TextInput
                                     mode="outlined"
-                                    style={{ borderRadius: 15, borderWidth: 1, paddingTop: 4}}
+                                    style={{ borderRadius: 15, borderWidth: 1, paddingTop: 4 }}
                                     outlineStyle={{ display: 'none' }}
                                     label="Party Mobile"
                                     onChangeText={handleChange('mobile')}
@@ -108,7 +108,7 @@ const AddSummaryForm = ({ visit }: { visit: IVisitReport }) => {
 
                                 <TextInput
                                     mode="outlined"
-                                    style={{ borderRadius: 15, borderWidth: 1, paddingTop: 4}}
+                                    style={{ borderRadius: 15, borderWidth: 1, paddingTop: 4 }}
                                     outlineStyle={{ display: 'none' }}
                                     label="Dealer Of"
                                     onChangeText={handleChange('dealer_of')}
@@ -119,7 +119,7 @@ const AddSummaryForm = ({ visit }: { visit: IVisitReport }) => {
 
                                 <TextInput
                                     mode="outlined"
-                                    style={{ borderRadius: 15, borderWidth: 1, paddingTop: 4}}
+                                    style={{ borderRadius: 15, borderWidth: 1, paddingTop: 4 }}
                                     outlineStyle={{ display: 'none' }}
                                     label="Turn Over"
                                     onChangeText={handleChange('turnover')}
@@ -129,7 +129,7 @@ const AddSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                                 />
                                 <TextInput
                                     mode="outlined"
-                                    style={{ borderRadius: 15, borderWidth: 1, paddingTop: 4}}
+                                    style={{ borderRadius: 15, borderWidth: 1, paddingTop: 4 }}
                                     outlineStyle={{ display: 'none' }}
                                     label="Refs Given"
                                     onChangeText={handleChange('refs_given')}
@@ -140,7 +140,7 @@ const AddSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                                 <TextInput
                                     mode="outlined"
                                     keyboardType='numeric'
-                                    style={{ borderRadius: 15, borderWidth: 1, paddingTop: 4}}
+                                    style={{ borderRadius: 15, borderWidth: 1, paddingTop: 4 }}
                                     outlineStyle={{ display: 'none' }}
                                     label="Google Review Taken"
                                     onChangeText={handleChange('reviews_taken')}
@@ -159,7 +159,7 @@ const AddSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                                 <TextInput
                                     mode="outlined"
                                     multiline
-                                    style={{ borderRadius: 15, borderWidth: 1, paddingTop: 4}}
+                                    style={{ borderRadius: 15, borderWidth: 1, paddingTop: 4 }}
                                     outlineStyle={{ display: 'none' }}
                                     label="Summary"
                                     onChangeText={handleChange('summary')}
@@ -167,8 +167,8 @@ const AddSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                                     autoCapitalize='none'
                                     value={values.summary}
                                 />
-                                {isLoading && <ActivityIndicator size={'large'} animating={true} color={MD2Colors.red500} />}
-                                {!isLoading && <Button
+                                {isLoading && <ActivityIndicator size={'large'} animating={true} />}
+                                {<Button
                                     mode="contained"
                                     disabled={isLoading}
                                     style={{ padding: 10, borderRadius: 10 }}

@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { UserContext } from '../contexts/UserContext';
 import { Formik } from 'formik'
 import * as yup from "yup";
 import { Login } from '../services/UserServices';
 import { Image, ScrollView, View } from 'react-native';
 import { Button, Snackbar, Text, TextInput } from 'react-native-paper';
-import { ActivityIndicator, MD2Colors } from 'react-native-paper';
 import { useMutation } from 'react-query';
 import { AxiosResponse } from 'axios';
 import { IUser } from '../types/user.types';
@@ -19,7 +18,7 @@ const LoginFormSchema = yup.object({
 })
 
 const LoginScreen = () => {
-  const { user, setUser } = useContext(UserContext)
+  const { setUser } = useContext(UserContext)
   const { mutate, data, isSuccess, isLoading, error } = useMutation
     <AxiosResponse<{ user: IUser, token: string }>,
       BackendError,
@@ -95,7 +94,7 @@ const LoginScreen = () => {
                 disabled={isLoading}
                 style={{ borderRadius: 10 }}
                 onPress={() => handleSubmit()}>
-                <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16, padding: 5 }}>{!isLoading ? "SIGN IN" : "LOGGING IN ..."}</Text>
+                {!isLoading ? "SIGN IN" : "LOGGING IN ..."}
               </Button>}
             </ScrollView>
           </>

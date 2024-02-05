@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
 import { IVisit, IVisitReport } from '../../types/visit.types';
 import { ChoiceContext, VisitChoiceActions } from '../../contexts/ModalContext';
-import { Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { Text, View, ScrollView } from 'react-native';
 import StartMydayDialog from '../../components/dialogs/StartMyDayDialog';
 import { BackendError } from '../..';
 import { getMyTodayVisit } from '../../services/VisitServices';
-import { Button, MD2Colors } from 'react-native-paper';
+import { Button } from 'react-native-paper';
 import { useQuery } from 'react-query';
 import { AxiosResponse } from 'axios';
 import MakeVisitInDialog from '../../components/dialogs/MakeVisitInDialog';
@@ -76,32 +76,33 @@ const Visits = () => {
                                 width: '100%'
                             }}
                         >
-                            <Text style={{ textTransform: 'uppercase', fontSize: 14, padding: 5 }}>
+                            <Text style={{ textTransform: 'capitalize', fontSize: 14, padding: 5}}>
                                 Party   :   {visit.party_name}
                             </Text>
-                            <Text style={{ textTransform: 'uppercase', fontSize: 14, padding: 5 }}>
+                            <Text style={{ textTransform: 'capitalize', fontSize: 14, padding: 5 }}>
                                 Station   :   {visit.city}
                             </Text>
-                            <Text style={{ textTransform: 'uppercase', fontSize: 14, padding: 5 }}>
+                            <Text style={{ textTransform: 'capitalize', fontSize: 14, padding: 5 }}>
                                 Visit In   :   {new Date(visit.visit_in_credientials && visit.visit_in_credientials.timestamp).toLocaleTimeString()}
                             </Text>
-                            <Text style={{ textTransform: 'uppercase', fontSize: 14, padding: 5 }}>
+                            <Text style={{ textTransform: 'capitalize', fontSize: 14, padding: 5 }}>
                                 Visit Out   :   {new Date(visit.visit_out_credentials && visit.visit_out_credentials.timestamp).toLocaleTimeString()}
                             </Text>
                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingTop: 5 }}>
-                                {visit && !Boolean(visit.visit_out_credentials) && visit.visit_samples_photo && <Button onPress={() => {
+                                {visit && !Boolean(visit.visit_out_credentials) && visit.visit_samples_photo && <Button mode="text" textColor='red' onPress={() => {
                                     setVisitReport(visit)
                                     setChoice({ type: VisitChoiceActions.visit_out })
-                                }}><Text style={{ fontWeight: 'bold', fontSize: 16, color: 'red' }}>VISIT OUT</Text></Button>}
+                                }}>visit out</Button>}
                                 {visit && !Boolean(visit.visit_out_credentials) && !visit.visit_samples_photo && <Button
-                                    textColor='violet'
+                                    textColor='green'
+                                    mode="text"
                                     onPress={() => {
                                         setVisitReport(visit)
                                         setChoice({ type: VisitChoiceActions.upload_sample })
-                                    }}><Text style={{ fontWeight: 'bold', fontSize: 14 }}>UPLOAD SAMPLES</Text></Button>}
-                                {!visit.summary ? <Button onPress={() => { setVisitReport(visit); setChoice({ type: VisitChoiceActions.add_summary }) }}><Text style={{ fontWeight: 'bold', fontSize: 14 }}>ADD SUMMARY</Text>
+                                    }}>upload samples</Button>}
+                                {!visit.summary ? <Button mode='text' textColor="blue" onPress={() => { setVisitReport(visit); setChoice({ type: VisitChoiceActions.add_summary }) }}>add summary
                                 </Button> :
-                                    <Button onPress={() => { setVisitReport(visit); setChoice({ type: VisitChoiceActions.edit_summary }) }}><Text style={{ fontWeight: 'bold', color: 'green', fontSize: 14 }}>EDIT SUMMARY</Text></Button>}
+                                    <Button textColor="green" onPress={() => { setVisitReport(visit); setChoice({ type: VisitChoiceActions.edit_summary }) }}>Edit summary</Button>}
                             </View>
 
                         </View>
