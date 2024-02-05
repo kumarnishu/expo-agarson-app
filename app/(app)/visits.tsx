@@ -36,7 +36,7 @@ const Visits = () => {
     }, [isSuccess, data])
     return (
         <>
-            {!isLoading && <ScrollView contentContainerStyle={{ flexDirection: 'column', backgroundColor: 'white', gap: 15, alignItems: 'flex-start', padding: 10 }}>
+            {!isLoading && <ScrollView contentContainerStyle={{ flexDirection: 'column', gap: 15, alignItems: 'flex-start', padding: 10 }}>
 
                 {visit && visit.start_day_credientials &&
                     <>
@@ -109,8 +109,6 @@ const Visits = () => {
                     )
                 })}
 
-
-
                 {/* end my day */}
                 {
                     visit && <View style={{ width: '100%', padding: 10 }}>
@@ -133,7 +131,6 @@ const Visits = () => {
                     </View>
                 }
 
-                {visitReport && <UploadSamplesDialog visit={visitReport} />}
             </ScrollView>}
             {/* start day button */}
             {
@@ -151,6 +148,7 @@ const Visits = () => {
                     </Button>
                 </View > : null
             }
+            {visitReport && <UploadSamplesDialog visit={visitReport} />}
             {visitReport && !visitReport.summary && <AddSummaryDialog visit={visitReport} />}
             {visitReport && visitReport.summary && <UpdateSummaryDialog visit={visitReport} />}
 

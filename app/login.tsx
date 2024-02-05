@@ -4,7 +4,7 @@ import { Formik } from 'formik'
 import * as yup from "yup";
 import { Login } from '../services/UserServices';
 import { Image, ScrollView, View } from 'react-native';
-import { Button, Snackbar, Text, TextInput } from 'react-native-paper';
+import { Button, MD2Colors, Snackbar, Text, TextInput } from 'react-native-paper';
 import { useMutation } from 'react-query';
 import { AxiosResponse } from 'axios';
 import { IUser } from '../types/user.types';
@@ -60,15 +60,15 @@ const LoginScreen = () => {
         {({ handleChange, handleBlur, handleSubmit, values }) => (
           <>
 
-            <ScrollView contentContainerStyle={{ flex: 1, gap: 15, justifyContent: 'flex-start', padding: 20, marginTop: 40 }}>
-              <View style={{ alignItems: 'center' }}>
+            <ScrollView contentContainerStyle={{ flex: 1, gap: 15, justifyContent: 'flex-start', padding: 10, marginTop: 40 }}>
+              <View style={{ alignItems: 'center',marginBottom:50 }}>
                 <Image style={{ height: 150, width: 150 }} source={require("../assets/icon.png")} />
                 <Text>Long Lasting safety shoes</Text>
               </View>
 
               <TextInput
                 mode="outlined"
-                style={{ borderRadius: 20, borderWidth: 2, paddingTop: 2 }}
+                style={{ borderRadius: 10, borderWidth: 1,borderColor:MD2Colors.blue400, paddingTop: 5 }}
                 outlineStyle={{ display: 'none' }}
                 label="Username,email or mobile"
                 onChangeText={handleChange('username')}
@@ -78,7 +78,7 @@ const LoginScreen = () => {
               />
               <TextInput
                 mode="outlined"
-                style={{ borderRadius: 20, borderWidth: 2, paddingTop: 2 }}
+                style={{ borderRadius: 10, borderWidth: 1,borderColor:MD2Colors.blue400, paddingTop: 5 }}
                 outlineStyle={{ display: 'none' }}
                 label='Password'
                 autoCorrect={false}
@@ -92,7 +92,7 @@ const LoginScreen = () => {
               {<Button
                 mode="contained"
                 disabled={isLoading}
-                style={{ borderRadius: 10 }}
+                style={{ borderRadius: 10,marginTop:10,padding:10 }}
                 onPress={() => handleSubmit()}>
                 {!isLoading ? "SIGN IN" : "LOGGING IN ..."}
               </Button>}
