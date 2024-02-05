@@ -134,7 +134,6 @@ const Visits = () => {
 
                 {visitReport && <UploadSamplesDialog visit={visitReport} />}
             </ScrollView>}
-
             {/* start day button */}
             {
                 !isLoading && !visit ? <View style={{ flex: 1, alignItems: 'center', marginTop: 50, padding: 10 }}>

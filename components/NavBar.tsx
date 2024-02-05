@@ -14,7 +14,7 @@ const NavBar = () => {
         alert(error.response.data.message)
     return (
         <>
-            <View style={{ paddingTop: 20 }}>
+            <View style={{ paddingTop: 20, backgroundColor: MD2Colors.blue400 }}>
                 <View style={{ padding: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Avatar.Image size={40} source={{ uri: user?.dp?.public_url || "https://www.bo.agarson.in/logo.png" }} />
                     <View style={{ flexDirection: 'row', gap: 20, alignItems: 'center' }}>
@@ -24,7 +24,7 @@ const NavBar = () => {
                                     setUser(undefined)
                                 }).catch((err) => setError(err))
                             }}>
-                                <MaterialIcons name="logout" color={MD2Colors.blue400} size={35} />
+                                <MaterialIcons name="logout" color={MD2Colors.white} size={35} />
                             </Pressable>
                         </TouchableOpacity>
                     </View>
