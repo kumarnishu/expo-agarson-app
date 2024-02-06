@@ -11,15 +11,20 @@ function EndMydayDialog({ visit }: { visit: IVisit }) {
     const [location, setLocation] = useState<LocationObject>();
 
     useEffect(() => {
-        (async () => {
+        async function getLocation() {
             let result = await Location.requestForegroundPermissionsAsync();
             if (!result.granted) {
                 return
             }
-            let location = await Location.getCurrentPositionAsync({});
-            setLocation(location);
-        })();
-    }, []);
+            let loc = await Location.getCurrentPositionAsync({});
+            setLocation(loc);
+            if (!loc)
+                getLocation()
+        }
+        getLocation()
+
+
+    }, [location]);
     return (
         <>
             <Dialog fullScreen visible={choice === VisitChoiceActions.end_day ? true : false} handleClose={() => setChoice({ type: VisitChoiceActions.close_visit })}
