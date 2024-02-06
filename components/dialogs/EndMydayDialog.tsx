@@ -24,7 +24,7 @@ function EndMydayDialog({ visit }: { visit: IVisit }) {
         getLocation()
 
 
-    }, [location]);
+    }, []);
     return (
         <>
             <Dialog fullScreen visible={choice === VisitChoiceActions.end_day ? true : false} handleClose={() => setChoice({ type: VisitChoiceActions.close_visit })}

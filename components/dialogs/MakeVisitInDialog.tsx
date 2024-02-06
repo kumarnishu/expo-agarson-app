@@ -26,7 +26,7 @@ function MakeVisitInDialog({ visit }: { visit: IVisit }) {
         getLocation()
 
 
-    }, [location]);
+    }, []);
     return (
         <>
             <Dialog fullScreen visible={choice === VisitChoiceActions.visit_in ? true : false} handleClose={() => setChoice({ type: VisitChoiceActions.close_visit })}

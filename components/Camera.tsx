@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
-import { Camera, CameraCapturedPicture, CameraType } from 'expo-camera';
+import { Camera, CameraCapturedPicture, CameraType, FlashMode } from 'expo-camera';
 import { ActivityIndicator, IconButton, MD2Colors } from 'react-native-paper';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 
 type Props = {
     isLoading: boolean,
@@ -10,10 +11,12 @@ type Props = {
     setPhoto: React.Dispatch<React.SetStateAction<CameraCapturedPicture | undefined>>
 }
 function CameraComponent({ isLoading, handlePress, photo, setPhoto }: Props) {
+    const [flashlight, setFlashLight] = useState(FlashMode.off)
+    const [zoom, setZoom] = useState(0)
     const [type, setType] = useState(CameraType.back);
     const [permission, requestPermission] = Camera.useCameraPermissions();
     const cameraRef = useRef<Camera | any>()
-
+    const pan = Gesture.Pan();
     async function onClickPicure() {
         if (!cameraRef) return;
         const camera: Camera = cameraRef.current;
@@ -34,7 +37,7 @@ function CameraComponent({ isLoading, handlePress, photo, setPhoto }: Props) {
                 <>
                     {photo ?
                         <>
-                            <Image style={{ height: 730, width: '100%' }} source={{ uri: photo.uri }} />
+                            <Image style={{ height: 650, width: '100%' }} source={{ uri: photo.uri }} />
                             <View style={{ flexDirection: 'row', height: '100%', justifyContent: 'space-evenly', backgroundColor: MD2Colors.blue400 }}>
                                 {isLoading && <ActivityIndicator size="large" />}
                                 {!isLoading && <TouchableOpacity>
@@ -58,8 +61,14 @@ function CameraComponent({ isLoading, handlePress, photo, setPhoto }: Props) {
                             </View>
                         </>
                         :
+
                         <View style={{ flex: 1, justifyContent: 'space-between' }}>
-                            <Camera style={{ minHeight: 730 }} autoFocus type={type} ref={cameraRef}>
+                            <Camera style={{ minHeight: 650 }}
+                                zoom={zoom}
+                                ratio='16:9'
+                                flashMode={flashlight}
+                                type={type} ref={cameraRef}>
+    
                             </Camera>
                             <View style={{ flexDirection: 'row', height: '100%', justifyContent: 'space-evenly', backgroundColor: MD2Colors.blue400 }}>
                                 <TouchableOpacity>
@@ -70,6 +79,21 @@ function CameraComponent({ isLoading, handlePress, photo, setPhoto }: Props) {
                                         size={40}
                                         onPress={() => {
                                             setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
+                                        }}
+                                    />
+                                </TouchableOpacity>
+                                <TouchableOpacity>
+                                    <IconButton
+                                        disabled={isLoading}
+                                        icon={flashlight === FlashMode.off ? "car-light-high" : "car-light-fog"}
+                                        iconColor={MD2Colors.black}
+                                        size={40}
+                                        onPress={() => {
+                                            if (flashlight === FlashMode.off) {
+                                                setFlashLight(FlashMode.torch);
+                                            } else {
+                                                setFlashLight(FlashMode.off);
+                                            }
                                         }}
                                     />
                                 </TouchableOpacity>

@@ -65,7 +65,7 @@ function MakeVisitOutDialog({ visit }: { visit: IVisitReport }) {
         getLocation()
 
 
-    }, [location]);
+    }, []);
     return (
         <>
             <Dialog fullScreen visible={choice === VisitChoiceActions.visit_out ? true : false} handleClose={() => setChoice({ type: VisitChoiceActions.close_visit })}
