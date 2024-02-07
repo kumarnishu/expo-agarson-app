@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { IVisit, IVisitReport } from '../../types/visit.types';
 import { ChoiceContext, VisitChoiceActions } from '../../contexts/ModalContext';
-import { Text, View, ScrollView } from 'react-native';
+import { Text, View, ScrollView, Image } from 'react-native';
 import StartMydayDialog from '../../components/dialogs/StartMyDayDialog';
 import { BackendError } from '../..';
 import { getMyTodayVisit } from '../../services/VisitServices';
@@ -14,7 +14,6 @@ import AddSummaryDialog from '../../components/dialogs/AddSummaryDialog';
 import UpdateSummaryDialog from '../../components/dialogs/UpdateSummaryDialog';
 import EndMydayDialog from '../../components/dialogs/EndMydayDialog';
 import UploadSamplesDialog from '../../components/dialogs/UploadSamplesDialog';
-
 
 const Visits = () => {
     const [visits, setVisits] = useState<IVisitReport[]>([])
@@ -36,6 +35,24 @@ const Visits = () => {
     }, [isSuccess, data])
     return (
         <>
+            {/* start day button */}
+            {
+                !isLoading && !visit ? <View style={{ flex: 1, alignItems: 'center' }}>
+
+                    <Image source={require("../../assets/visit_back.jpg")} />
+                    < Button
+                        mode='contained'
+                        disabled={isLoading}
+                        style={{ width: '100%',position:'absolute',bottom:10, paddingVertical: 10, marginBottom: 10 }}
+                        onPress={
+                            () => {
+                                setChoice({ type: VisitChoiceActions.start_day })
+                            }
+                        }
+                    ><Text style={{ fontSize: 20, fontWeight: 'bold' }}>START MY DAY</Text>
+                    </Button>
+                </View > : null
+            }
             {!isLoading && <ScrollView contentContainerStyle={{ flexDirection: 'column', gap: 15, alignItems: 'flex-start', padding: 10 }}>
 
                 {visit && visit.start_day_credientials &&
@@ -76,7 +93,7 @@ const Visits = () => {
                                 width: '100%'
                             }}
                         >
-                            <Text style={{ textTransform: 'capitalize', fontSize: 14, padding: 5}}>
+                            <Text style={{ textTransform: 'capitalize', fontSize: 14, padding: 5 }}>
                                 Party   :   {visit.party_name}
                             </Text>
                             <Text style={{ textTransform: 'capitalize', fontSize: 14, padding: 5 }}>
@@ -132,22 +149,7 @@ const Visits = () => {
                 }
 
             </ScrollView>}
-            {/* start day button */}
-            {
-                !isLoading && !visit ? <View style={{ flex: 1, alignItems: 'center', marginTop: 50, padding: 10 }}>
-                    < Button
-                        mode='contained'
-                        disabled={isLoading}
-                        style={{ position: 'absolute', bottom: 0, width: '100%', paddingVertical: 10, marginBottom: 10 }}
-                        onPress={
-                            () => {
-                                setChoice({ type: VisitChoiceActions.start_day })
-                            }
-                        }
-                    ><Text style={{ padding: 20, fontSize: 20, fontWeight: 'bold' }}>START MY DAY</Text>
-                    </Button>
-                </View > : null
-            }
+
             {visitReport && <UploadSamplesDialog visit={visitReport} />}
             {visitReport && !visitReport.summary && <AddSummaryDialog visit={visitReport} />}
             {visitReport && visitReport.summary && <UpdateSummaryDialog visit={visitReport} />}

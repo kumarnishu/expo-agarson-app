@@ -28,7 +28,6 @@ function CameraComponent({ isLoading, handlePress, photo, setPhoto }: Props) {
             requestPermission()
         }
     }, [])
-    console.log(zoom)
     return (
         <>
 
