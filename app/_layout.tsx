@@ -3,6 +3,7 @@ import { UserProvider } from '../contexts/UserContext';
 import { ChoiceProvider } from '../contexts/ModalContext';
 import { MD3LightTheme as DefaultTheme, MD2Colors, PaperProvider } from 'react-native-paper';
 import { QueryClientProvider, QueryClient } from "react-query";
+import { LoadingProvider } from '../contexts/LoadingContext';
 
 const theme = {
     ...DefaultTheme,
@@ -17,6 +18,7 @@ export const queryClient = new QueryClient({
         queries: {
             refetchOnReconnect: true,
             refetchOnMount: true,
+            refetchOnWindowFocus: true,
             retry: false,
             staleTime: 200
         }
@@ -27,9 +29,11 @@ export default function Root() {
         <QueryClientProvider client={queryClient}>
             <PaperProvider theme={theme}>
                 <ChoiceProvider>
-                    <UserProvider>
-                        <Slot />
-                    </UserProvider>
+                    <LoadingProvider>
+                        <UserProvider>
+                            <Slot />
+                        </UserProvider>
+                    </LoadingProvider>
                 </ChoiceProvider>
             </PaperProvider>
         </QueryClientProvider>

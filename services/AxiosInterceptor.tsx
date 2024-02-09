@@ -15,7 +15,7 @@ const apiClient = axios.create({
 apiClient.interceptors.response.use(function (response) {
     return response;
 }, function (error) {
-    if (error.response.data.message === "please login to access this resource" || error.response.data.message === "login again ! session expired") {
+    if (error.response.data.message === "please login to access this resource" || error.response.data.message === "login again ! session expired" || error.response.data.message === "login again") {
         router.replace("/login")
     }
     return Promise.reject(error);
