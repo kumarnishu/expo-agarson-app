@@ -28,7 +28,8 @@ const Dialog = ({ visible, handleClose, fullScreen, children }: Props) => {
 
 const styles = StyleSheet.create({
   fullScreen: {
-    
+    flex: 1,
+    justifyContent: 'center',
   },
   default: {
     marginHorizontal: 15,

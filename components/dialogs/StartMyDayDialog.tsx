@@ -28,7 +28,8 @@ function StartMydayDialog() {
 
     return (
         <>
-            <Dialog fullScreen visible={choice === VisitChoiceActions.start_day ? true : false} handleClose={() => setChoice({ type: VisitChoiceActions.close_visit })}
+            <Dialog fullScreen 
+            visible={choice === VisitChoiceActions.start_day ? true : false} handleClose={() => setChoice({ type: VisitChoiceActions.close_visit })}
             >
                 {location && <StartMydayForm location={location} />}
             </Dialog>

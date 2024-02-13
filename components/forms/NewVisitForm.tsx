@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { ScrollView, View } from 'react-native';
 import { Button, Snackbar, Switch, Text, TextInput } from 'react-native-paper';
-import { MD2Colors } from 'react-native-paper';
 import { useMutation } from 'react-query';
 import { AxiosResponse } from 'axios';
 import { BackendError } from '../..';

@@ -36,13 +36,12 @@ function CameraComponent({ isLoading, handlePress, photo, setPhoto }: Props) {
                 <>
                     {photo ?
                         <>
-                            <Image style={{ height: 650, width: '100%' }} source={{ uri: photo.uri }} />
-                            <View style={{ flexDirection: 'row', height: '100%', justifyContent: 'space-evenly', backgroundColor: MD2Colors.blue400 }}>
+                            <Image style={{ flex: 1 }} source={{ uri: photo.uri }} />
+                            <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-evenly', position: 'absolute', bottom: 0, backgroundColor: MD2Colors.white }}>
                                 {isLoading && <ActivityIndicator size="large" />}
                                 {!isLoading && <TouchableOpacity>
                                     <IconButton
                                         icon="content-save"
-                                        iconColor={MD2Colors.white}
                                         disabled={isLoading}
                                         size={40}
                                         onPress={handlePress}
@@ -61,14 +60,14 @@ function CameraComponent({ isLoading, handlePress, photo, setPhoto }: Props) {
                         </>
                         :
 
-                        <View style={{ flex: 1, justifyContent: 'space-between' }}>
-                            <Camera style={{ minHeight: 650 }}
+                        <>
+                            <Camera style={{ flex: 1 }}
                                 zoom={zoom}
                                 ratio='16:9'
                                 flashMode={flashlight}
                                 type={type} ref={cameraRef}>
                             </Camera>
-                            <View style={{ flexDirection: 'row', height: '100%', justifyContent: 'space-evenly', backgroundColor: MD2Colors.blue400 }}>
+                            <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-evenly', position: 'absolute', bottom: 0, backgroundColor: MD2Colors.white }}>
                                 <TouchableOpacity>
                                     <IconButton
                                         disabled={isLoading}
@@ -136,7 +135,7 @@ function CameraComponent({ isLoading, handlePress, photo, setPhoto }: Props) {
                                 </TouchableOpacity>
 
                             </View>
-                        </View>
+                        </>
                     }
                 </>
             }
