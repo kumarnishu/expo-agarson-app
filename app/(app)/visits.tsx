@@ -14,6 +14,8 @@ import AddSummaryDialog from '../../components/dialogs/AddSummaryDialog';
 import UpdateSummaryDialog from '../../components/dialogs/UpdateSummaryDialog';
 import EndMydayDialog from '../../components/dialogs/EndMydayDialog';
 import UploadSamplesDialog from '../../components/dialogs/UploadSamplesDialog';
+import { LocationObject } from "expo-location";
+import * as Location from "expo-location"
 
 const Visits = () => {
     const [visits, setVisits] = useState<IVisitReport[]>([])
@@ -21,6 +23,23 @@ const Visits = () => {
     const [visit, setVisit] = useState<IVisit>()
     const { setChoice } = useContext(ChoiceContext)
     const { data, isLoading, isSuccess } = useQuery<AxiosResponse<IVisit>, BackendError>("visit", getMyTodayVisit)
+    const [location, setLocation] = useState<LocationObject>();
+
+    useEffect(() => {
+        async function getLocation() {
+            let result = await Location.requestForegroundPermissionsAsync();
+            if (!result.granted) {
+                return
+            }
+            let loc = await Location.getCurrentPositionAsync({});
+            setLocation(loc);
+            if (!loc)
+                getLocation()
+        }
+        getLocation()
+
+
+    }, []);
 
     useEffect(() => {
         if (data && data.data) {
@@ -42,8 +61,8 @@ const Visits = () => {
                     <Image source={require("../../assets/visit_back.jpg")} />
                     < Button
                         mode='contained'
-                        disabled={isLoading}
-                        style={{ width: '100%',position:'absolute',bottom:10, paddingVertical: 10, marginBottom: 10 }}
+                        disabled={isLoading || !location}
+                        style={{ width: '100%', position: 'absolute', bottom: 10, paddingVertical: 10, marginBottom: 10 }}
                         onPress={
                             () => {
                                 setChoice({ type: VisitChoiceActions.start_day })
@@ -63,7 +82,7 @@ const Visits = () => {
 
                         {!Boolean(visit.end_day_credentials) &&
                             < Button
-                                disabled={visit.visit_reports.filter((report) => {
+                                disabled={!location || visit.visit_reports.filter((report) => {
                                     if (!Boolean(report.visit_out_credentials))
                                         return report
                                 }).length > 0}
@@ -106,10 +125,12 @@ const Visits = () => {
                                 Visit Out   :   {new Date(visit.visit_out_credentials && visit.visit_out_credentials.timestamp).toLocaleTimeString()}
                             </Text>
                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingTop: 5 }}>
-                                {visit && !Boolean(visit.visit_out_credentials) && visit.visit_samples_photo && <Button mode="text" textColor='red' onPress={() => {
-                                    setVisitReport(visit)
-                                    setChoice({ type: VisitChoiceActions.visit_out })
-                                }}>visit out</Button>}
+                                {visit && !Boolean(visit.visit_out_credentials) && visit.visit_samples_photo && <Button
+                                    disabled={!location}
+                                    mode="text" textColor='red' onPress={() => {
+                                        setVisitReport(visit)
+                                        setChoice({ type: VisitChoiceActions.visit_out })
+                                    }}>visit out</Button>}
                                 {visit && !Boolean(visit.visit_out_credentials) && !visit.visit_samples_photo && <Button
                                     textColor='green'
                                     mode="text"
@@ -132,7 +153,7 @@ const Visits = () => {
                         < Button
                             mode="elevated"
                             textColor='red'
-                            disabled={isLoading || Boolean(visit.end_day_credentials) || visit.visit_reports.filter((report) => {
+                            disabled={!location || isLoading || Boolean(visit.end_day_credentials) || visit.visit_reports.filter((report) => {
                                 if (!Boolean(report.visit_out_credentials))
                                     return report
                             }).length > 0}
