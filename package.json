@@ -11,6 +11,7 @@
   "dependencies": {
     "@expo/vector-icons": "^14.0.2",
     "@react-native-async-storage/async-storage": " 1.23.1",
+    "@types/react": "~18.2.79",
     "axios": "^1.6.2",
     "expo": "^51.0.22",
     "expo-build-properties": "~0.12.3",
@@ -34,7 +35,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",
-    "@types/react": "~18.2.79",
     "typescript": "~5.3.3"
   },
   "private": true
