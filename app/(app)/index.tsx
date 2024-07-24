@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import Visits from './visits'
 import { RefreshControl, ScrollView } from 'react-native';
 import { queryClient } from '../_layout';
-import { ActivityIndicator } from 'react-native-paper';
 
 const index = () => {
     const [refreshing, setRefreshing] = React.useState(false);

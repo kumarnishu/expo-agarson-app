@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { Image, PixelRatio, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image,  StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { CameraView, CameraType, useCameraPermissions, CameraCapturedPicture, Camera } from 'expo-camera';
-import { ActivityIndicator, IconButton, MD2Colors } from 'react-native-paper';
+import { ActivityIndicator, IconButton, MD2Colors, ProgressBar } from 'react-native-paper';
 
 type Props = {
     isLoading: boolean,
@@ -15,12 +15,7 @@ function CameraComponent({ isLoading, handlePress, photo, setPhoto }: Props) {
     const [enableTorch, setEnableTorch]=useState(false)
     const [permission, requestPermission] = useCameraPermissions();
     const cameraRef = useRef <CameraView>(null);
-    const targetPixelCount = 1080; // If you want full HD pictures
-    const pixelRatio = PixelRatio.get(); // The pixel ratio of the device
-    // pixels * pixelRatio = targetPixelCount, so pixels = targetPixelCount / pixelRatio
-    const pixels = targetPixelCount / pixelRatio;
-
-   
+    
 
     async function onClickPicure() {
         if (!cameraRef || !cameraRef.current) return;
@@ -38,7 +33,7 @@ function CameraComponent({ isLoading, handlePress, photo, setPhoto }: Props) {
         <>
 
             {!permission?.granted && <Text style={{ color: 'red' }}>Please Allow camera Access</Text>}
-            {isLoading ? <ActivityIndicator style={{ paddingTop: 40 }} size={'large'} animating={true} /> :
+            {isLoading ? <ProgressBar style={{ paddingTop: 140 }} /> :
                 <>
                     {photo ?
                         <>

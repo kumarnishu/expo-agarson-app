@@ -5,14 +5,14 @@ import * as React from 'react';
 import NavBar from '../../components/NavBar';
 import { StatusBar } from 'expo-status-bar';
 import { LoadingContext } from '../../contexts/LoadingContext';
-import { ActivityIndicator } from 'react-native-paper';
+import { ActivityIndicator, ProgressBar } from 'react-native-paper';
 
 export default function AppLayout() {
     const { user } = useContext(UserContext)
     const { loading } = useContext(LoadingContext)
 
     if (loading)
-        return <ActivityIndicator style={{ paddingTop: 40 }} size={'large'} animating={true} />
+        return <ProgressBar style={{ paddingTop: 140 }}  />
         
     if (!loading && user)
         return <>
