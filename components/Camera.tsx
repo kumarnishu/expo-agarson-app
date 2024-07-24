@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
-import { Camera, CameraCapturedPicture, CameraType, FlashMode } from 'expo-camera';
+import { Image, PixelRatio, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { CameraView, CameraType, useCameraPermissions, CameraCapturedPicture, Camera } from 'expo-camera';
 import { ActivityIndicator, IconButton, MD2Colors } from 'react-native-paper';
 
 type Props = {
@@ -10,15 +10,21 @@ type Props = {
     setPhoto: React.Dispatch<React.SetStateAction<CameraCapturedPicture | undefined>>
 }
 function CameraComponent({ isLoading, handlePress, photo, setPhoto }: Props) {
-    const [flashlight, setFlashLight] = useState(FlashMode.off)
+    const [facing, setFacing] = useState<CameraType>('back');
     const [zoom, setZoom] = useState(0.10 * 0)
-    const [type, setType] = useState(CameraType.back);
-    const [permission, requestPermission] = Camera.useCameraPermissions();
-    const cameraRef = useRef<Camera | any>()
+    const [enableTorch, setEnableTorch]=useState(false)
+    const [permission, requestPermission] = useCameraPermissions();
+    const cameraRef = useRef <CameraView>(null);
+    const targetPixelCount = 1080; // If you want full HD pictures
+    const pixelRatio = PixelRatio.get(); // The pixel ratio of the device
+    // pixels * pixelRatio = targetPixelCount, so pixels = targetPixelCount / pixelRatio
+    const pixels = targetPixelCount / pixelRatio;
+
+   
+
     async function onClickPicure() {
-        if (!cameraRef) return;
-        const camera: Camera = cameraRef.current;
-        let result = await camera.takePictureAsync()
+        if (!cameraRef || !cameraRef.current) return;
+        const result =await cameraRef.current.takePictureAsync();
         setPhoto(result)
     }
 
@@ -61,12 +67,15 @@ function CameraComponent({ isLoading, handlePress, photo, setPhoto }: Props) {
                         :
 
                         <>
-                            <Camera style={{ flex: 1 }}
+                           
+                            <CameraView 
+                                ref={cameraRef}
+                            style={styles.camera} facing={facing}
                                 zoom={zoom}
-                                ratio='16:9'
-                                flashMode={flashlight}
-                                type={type} ref={cameraRef}>
-                            </Camera>
+                                enableTorch={enableTorch}
+                            />
+                               
+
                             <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-evenly', position: 'absolute', bottom: 0, backgroundColor: MD2Colors.white }}>
                                 <TouchableOpacity>
                                     <IconButton
@@ -75,7 +84,7 @@ function CameraComponent({ isLoading, handlePress, photo, setPhoto }: Props) {
                                         iconColor={MD2Colors.black}
                                         size={40}
                                         onPress={() => {
-                                            setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
+                                            setFacing(facing => (facing === 'back' ? 'front' : 'back'));
                                         }}
                                     />
                                 </TouchableOpacity>
@@ -84,14 +93,14 @@ function CameraComponent({ isLoading, handlePress, photo, setPhoto }: Props) {
                                 <TouchableOpacity>
                                     <IconButton
                                         disabled={isLoading}
-                                        icon={flashlight === FlashMode.off ? "car-light-high" : "car-light-fog"}
+                                        icon={!enableTorch ? "car-light-high" : "car-light-fog"}
                                         iconColor={MD2Colors.black}
                                         size={40}
                                         onPress={() => {
-                                            if (flashlight === FlashMode.off) {
-                                                setFlashLight(FlashMode.torch);
+                                            if (!enableTorch) {
+                                                setEnableTorch(true);
                                             } else {
-                                                setFlashLight(FlashMode.off);
+                                                setEnableTorch(false);
                                             }
                                         }}
                                     />
@@ -143,6 +152,34 @@ function CameraComponent({ isLoading, handlePress, photo, setPhoto }: Props) {
         </>
     )
 }
-
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+    },
+    message: {
+        textAlign: 'center',
+        paddingBottom: 10,
+    },
+    camera: {
+        flex: 1,
+    },
+    buttonContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        backgroundColor: 'transparent',
+        margin: 64,
+    },
+    button: {
+        flex: 1,
+        alignSelf: 'flex-end',
+        alignItems: 'center',
+    },
+    text: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: 'white',
+    },
+});
 
 export default CameraComponent
