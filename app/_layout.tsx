@@ -1,9 +1,10 @@
 import { Slot } from 'expo-router';
 import { UserProvider } from '../contexts/UserContext';
 import { ChoiceProvider } from '../contexts/ModalContext';
-import { PaperProvider } from 'react-native-paper';
+import { DefaultTheme, MD2Colors, PaperProvider } from 'react-native-paper';
 import { QueryClientProvider, QueryClient } from "react-query";
 import { LoadingProvider } from '../contexts/LoadingContext';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 
 export const queryClient = new QueryClient({
@@ -17,14 +18,25 @@ export const queryClient = new QueryClient({
         }
     }
 });
+const theme = {
+    ...DefaultTheme,
+    colors: {
+        ...DefaultTheme.colors,
+        primary: MD2Colors.blue400,
+        secondary: MD2Colors.grey400,
+    },
+};
+
 export default function Root() {
     return (
         <QueryClientProvider client={queryClient}>
-            <PaperProvider>
+            <PaperProvider theme={theme}>
                 <ChoiceProvider>
                     <LoadingProvider>
                         <UserProvider>
-                            <Slot />
+                          <SafeAreaProvider>
+                                <Slot />
+                          </SafeAreaProvider>
                         </UserProvider>
                     </LoadingProvider>
                 </ChoiceProvider>

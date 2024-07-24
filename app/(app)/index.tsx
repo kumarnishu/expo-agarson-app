@@ -6,12 +6,21 @@ import {  Divider,  MD2Colors,  Text } from 'react-native-paper'
 import { View } from 'react-native'
 import { Link } from 'expo-router'
 
+
 const Dashboard = () => {
   const [features, setFeatures] = useState<{ feature: string, url: string }[]>([])
   const { user } = useContext(UserContext)
   //process feature and access
   useEffect(() => {
     let tmpfeatures: { feature: string, url: string }[] = []
+    tmpfeatures.push({ feature: 'my visit ', url: paths.visit })
+    user?.is_admin && tmpfeatures.push({ feature: 'shoe weight', url: paths.shoe_weight })
+    tmpfeatures.push({ feature: 'my visit ', url: paths.visit })
+    user?.is_admin && tmpfeatures.push({ feature: 'shoe weight', url: paths.shoe_weight })
+    tmpfeatures.push({ feature: 'my visit ', url: paths.visit })
+    user?.is_admin && tmpfeatures.push({ feature: 'shoe weight', url: paths.shoe_weight })
+    tmpfeatures.push({ feature: 'my visit ', url: paths.visit })
+    user?.is_admin && tmpfeatures.push({ feature: 'shoe weight', url: paths.shoe_weight })
     tmpfeatures.push({ feature: 'my visit ', url: paths.visit })
     user?.is_admin && tmpfeatures.push({ feature: 'shoe weight', url: paths.shoe_weight })
     setFeatures(tmpfeatures)
@@ -28,6 +37,7 @@ const Dashboard = () => {
                     <Text variant='displaySmall'>{feat.feature.toUpperCase()}</Text>
                   </Link>
                 </View >
+                <Divider/>
             </>
             )
           })

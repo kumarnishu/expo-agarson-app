@@ -14,6 +14,7 @@ import AddSummaryDialog from '../components/dialogs/AddSummaryDialog';
 import UpdateSummaryDialog from '../components/dialogs/UpdateSummaryDialog';
 import EndMydayDialog from '../components/dialogs/EndMydayDialog';
 import UploadSamplesDialog from '../components/dialogs/UploadSamplesDialog';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const visit = () => {
     const [visits, setVisits] = useState<IVisitReport[]>([])
@@ -34,7 +35,7 @@ const visit = () => {
 
     }, [isSuccess, data])
     return (
-        <>
+        <SafeAreaView>
             {/* start day button */}
             {
                 !isLoading && !visit ? <View style={{ flex: 1, alignItems: 'center' }}>
@@ -159,7 +160,7 @@ const visit = () => {
             {visit && <EndMydayDialog visit={visit} />}
             {!visit && <StartMydayDialog />}
             {visit && <MakeVisitInDialog visit={visit} />}
-        </>
+        </SafeAreaView>
     )
 }
 
