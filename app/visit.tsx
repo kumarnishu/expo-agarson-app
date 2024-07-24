@@ -1,21 +1,21 @@
 import { useContext, useEffect, useState } from 'react';
-import { IVisit, IVisitReport } from '../../types/visit.types';
-import { ChoiceContext, VisitChoiceActions } from '../../contexts/ModalContext';
+import { IVisit, IVisitReport } from '../types/visit.types';
+import { ChoiceContext, VisitChoiceActions } from '../contexts/ModalContext';
 import { Text, View, ScrollView, Image } from 'react-native';
-import StartMydayDialog from '../../components/dialogs/StartMyDayDialog';
-import { BackendError } from '../..';
-import { getMyTodayVisit } from '../../services/VisitServices';
+import StartMydayDialog from '../components/dialogs/StartMyDayDialog';
+import { BackendError } from '..';
+import { getMyTodayVisit } from '../services/VisitServices';
 import { Button } from 'react-native-paper';
 import { useQuery } from 'react-query';
 import { AxiosResponse } from 'axios';
-import MakeVisitInDialog from '../../components/dialogs/MakeVisitInDialog';
-import MakeVisitOutDialog from '../../components/dialogs/MakeVisitOutDialog';
-import AddSummaryDialog from '../../components/dialogs/AddSummaryDialog';
-import UpdateSummaryDialog from '../../components/dialogs/UpdateSummaryDialog';
-import EndMydayDialog from '../../components/dialogs/EndMydayDialog';
-import UploadSamplesDialog from '../../components/dialogs/UploadSamplesDialog';
+import MakeVisitInDialog from '../components/dialogs/MakeVisitInDialog';
+import MakeVisitOutDialog from '../components/dialogs/MakeVisitOutDialog';
+import AddSummaryDialog from '../components/dialogs/AddSummaryDialog';
+import UpdateSummaryDialog from '../components/dialogs/UpdateSummaryDialog';
+import EndMydayDialog from '../components/dialogs/EndMydayDialog';
+import UploadSamplesDialog from '../components/dialogs/UploadSamplesDialog';
 
-const Visits = () => {
+const visit = () => {
     const [visits, setVisits] = useState<IVisitReport[]>([])
     const [visitReport, setVisitReport] = useState<IVisitReport>()
     const [visit, setVisit] = useState<IVisit>()
@@ -39,7 +39,7 @@ const Visits = () => {
             {
                 !isLoading && !visit ? <View style={{ flex: 1, alignItems: 'center' }}>
 
-                    <Image source={require("../../assets/visit_back.jpg")} />
+                    <Image source={require("../assets/visit_back.jpg")} />
                     < Button
                         mode='contained'
                         disabled={isLoading}
@@ -163,5 +163,5 @@ const Visits = () => {
     )
 }
 
-export default Visits;
+export default visit;
 

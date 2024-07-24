@@ -5,7 +5,6 @@ import * as React from 'react';
 import NavBar from '../../components/NavBar';
 import { StatusBar } from 'expo-status-bar';
 import { LoadingContext } from '../../contexts/LoadingContext';
-import { ActivityIndicator, ProgressBar } from 'react-native-paper';
 
 export default function AppLayout() {
     const { user } = useContext(UserContext)
