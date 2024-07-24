@@ -11,9 +11,6 @@ export default function AppLayout() {
     const { user } = useContext(UserContext)
     const { loading } = useContext(LoadingContext)
 
-    if (loading)
-        return <ProgressBar style={{ paddingTop: 140 }}  />
-        
     if (!loading && user)
         return <>
 

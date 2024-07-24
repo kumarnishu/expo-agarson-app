@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Image,  StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { CameraView, CameraType, useCameraPermissions, CameraCapturedPicture, Camera } from 'expo-camera';
-import { ActivityIndicator, IconButton, MD2Colors, ProgressBar } from 'react-native-paper';
+import { ActivityIndicator, IconButton, MD2Colors } from 'react-native-paper';
 
 type Props = {
     isLoading: boolean,
@@ -33,7 +33,7 @@ function CameraComponent({ isLoading, handlePress, photo, setPhoto }: Props) {
         <>
 
             {!permission?.granted && <Text style={{ color: 'red' }}>Please Allow camera Access</Text>}
-            {isLoading ? <ProgressBar style={{ paddingTop: 140 }} /> :
+            {isLoading ? <ActivityIndicator style={{ paddingTop: 40 }} size={'large'} animating={true} /> :
                 <>
                     {photo ?
                         <>
