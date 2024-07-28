@@ -94,18 +94,12 @@ const NewVisitForm = ({ visit, location }: { visit: IVisit, location: LocationOb
                     <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 20, paddingBottom: 10 }}>NEW VISIT DETAILS</Text>
                     <TextInput
                         mode="outlined"
-                        style={{ borderRadius: 20, borderWidth: 1, paddingTop: 4 }}
-                        contentStyle={{ fontSize: 20 }}
-                        outlineStyle={{ display: 'none' }}
                         label="Party name"
                         value={party}
                         onChangeText={(value) => setParty(value)}
                     />
                     <TextInput
                         mode="outlined"
-                        style={{ borderRadius: 20, borderWidth: 1, paddingTop: 4 }}
-                        contentStyle={{ fontSize: 20 }}
-                        outlineStyle={{ display: 'none' }}
                         label="City"
                         value={city}
                         onChangeText={(value) => setCity(value)}
@@ -114,9 +108,6 @@ const NewVisitForm = ({ visit, location }: { visit: IVisit, location: LocationOb
                     <TextInput
                         mode="outlined"
                         keyboardType='numeric'
-                        style={{ borderRadius: 20, borderWidth: 1, paddingTop: 4 }}
-                        contentStyle={{ fontSize: 20 }}
-                        outlineStyle={{ display: 'none' }}
                         label="Mobile"
                         value={mobile}
                         onChangeText={(value) => setMobile(value)}

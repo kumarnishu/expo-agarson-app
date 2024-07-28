@@ -12,7 +12,7 @@ const Dashboard = () => {
   const { user } = useContext(UserContext)
   useEffect(() => {
     let tmpfeatures: { feature: string, url: string }[] = []
-    user?.is_admin && tmpfeatures.push({ feature: 'my visit ', url: paths.visit })
+    user?.is_active && tmpfeatures.push({ feature: 'my visit ', url: paths.visit })
     user?.assigned_permissions.includes("shoe_weight_view") && tmpfeatures.push({ feature: 'shoe weight', url: paths.shoe_weight })
 
     setFeatures(tmpfeatures)
@@ -24,7 +24,7 @@ const Dashboard = () => {
           features.map((feat, index) => {
             return (
               <View key={index} style={{ flex: 1, borderRadius: 5, backgroundColor: MD2Colors.white }}>
-                <Link style={{ flex: 1, paddingTop: 40, paddingBottom: 20, paddingLeft: 10, fontSize: 16,textShadowRadius:2,textShadowColor:'black' }} href={feat.url}>
+                <Link style={{ flex: 1, paddingTop: 20, paddingBottom: 20, paddingLeft: 10, fontSize: 10,textShadowRadius:2,textShadowColor:'black' }} href={feat.url}>
                   <Text variant='displaySmall'>{feat.feature.toUpperCase()}</Text>
                 </Link>
                 <Divider />

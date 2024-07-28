@@ -1,16 +1,21 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import Dialog from '../styled/Dialog';
-import { ChoiceContext, VisitChoiceActions } from '../../contexts/ModalContext';
-import NewVisitForm from '../forms/NewVisitForm';
+import { ChoiceContext, ProductionChoiceActions } from '../../contexts/ModalContext';
+import NewShoeWeightForm from '../forms/NewShoeWeightForm';
+import { GestureHandlerRootView, ScrollView } from 'react-native-gesture-handler';
 
 
 function NewShoeWeightDialog() {
     const { choice, setChoice } = useContext(ChoiceContext)
     return (
         <>
-            <Dialog fullScreen visible={choice === VisitChoiceActions.visit_in ? true : false} handleClose={() => setChoice({ type: VisitChoiceActions.close_visit })}
+            <Dialog fullScreen visible={choice === ProductionChoiceActions.create_showweight ? true : false} handleClose={() => setChoice({ type: ProductionChoiceActions.close_production })}
             >
-                {location && <NewVisitForm visit={visit} location={location} />}
+                <GestureHandlerRootView>
+                    <ScrollView>
+                        <NewShoeWeightForm />
+                    </ScrollView>
+                </GestureHandlerRootView>
             </Dialog>
         </>
     )

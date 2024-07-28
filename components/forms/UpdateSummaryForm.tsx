@@ -96,9 +96,6 @@ const UpdateSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                             <View style={{ flex: 1, gap: 15 }}>
                                 <TextInput
                                     mode="outlined"
-                                    style={{ borderRadius: 15, borderWidth: 1, borderColor: MD2Colors.blue400, padding: 10 }}
-                                    contentStyle={{ fontSize: 16 }}
-                                    outlineStyle={{ display: 'none' }}
                                     label="Party Mobile"
                                     onChangeText={handleChange('mobile')}
                                     onBlur={handleBlur('mobile')}
@@ -107,9 +104,6 @@ const UpdateSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                                 />
                                 <TextInput
                                     mode="outlined"
-                                    style={{ borderRadius: 15, borderWidth: 1, borderColor: MD2Colors.blue400, padding: 10 }}
-                                    contentStyle={{ fontSize: 16 }}
-                                    outlineStyle={{ display: 'none' }}
                                     label="Dealer Of"
                                     onChangeText={handleChange('dealer_of')}
                                     onBlur={handleBlur('dealer_of')}
@@ -119,9 +113,6 @@ const UpdateSummaryForm = ({ visit }: { visit: IVisitReport }) => {
 
                                 <TextInput
                                     mode="outlined"
-                                    style={{ borderRadius: 15, borderWidth: 1, borderColor: MD2Colors.blue400, padding: 10 }}
-                                    contentStyle={{ fontSize: 16 }}
-                                    outlineStyle={{ display: 'none' }}
                                     label="Turn Over"
                                     onChangeText={handleChange('turnover')}
                                     onBlur={handleBlur('turnover')}
@@ -130,9 +121,6 @@ const UpdateSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                                 />
                                 <TextInput
                                     mode="outlined"
-                                    style={{ borderRadius: 15, borderWidth: 1, borderColor: MD2Colors.blue400, padding: 10 }}
-                                    contentStyle={{ fontSize: 16 }}
-                                    outlineStyle={{ display: 'none' }}
                                     label="Refs Given"
                                     onChangeText={handleChange('refs_given')}
                                     onBlur={handleBlur('refs_given')}
@@ -142,9 +130,6 @@ const UpdateSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                                 <TextInput
                                     mode="outlined"
                                     keyboardType='numeric'
-                                    style={{ borderRadius: 15, borderWidth: 1, borderColor: MD2Colors.blue400, padding: 10 }}
-                                    contentStyle={{ fontSize: 16 }}
-                                    outlineStyle={{ display: 'none' }}
                                     label="Google Review Taken"
                                     onChangeText={handleChange('reviews_taken')}
                                     onBlur={handleBlur('reviews_taken')}
@@ -162,9 +147,7 @@ const UpdateSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                                 <TextInput
                                     mode="outlined"
                                     multiline
-                                    style={{ borderRadius: 15, borderWidth: 1, borderColor: MD2Colors.blue400, padding: 10 }}
-                                    contentStyle={{ fontSize: 16 }}
-                                    outlineStyle={{ display: 'none' }}
+                                    numberOfLines={4}
                                     label="Summary"
                                     onChangeText={handleChange('summary')}
                                     onBlur={handleBlur('summary')}
