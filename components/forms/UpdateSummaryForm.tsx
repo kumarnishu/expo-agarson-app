@@ -6,7 +6,7 @@ import { Button, Snackbar, Switch, Text, TextInput } from 'react-native-paper';
 import { ActivityIndicator, MD2Colors } from 'react-native-paper';
 import { useMutation } from 'react-query';
 import { AxiosResponse } from 'axios';
-import { IVisitReport } from '../../types/visit.types';
+import { IVisitReport } from '../../types/visit';
 import { queryClient } from '../../app/_layout';
 import { BackendError } from '../..';
 import { ChoiceContext, VisitChoiceActions } from '../../contexts/ModalContext';

@@ -5,7 +5,7 @@ import { Image, ScrollView, View } from 'react-native';
 import { Button, MD2Colors, Snackbar, Text, TextInput } from 'react-native-paper';
 import { useMutation } from 'react-query';
 import { AxiosResponse } from 'axios';
-import { IUser } from '../types/user.types';
+import { IUser } from '../types/user';
 import { BackendError } from '..';
 import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';

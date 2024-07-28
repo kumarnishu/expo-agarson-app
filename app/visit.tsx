@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { IVisit, IVisitReport } from '../types/visit.types';
+import { IVisit, IVisitReport } from '../types/visit';
 import { ChoiceContext, VisitChoiceActions } from '../contexts/ModalContext';
 import { Text, View, ScrollView, Image } from 'react-native';
 import StartMydayDialog from '../components/dialogs/StartMyDayDialog';
@@ -14,7 +14,6 @@ import AddSummaryDialog from '../components/dialogs/AddSummaryDialog';
 import UpdateSummaryDialog from '../components/dialogs/UpdateSummaryDialog';
 import EndMydayDialog from '../components/dialogs/EndMydayDialog';
 import UploadSamplesDialog from '../components/dialogs/UploadSamplesDialog';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const visit = () => {
     const [visits, setVisits] = useState<IVisitReport[]>([])
@@ -35,16 +34,16 @@ const visit = () => {
 
     }, [isSuccess, data])
     return (
-        <SafeAreaView>
+        <View style={{paddingTop:50}}>
             {/* start day button */}
             {
-                !isLoading && !visit ? <View style={{ flex: 1, alignItems: 'center' }}>
+                !isLoading && !visit ? <View>
 
                     <Image source={require("../assets/visit_back.jpg")} />
                     < Button
                         mode='contained'
                         disabled={isLoading}
-                        style={{ width: '100%', position: 'absolute', bottom: 10, paddingVertical: 10, marginBottom: 10 }}
+                        style={{ width: '100%', position: 'absolute', bottom:0,paddingVertical: 10, marginBottom: 10 }}
                         onPress={
                             () => {
                                 setChoice({ type: VisitChoiceActions.start_day })
@@ -160,7 +159,7 @@ const visit = () => {
             {visit && <EndMydayDialog visit={visit} />}
             {!visit && <StartMydayDialog />}
             {visit && <MakeVisitInDialog visit={visit} />}
-        </SafeAreaView>
+        </View>
     )
 }
 

@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { useQuery } from 'react-query'
 import { AxiosResponse } from 'axios'
 import { BackendError } from "..";
-import { IUser } from "../types/user.types";
+import { IUser } from "../types/user";
 import { UserContext } from "./UserContext";
 import { GetProfile } from "../services/UserServices";
 

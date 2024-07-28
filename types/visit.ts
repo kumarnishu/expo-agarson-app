@@ -1,5 +1,5 @@
-import { Asset } from "./asset.types"
-import { IUser } from "./user.types"
+import { Asset } from "./asset"
+import { IUser } from "./user"
 
 export type IVisitReport = {
     _id: string,

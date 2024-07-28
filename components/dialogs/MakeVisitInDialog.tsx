@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import Dialog from '../styled/Dialog';
 import { ChoiceContext, VisitChoiceActions } from '../../contexts/ModalContext';
 import NewVisitForm from '../forms/NewVisitForm';
-import { IVisit } from '../../types/visit.types';
+import { IVisit } from '../../types/visit';
 import { LocationObject } from "expo-location";
 import * as Location from "expo-location"
 

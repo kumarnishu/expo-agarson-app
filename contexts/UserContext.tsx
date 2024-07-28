@@ -1,5 +1,5 @@
 import React, { createContext, useState } from "react";
-import { IUser } from "../types/user.types";
+import { IUser } from "../types/user";
 
 
 // usercontext

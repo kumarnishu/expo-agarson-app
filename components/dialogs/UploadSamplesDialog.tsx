@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import Dialog from '../styled/Dialog';
 import { ChoiceContext, VisitChoiceActions } from '../../contexts/ModalContext';
-import { IVisit, IVisitReport } from '../../types/visit.types';
+import { IVisit, IVisitReport } from '../../types/visit';
 import CameraComponent from '../Camera';
 import { CameraCapturedPicture } from 'expo-camera';
 import { useMutation } from 'react-query';

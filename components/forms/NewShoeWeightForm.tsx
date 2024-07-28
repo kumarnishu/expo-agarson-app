@@ -4,7 +4,7 @@ import { Button, Snackbar, Switch, Text, TextInput } from 'react-native-paper';
 import { useMutation } from 'react-query';
 import { AxiosResponse } from 'axios';
 import { BackendError } from '../..';
-import { IVisit } from '../../types/visit.types';
+import { IVisit } from '../../types/visit';
 import { MakeVisitIn } from '../../services/VisitServices';
 import { queryClient } from '../../app/_layout';
 import { ChoiceContext, VisitChoiceActions } from '../../contexts/ModalContext';

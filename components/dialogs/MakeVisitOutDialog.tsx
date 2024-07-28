@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import Dialog from '../styled/Dialog';
 import { ChoiceContext, VisitChoiceActions } from '../../contexts/ModalContext';
-import { IVisitReport } from '../../types/visit.types';
+import { IVisitReport } from '../../types/visit';
 import { useMutation } from 'react-query';
 import { AxiosResponse } from 'axios';
 import { BackendError } from '../..';

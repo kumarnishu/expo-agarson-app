@@ -6,7 +6,7 @@ import { Button, Snackbar, Switch, Text, TextInput } from 'react-native-paper';
 import { ActivityIndicator, MD2Colors } from 'react-native-paper';
 import { useMutation } from 'react-query';
 import { AxiosResponse } from 'axios';
-import { IVisitReport } from '../../types/visit.types';
+import { IVisitReport } from '../../types/visit';
 import { queryClient } from '../../app/_layout';
 import { AddVisitSummary } from '../../services/VisitServices';
 import { BackendError } from '../..';
@@ -57,11 +57,11 @@ const AddSummaryForm = ({ visit }: { visit: IVisitReport }) => {
             <Formik
                 initialValues={{
                     mobile: visit.mobile || "",
-                    summary: "NA",
+                    summary: "",
                     is_old_party: isOld,
-                    dealer_of: "NA",
-                    refs_given: "NA",
-                    turnover: "NA",
+                    dealer_of: "",
+                    refs_given: "",
+                    turnover: "",
                     reviews_taken: 0
                 }}
                 validationSchema={Schema}

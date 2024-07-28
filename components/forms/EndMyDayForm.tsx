@@ -6,7 +6,7 @@ import { EndMyDay } from '../../services/VisitServices';
 import { ChoiceContext, VisitChoiceActions } from '../../contexts/ModalContext';
 import { useMutation } from 'react-query';
 import { AxiosResponse } from 'axios';
-import { IVisit } from '../../types/visit.types';
+import { IVisit } from '../../types/visit';
 import { queryClient } from '../../app/_layout';
 import CameraComponent from '../Camera';
 import { LocationObject } from 'expo-location';
