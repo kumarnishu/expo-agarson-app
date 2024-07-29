@@ -1,16 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { ScrollView, SectionListComponent, TextInputComponent, View } from 'react-native';
 import { Button, Snackbar, Switch, Text, TextInput } from 'react-native-paper';
-import { useMutation } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { AxiosResponse } from 'axios';
 import { BackendError } from '../..';
 import { queryClient } from '../../app/_layout';
 import { ChoiceContext, VisitChoiceActions } from '../../contexts/ModalContext';
 import CameraComponent from '../Camera';
 import { CameraCapturedPicture } from 'expo-camera';
-import { IShoeWeight } from '../../types/production';
-import { CreateShoeWeight } from '../../services/ProductionServices';
-
+import { IArticle, IDye, IMachine, IShoeWeight } from '../../types/production';
+import { CreateShoeWeight, GetArticles, GetDyeById, GetDyes, GetMachines } from '../../services/ProductionServices';
+import { Picker } from '@react-native-picker/picker';
 
 const NewShoeWeightForm = () => {
     const [machine, setMachine] = React.useState("");
@@ -31,6 +31,11 @@ const NewShoeWeightForm = () => {
                 queryClient.invalidateQueries('shoe_weights')
             }
         })
+    const [dyeid, setDyeid] = useState<string>('');
+    const { data: dyedata, refetch: refetchDye } = useQuery<AxiosResponse<IDye>, BackendError>(["dye", dyeid], async () => GetDyeById(dyeid), { enabled: false })
+    const { data: dyes } = useQuery<AxiosResponse<IDye[]>, BackendError>("dyes", async () => GetDyes())
+    const { data: machines } = useQuery<AxiosResponse<IMachine[]>, BackendError>("machines", async () => GetMachines())
+    const { data: articles } = useQuery<AxiosResponse<IArticle[]>, BackendError>("articles", async () => GetArticles())
 
     useEffect(() => {
         if (isSuccess) {
@@ -73,7 +78,7 @@ const NewShoeWeightForm = () => {
         }
         submit()
     }
-
+    console.log(dyeid)
     return (
         <>
             <ScrollView contentContainerStyle={{ paddingTop: 60, justifyContent: 'center', padding: 10 }}>
@@ -104,7 +109,7 @@ const NewShoeWeightForm = () => {
                         onChangeText={(value) => setDye(value)}
 
                     />
-                  
+
                     <TextInput
                         mode="outlined"
                         keyboardType='numeric'
@@ -121,6 +126,30 @@ const NewShoeWeightForm = () => {
                         onChangeText={(value) => setWeight(value)}
 
                     />
+                    <TextInput
+                        mode="outlined"
+                        keyboardType='numeric'
+                        label="Weight"
+                        value={weight}
+                        onChangeText={(value) => setWeight(value)}
+
+                    />
+                    <Text style={{paddingLeft:5}}>Select Dye</Text>
+                    <Picker
+                        mode='dropdown'
+                        selectionColor={'blue'}
+                        dropdownIconColor={'blue'}
+                        style={{borderColor:'blue'}}
+                        selectedValue={dyeid}
+                        onValueChange={(itemValue) =>
+                            setDyeid(itemValue)
+                        }>
+                        {dyes && dyes.data.map((dye, index) => {
+                            return (
+                                <Picker.Item key={index} label={dye.dye_number.toString()} value={dye.dye_number} />
+                            )
+                        })}
+                    </Picker>
 
                     {!isLoading ? <Button
                         mode="contained"
@@ -130,7 +159,7 @@ const NewShoeWeightForm = () => {
                         <Text style={{ color: 'white', fontSize: 20 }}>Next</Text>
                     </Button> : null}
                 </View>
-            </ScrollView > 
+            </ScrollView >
             {validated && <CameraComponent photo={photo} setPhoto={setPhoto} isLoading={isLoading} handlePress={handleSubmit} />}
         </>
     )
