@@ -3,8 +3,8 @@ import Dialog from '../styled/Dialog';
 import { ChoiceContext, VisitChoiceActions } from '../../contexts/ModalContext';
 import UpdateSummaryForm from '../forms/UpdateSummaryForm';
 import { IVisitReport } from '../../types/visit';
-import { Text } from 'react-native-paper';
 import { GestureHandlerRootView, ScrollView } from 'react-native-gesture-handler';
+import { Text } from 'react-native';
 
 function UpdateSummaryDialog({ visit }: { visit: IVisitReport }) {
     const { choice, setChoice } = useContext(ChoiceContext)

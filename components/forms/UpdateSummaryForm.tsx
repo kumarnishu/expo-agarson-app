@@ -1,9 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import { Formik } from 'formik'
 import * as Yup from "yup";
-import { ScrollView, View } from 'react-native';
-import { Button, Snackbar, Switch, Text, TextInput } from 'react-native-paper';
-import { ActivityIndicator, MD2Colors } from 'react-native-paper';
+import { ActivityIndicator, Button, ScrollView, Switch, Text, TextInput, View } from 'react-native';
 import { useMutation } from 'react-query';
 import { AxiosResponse } from 'axios';
 import { IVisitReport } from '../../types/visit';
@@ -81,30 +79,20 @@ const UpdateSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                 {({ handleChange, handleBlur, handleSubmit, values }) => (
                     <>
                         <ScrollView contentContainerStyle={{ flex: 1, justifyContent: 'center', padding: 10 }}>
-                            <Snackbar
-                                visible={Boolean(error)}
-                                onDismiss={() => null}
-                                action={{
-                                    label: 'Undo',
-                                    onPress: () => {
-                                        null
-                                    },
-                                }}>
-                                {error && error.response.data.message || ""}
-                            </Snackbar>
+
 
                             <View style={{ flex: 1, gap: 15 }}>
                                 <TextInput
-                                    mode="outlined"
-                                    label="Party Mobile"
+
+                                    placeholder="Party Mobile"
                                     onChangeText={handleChange('mobile')}
                                     onBlur={handleBlur('mobile')}
                                     autoCapitalize='none'
                                     value={values.mobile}
                                 />
                                 <TextInput
-                                    mode="outlined"
-                                    label="Dealer Of"
+
+                                    placeholder="Dealer Of"
                                     onChangeText={handleChange('dealer_of')}
                                     onBlur={handleBlur('dealer_of')}
                                     autoCapitalize='none'
@@ -112,25 +100,25 @@ const UpdateSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                                 />
 
                                 <TextInput
-                                    mode="outlined"
-                                    label="Turn Over"
+
+                                    placeholder="Turn Over"
                                     onChangeText={handleChange('turnover')}
                                     onBlur={handleBlur('turnover')}
                                     autoCapitalize='none'
                                     value={values.turnover}
                                 />
                                 <TextInput
-                                    mode="outlined"
-                                    label="Refs Given"
+
+                                    placeholder="Refs Given"
                                     onChangeText={handleChange('refs_given')}
                                     onBlur={handleBlur('refs_given')}
                                     autoCapitalize='none'
                                     value={values.refs_given}
                                 />
                                 <TextInput
-                                    mode="outlined"
+
                                     keyboardType='numeric'
-                                    label="Google Review Taken"
+                                    placeholder="Google Review Taken"
                                     onChangeText={handleChange('reviews_taken')}
                                     onBlur={handleBlur('reviews_taken')}
                                     autoCapitalize='none'
@@ -145,10 +133,10 @@ const UpdateSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                                 </View>
 
                                 <TextInput
-                                    mode="outlined"
+
                                     multiline
                                     numberOfLines={4}
-                                    label="Summary"
+                                    placeholder="Summary"
                                     onChangeText={handleChange('summary')}
                                     onBlur={handleBlur('summary')}
                                     autoCapitalize='none'
@@ -156,11 +144,9 @@ const UpdateSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                                 />
                                 {isLoading && <ActivityIndicator size={'large'} animating={true} />}
                                 {<Button
-                                    mode="contained"
+                                    title='Update'
                                     disabled={isLoading}
-                                    style={{ padding: 10, borderRadius: 10 }}
                                     onPress={() => handleSubmit()}>
-                                    <Text style={{ color: 'white', fontSize: 16 }}>Update</Text>
                                 </Button>}
                             </View>
                         </ScrollView>

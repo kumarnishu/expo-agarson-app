@@ -7,8 +7,7 @@ import { AxiosResponse } from 'axios';
 import { BackendError } from '../..';
 import { MakeVisitOut } from '../../services/VisitServices';
 import { queryClient } from '../../app/_layout';
-import { View } from 'react-native';
-import { ActivityIndicator, Button, Text } from 'react-native-paper';
+import { ActivityIndicator, Button, Text, View } from 'react-native';
 import { LocationObject } from "expo-location";
 import * as Location from "expo-location"
 
@@ -16,7 +15,7 @@ function MakeVisitOutDialog({ visit }: { visit: IVisitReport }) {
     const { choice, setChoice } = useContext(ChoiceContext)
     const [location, setLocation] = useState<LocationObject>();
 
-   
+
 
     const { mutate, isLoading } = useMutation
         <AxiosResponse<any>, BackendError, {
@@ -74,9 +73,8 @@ function MakeVisitOutDialog({ visit }: { visit: IVisitReport }) {
 
                     <Text style={{ fontWeight: 'bold', fontSize: 25 }}>{visit.party_name}</Text>
                     < Button
-                        mode='outlined'
                         disabled={isLoading}
-                        style={{ width: '100%' }}
+                        title='VISIT OUT'
                         onPress={
                             () => {
                                 handleSubmit()
@@ -84,9 +82,8 @@ function MakeVisitOutDialog({ visit }: { visit: IVisitReport }) {
                             }
                         }
                     >
-                        {isLoading?<ActivityIndicator size="large"/>:
-                        <Text style={{ padding: 10, fontSize: 20, fontWeight: 'bold' }}> VISIT OUT</Text>}
                     </Button>
+                        {isLoading && <ActivityIndicator size="large" />}
                 </View >
             </Dialog>
         </>

@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { ScrollView, SectionListComponent, TextInputComponent, View } from 'react-native';
-import { Button, Snackbar, Switch, Text, TextInput } from 'react-native-paper';
+import { Button, ScrollView, SectionListComponent, Text, TextInput, TextInputComponent, View } from 'react-native';
 import { useMutation, useQuery } from 'react-query';
 import { AxiosResponse } from 'axios';
 import { BackendError } from '../..';
@@ -82,64 +81,52 @@ const NewShoeWeightForm = () => {
     return (
         <>
             <ScrollView contentContainerStyle={{ paddingTop: 60, justifyContent: 'center', padding: 10 }}>
-                <Snackbar
-                    visible={Boolean(error)}
-                    onDismiss={() => null}
-                    action={{
-                        label: 'Undo',
-                        onPress: () => {
-                            null
-                        },
-                    }}>
-                    {error && error.response.data.message || ""}
-                </Snackbar>
-
                 <View style={{ flex: 1, gap: 15 }}>
-                    <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 20, paddingBottom: 10 }}>New Shoe Weight</Text>
+                    <Text>New Shoe Weight</Text>
                     <TextInput
-                        mode="outlined"
-                        label="Machine"
+
+                        placeholder="Machine"
                         value={machine}
                         onChangeText={(value) => setMachine(value)}
                     />
                     <TextInput
-                        mode="outlined"
-                        label="Dye"
+
+                        placeholder="Dye"
                         value={dye}
                         onChangeText={(value) => setDye(value)}
 
                     />
 
                     <TextInput
-                        mode="outlined"
+
                         keyboardType='numeric'
-                        label="Std. Weight"
+                        placeholder="Std. Weight"
                         value={st_weight}
                         onChangeText={(value) => setStWeight(value)}
 
                     />
                     <TextInput
-                        mode="outlined"
+
                         keyboardType='numeric'
-                        label="Weight"
+                        placeholder="Weight"
                         value={weight}
                         onChangeText={(value) => setWeight(value)}
 
                     />
                     <TextInput
-                        mode="outlined"
+
                         keyboardType='numeric'
-                        label="Weight"
+                        placeholder="Weight"
                         value={weight}
                         onChangeText={(value) => setWeight(value)}
 
                     />
-                    <Text style={{paddingLeft:5}}>Select Dye</Text>
+                    <Text style={{ paddingLeft: 5 }}>Select Dye</Text>
                     <Picker
                         mode='dropdown'
                         selectionColor={'blue'}
                         dropdownIconColor={'blue'}
-                        style={{borderColor:'blue'}}
+                        style={{ borderColor: 'blue' }}
                         selectedValue={dyeid}
                         onValueChange={(itemValue) =>
                             setDyeid(itemValue)
@@ -152,11 +139,9 @@ const NewShoeWeightForm = () => {
                     </Picker>
 
                     {!isLoading ? <Button
-                        mode="contained"
+                        title="Next"
                         disabled={isLoading}
-                        style={{ padding: 10, borderRadius: 10 }}
                         onPress={handleValidation} >
-                        <Text style={{ color: 'white', fontSize: 20 }}>Next</Text>
                     </Button> : null}
                 </View>
             </ScrollView >

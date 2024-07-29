@@ -8,6 +8,20 @@ export const CreateShoeWeight = async ({ body }: { body: FormData }) => {
     })
 }
 
+export const UpdateShoeWeight2 = async ({ id, body }: { id: string, body: FormData }) => {
+    return await apiClient.put(`weights2/${id}`, body, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    });
+}
+export const UpdateShoeWeight3 = async ({ id, body }: { id: string, body: FormData }) => {
+    return await apiClient.put(`weights3/${id}`, body, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    });
+}
 
 export const GetMachines = async () => {
     return await apiClient.get(`machines`);

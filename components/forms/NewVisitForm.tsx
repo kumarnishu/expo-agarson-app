@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { ScrollView, View } from 'react-native';
-import { Button, Snackbar, Switch, Text, TextInput } from 'react-native-paper';
+import { Button, ScrollView, Switch, Text, TextInput, View } from 'react-native';
 import { useMutation } from 'react-query';
 import { AxiosResponse } from 'axios';
 import { BackendError } from '../..';
@@ -78,37 +77,26 @@ const NewVisitForm = ({ visit, location }: { visit: IVisit, location: LocationOb
     return (
         <>
             {display ? <ScrollView contentContainerStyle={{ paddingTop: 60, justifyContent: 'center', padding: 10 }}>
-                <Snackbar
-                    visible={Boolean(error)}
-                    onDismiss={() => null}
-                    action={{
-                        label: 'Undo',
-                        onPress: () => {
-                            null
-                        },
-                    }}>
-                    {error && error.response.data.message || ""}
-                </Snackbar>
+
 
                 <View style={{ flex: 1, gap: 15 }}>
-                    <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 20, paddingBottom: 10 }}>NEW VISIT DETAILS</Text>
+                    <Text>NEW VISIT DETAILS</Text>
                     <TextInput
-                        mode="outlined"
-                        label="Party name"
+                        placeholder="Party name"
                         value={party}
                         onChangeText={(value) => setParty(value)}
                     />
                     <TextInput
-                        mode="outlined"
-                        label="City"
+
+                        placeholder="City"
                         value={city}
                         onChangeText={(value) => setCity(value)}
 
                     />
                     <TextInput
-                        mode="outlined"
+
                         keyboardType='numeric'
-                        label="Mobile"
+                        placeholder="Mobile"
                         value={mobile}
                         onChangeText={(value) => setMobile(value)}
 
@@ -120,11 +108,9 @@ const NewVisitForm = ({ visit, location }: { visit: IVisit, location: LocationOb
                         />
                     </View>
                     {!isLoading ? <Button
-                        mode="contained"
+                        title="Done"
                         disabled={isLoading}
-                        style={{ padding: 10, borderRadius: 10 }}
                         onPress={handleValidation} >
-                        <Text style={{ color: 'white', fontSize: 20 }}>Done</Text>
                     </Button> : null}
                 </View>
             </ScrollView > : null}

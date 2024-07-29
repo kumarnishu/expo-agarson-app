@@ -1,9 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import { Formik } from 'formik'
 import * as Yup from "yup";
-import { ScrollView, View } from 'react-native';
-import { Button, Snackbar, Switch, Text, TextInput } from 'react-native-paper';
-import { ActivityIndicator, MD2Colors } from 'react-native-paper';
+import { Alert, Button, ScrollView, Switch, Text, TextInput, View } from 'react-native';
 import { useMutation } from 'react-query';
 import { AxiosResponse } from 'axios';
 import { IVisitReport } from '../../types/visit';
@@ -82,22 +80,11 @@ const AddSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                 {({ handleChange, handleBlur, handleSubmit, values }) => (
                     <>
                         <ScrollView contentContainerStyle={{ flex: 1, justifyContent: 'center', padding: 10 }}>
-                            <Snackbar
-                                visible={Boolean(error)}
-                                onDismiss={() => null}
-                                action={{
-                                    label: 'Undo',
-                                    onPress: () => {
-                                        null
-                                    },
-                                }}>
-                                {error && error.response.data.message || ""}
-                            </Snackbar>
+
 
                             <View style={{ flex: 1, gap: 15 }}>
                                 <TextInput
-                                    mode="outlined"
-                                    label="Party Mobile"
+                                    placeholder="Party Mobile"
                                     onChangeText={handleChange('mobile')}
                                     onBlur={handleBlur('mobile')}
                                     autoCapitalize='none'
@@ -105,8 +92,7 @@ const AddSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                                 />
 
                                 <TextInput
-                                    mode="outlined"
-                                    label="Dealer Of"
+                                    placeholder="Dealer Of"
                                     onChangeText={handleChange('dealer_of')}
                                     onBlur={handleBlur('dealer_of')}
                                     autoCapitalize='none'
@@ -114,25 +100,22 @@ const AddSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                                 />
 
                                 <TextInput
-                                    mode="outlined"
-                                    label="Turn Over"
+                                    placeholder="Turn Over"
                                     onChangeText={handleChange('turnover')}
                                     onBlur={handleBlur('turnover')}
                                     autoCapitalize='none'
                                     value={values.turnover}
                                 />
                                 <TextInput
-                                    mode="outlined"
-                                    label="Refs Given"
+                                    placeholder="Refs Given"
                                     onChangeText={handleChange('refs_given')}
                                     onBlur={handleBlur('refs_given')}
                                     autoCapitalize='none'
                                     value={values.refs_given}
                                 />
                                 <TextInput
-                                    mode="outlined"
                                     keyboardType='numeric'
-                                    label="Google Review Taken"
+                                    placeholder="Google Review Taken"
                                     onChangeText={handleChange('reviews_taken')}
                                     onBlur={handleBlur('reviews_taken')}
                                     autoCapitalize='none'
@@ -140,30 +123,27 @@ const AddSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                                     value={String(values.reviews_taken)}
                                 />
                                 <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
-                                    <Text style={{ fontWeight: 'bold', marginLeft: 10 }}>IS OLD PARTY ?</Text>
+                                    <Text>IS OLD PARTY ?</Text>
                                     <Switch
                                         value={isOld} onValueChange={() => setIsOld(!isOld)}
                                     />
                                 </View>
 
                                 <TextInput
-                                    mode="outlined"
                                     multiline
                                     numberOfLines={4}
-                                    label="Summary"
+                                    placeholder="Summary"
                                     onChangeText={handleChange('summary')}
                                     onBlur={handleBlur('summary')}
                                     autoCapitalize='none'
                                     value={values.summary}
                                 />
-                                {isLoading && <ActivityIndicator size={'large'} animating={true} />}
-                                {<Button
-                                    mode="contained"
+
+                                <Button
+                                    title="Submit"
                                     disabled={isLoading}
-                                    style={{ padding: 10, borderRadius: 10 }}
                                     onPress={() => handleSubmit()}>
-                                    <Text style={{ color: 'white', }}>Submit</Text>
-                                </Button>}
+                                </Button>
                             </View>
                         </ScrollView>
                     </>

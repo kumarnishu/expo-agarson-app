@@ -2,8 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../../contexts/UserContext'
 import { paths } from '../../utils/paths'
 import { GestureHandlerRootView, ScrollView } from 'react-native-gesture-handler'
-import { Divider, MD2Colors, Text } from 'react-native-paper'
-import { View } from 'react-native'
+import { Text, View } from 'react-native'
 import { Link } from 'expo-router'
 
 
@@ -23,11 +22,10 @@ const Dashboard = () => {
         {
           features.map((feat, index) => {
             return (
-              <View key={index} style={{ flex: 1, borderRadius: 5, backgroundColor: MD2Colors.white }}>
+              <View key={index} style={{ flex: 1, borderRadius: 5}}>
                 <Link style={{ flex: 1, paddingTop: 20, paddingBottom: 20, paddingLeft: 10, fontSize: 10,textShadowRadius:2,textShadowColor:'black' }} href={feat.url}>
-                  <Text variant='displaySmall'>{feat.feature.toUpperCase()}</Text>
+                  <Text>{feat.feature.toUpperCase()}</Text>
                 </Link>
-                <Divider />
               </View >
             )
           })

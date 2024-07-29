@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../contexts/UserContext';
 import { Login } from '../services/UserServices';
-import { Image, ScrollView, View } from 'react-native';
-import { Button, MD2Colors, Snackbar, Text, TextInput } from 'react-native-paper';
+import { Button, Image, ScrollView, Text, TextInput, View } from 'react-native';
 import { useMutation } from 'react-query';
 import { AxiosResponse } from 'axios';
 import { IUser } from '../types/user';
@@ -52,17 +51,17 @@ const LoginScreen = () => {
   
   return (
     <>
-      <Snackbar
+      {/* <Snackbar
         visible={Boolean(error)}
         onDismiss={() => null}
-        action={{
-          label: 'Undo',
+        act
+          placeholder: 'Undo',
           onPress: () => {
             null
           },
         }}>
         {error && error.response.data.message || ""}
-      </Snackbar>
+      </Snackbar> */}
       <ScrollView contentContainerStyle={{ flex: 1, gap: 15, justifyContent: 'flex-start', padding: 10, marginTop: 40 }}>
         <View style={{ alignItems: 'center', marginBottom: 50 }}>
           <Image style={{ height: 150, width: 150 }} source={require("../assets/icon.png")} />
@@ -70,19 +69,17 @@ const LoginScreen = () => {
         </View>
 
         <TextInput
-          mode="outlined"
-          style={{ borderRadius: 10, borderWidth: 1, borderColor: MD2Colors.blue400, paddingTop: 5 }}
-          outlineStyle={{ display: 'none' }}
-          label="Username,email or mobile"
+          
+          style={{ borderRadius: 10, borderWidth: 1, paddingTop: 5 }}
+          placeholder="Username,email or mobile"
           autoCapitalize='none'
           onChangeText={(text) => setUsername(text)}
           value={username}
         />
         <TextInput
-          mode="outlined"
-          style={{ borderRadius: 10, borderWidth: 1, borderColor: MD2Colors.blue400, paddingTop: 5 }}
-          outlineStyle={{ display: 'none' }}
-          label='Password'
+          
+          style={{ borderRadius: 10, borderWidth: 1, paddingTop: 5 }}
+          placeholder='Password'
           autoCorrect={false}
           autoCapitalize='none'
           secureTextEntry={true}
@@ -91,11 +88,9 @@ const LoginScreen = () => {
         />
 
         {<Button
-          mode="contained"
+          title={!isLoading ? "SIGN IN" : "LOGGING IN ..."}
           disabled={isLoading}
-          style={{ borderRadius: 10, marginTop: 10, padding: 10 }}
           onPress={() => handleSubmit()}>
-          {!isLoading ? "SIGN IN" : "LOGGING IN ..."}
         </Button>}
       </ScrollView>
     </>
