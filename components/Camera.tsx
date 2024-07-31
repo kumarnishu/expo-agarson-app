@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { ActivityIndicator, Button, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Button, Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { CameraView, CameraType, useCameraPermissions, CameraCapturedPicture, Camera } from 'expo-camera';
+import { MaterialIcons } from '@expo/vector-icons';
 
 type Props = {
     isLoading: boolean,
@@ -31,7 +32,7 @@ function CameraComponent({ isLoading, handlePress, photo, setPhoto }: Props) {
     return (
         <>
 
-            {!permission?.granted && <Text style={{ color: 'red' }}>Please Allow camera Access</Text>}
+            {!permission?.granted && <Text style={style.errorText}>Please Allow camera Access</Text>}
             {isLoading ? <ActivityIndicator style={{ paddingTop: 40 }} size={'large'} animating={true} /> :
                 <>
                     {photo ?
@@ -40,18 +41,22 @@ function CameraComponent({ isLoading, handlePress, photo, setPhoto }: Props) {
                             <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-evenly', position: 'absolute', bottom: 0 }}>
                                 {isLoading && <ActivityIndicator size="large" />}
                                 {!isLoading && <TouchableOpacity>
-                                    <Button
-                                        title="save"
+                                    <Pressable
+                                        style={style.iconbutton}
                                         disabled={isLoading}
                                         onPress={handlePress}
-                                    />
+                                    >
+                                        <MaterialIcons color={'white'} name="save" size={40} />
+                                    </Pressable>
                                 </TouchableOpacity>}
                                 {!isLoading && <TouchableOpacity>
-                                    <Button
+                                    <Pressable
+                                        style={style.iconbutton}
                                         disabled={isLoading}
-                                        title="reset"
                                         onPress={() => setPhoto(undefined)}
-                                    />
+                                    >
+                                        <MaterialIcons color={'white'} name="clear" size={40} />
+                                    </Pressable>
                                 </TouchableOpacity>}
                             </View>
                         </>
@@ -61,7 +66,7 @@ function CameraComponent({ isLoading, handlePress, photo, setPhoto }: Props) {
 
                             <CameraView
                                 ref={cameraRef}
-                                style={styles.camera} facing={facing}
+                                style={style.camera} facing={facing}
                                 zoom={zoom}
                                 enableTorch={enableTorch}
                             />
@@ -69,20 +74,21 @@ function CameraComponent({ isLoading, handlePress, photo, setPhoto }: Props) {
 
                             <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-evenly', position: 'absolute', bottom: 0 }}>
                                 <TouchableOpacity>
-                                    <Button
-                                        title="flip"
+                                    <Pressable
+                                        style={style.iconbutton}
                                         disabled={isLoading}
                                         onPress={() => {
                                             setFacing(facing => (facing === 'back' ? 'front' : 'back'));
                                         }}
-                                    />
+                                    >
+                                        <MaterialIcons color={'white'} name="sync" size={40} />
+                                    </Pressable>
                                 </TouchableOpacity>
 
-
                                 <TouchableOpacity>
-                                    <Button
+                                    <Pressable
+                                        style={style.iconbutton}
                                         disabled={isLoading}
-                                        title={!enableTorch ? "On" : "Off"}
                                         onPress={() => {
                                             if (!enableTorch) {
                                                 setEnableTorch(true);
@@ -90,40 +96,20 @@ function CameraComponent({ isLoading, handlePress, photo, setPhoto }: Props) {
                                                 setEnableTorch(false);
                                             }
                                         }}
-                                    />
+                                    >
+                                        <MaterialIcons color={'white'} name={enableTorch ? "flashlight-off" :"flashlight-on"} size={40} />
+                                    </Pressable>
                                 </TouchableOpacity>
+                       
                                 <TouchableOpacity>
-                                    <Button
-                                        disabled={isLoading || zoom === 1}
-                                        title="zoom"
-                                        onPress={() => {
-                                            if (zoom > 0.9)
-                                                setZoom(1)
-                                            else
-                                                setZoom(zoom + 0.1 * 1)
-                                        }}
-                                    />
-                                </TouchableOpacity>
-                                <TouchableOpacity>
-                                    <Button
-                                        disabled={isLoading || zoom === 0}
-                                        title="zoom"
-                                        onPress={() => {
-                                            if (zoom < 0.1)
-                                                setZoom(0)
-                                            else
-                                                setZoom(zoom - 0.1 * 1)
-                                        }}
-                                    />
-                                </TouchableOpacity>
-                                <TouchableOpacity>
-                                    <Button
+                                    <Pressable
+                                        style={style.iconbutton}
                                         disabled={isLoading}
-                                        title="click"
                                         onPress={onClickPicure}
-                                    />
+                                    >
+                                        <MaterialIcons color={'white'} name="camera" size={40} />
+                                    </Pressable>
                                 </TouchableOpacity>
-
                             </View>
                         </>
                     }
@@ -133,34 +119,48 @@ function CameraComponent({ isLoading, handlePress, photo, setPhoto }: Props) {
         </>
     )
 }
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
+const style = StyleSheet.create({
+    camera: { flex: 1 },
+    textinput: {
+        marginHorizontal: 15,
+        marginVertical: 5,
+        padding: 10,
+        borderWidth: 1,
+        borderRadius: 10,
     },
-    message: {
-        textAlign: 'center',
-        paddingBottom: 10,
-    },
-    camera: {
+    label: {
+        padding: 2,
+        marginHorizontal: 15,
+        marginVertical: 5,
         flex: 1,
+        textTransform: 'capitalize'
     },
-    buttonContainer: {
-        flex: 1,
-        flexDirection: 'row',
-        backgroundColor: 'transparent',
-        margin: 64,
+    iconbutton: {
+        padding: 10,
+        margin:10,
+        backgroundColor: 'blue',
+        color: 'white',
+        borderRadius: 50,
+        borderWidth: 1,
+        borderColor: 'white'
     },
     button: {
-        flex: 1,
-        alignSelf: 'flex-end',
-        alignItems: 'center',
+        padding: 10,
+        backgroundColor: 'blue',
     },
-    text: {
-        fontSize: 24,
-        fontWeight: 'bold',
+    buttontext: {
+        padding: 10,
         color: 'white',
+        textAlign: 'center',
+        fontSize: 25
     },
-});
+    errorText: {
+        padding: 10,
+        color: 'red',
+        textAlign: 'center',
+        fontSize: 25
+    }
+})
+
 
 export default CameraComponent

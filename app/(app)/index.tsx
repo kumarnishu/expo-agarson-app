@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../../contexts/UserContext'
 import { paths } from '../../utils/paths'
 import { GestureHandlerRootView, ScrollView } from 'react-native-gesture-handler'
-import { Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { Link } from 'expo-router'
 
 
@@ -22,11 +22,9 @@ const Dashboard = () => {
         {
           features.map((feat, index) => {
             return (
-              <View key={index} style={{ flex: 1, borderRadius: 5}}>
-                <Link style={{ flex: 1, paddingTop: 20, paddingBottom: 20, paddingLeft: 10, fontSize: 10,textShadowRadius:2,textShadowColor:'black' }} href={feat.url}>
-                  <Text>{feat.feature.toUpperCase()}</Text>
-                </Link>
-              </View >
+              <Link key={index} style={style.button} href={feat.url}>
+                <Text style={style.buttontext}>{feat.feature.toUpperCase()}</Text>
+              </Link>
             )
           })
         }
@@ -35,4 +33,16 @@ const Dashboard = () => {
   )
 }
 
+const style = StyleSheet.create({
+  button: {
+    flex: 1, paddingTop: 50,marginLeft:10,
+    backgroundColor:'white',
+    borderBottomWidth:1
+  },
+  buttontext: {
+    fontSize: 40,
+    fontWeight:'bold',
+    margin:10
+  }
+})
 export default Dashboard

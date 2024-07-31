@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Button, ScrollView, Switch, Text, TextInput, View } from 'react-native';
+import { Button, Pressable, ScrollView, StyleSheet, Switch, Text, TextInput, View } from 'react-native';
 import { useMutation } from 'react-query';
 import { AxiosResponse } from 'axios';
 import { BackendError } from '../..';
@@ -80,38 +80,48 @@ const NewVisitForm = ({ visit, location }: { visit: IVisit, location: LocationOb
 
 
                 <View style={{ flex: 1, gap: 15 }}>
-                    <Text>NEW VISIT DETAILS</Text>
+                    <Text style={style.heding}>NEW VISIT DETAILS</Text>
                     <TextInput
+                        style={style.textinput}
                         placeholder="Party name"
                         value={party}
                         onChangeText={(value) => setParty(value)}
                     />
                     <TextInput
-
+                        style={style.textinput}
                         placeholder="City"
                         value={city}
                         onChangeText={(value) => setCity(value)}
 
                     />
                     <TextInput
-
+                        style={style.textinput}
                         keyboardType='numeric'
                         placeholder="Mobile"
                         value={mobile}
                         onChangeText={(value) => setMobile(value)}
 
                     />
-                    <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
-                        <Text style={{ fontWeight: 'bold', marginLeft: 10 }}>IS OLD PARTY ?</Text>
-                        <Switch
+                    <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center',margin:5 }}>
+                        <Text style={style.label}>IS OLD PARTY ?</Text>
+                        <Switch style={{height:50}}
                             value={isOld} onValueChange={() => setIsOld(!isOld)}
                         />
                     </View>
-                    {!isLoading ? <Button
-                        title="Done"
-                        disabled={isLoading}
-                        onPress={handleValidation} >
-                    </Button> : null}
+                   
+
+                    {!isLoading ? < Pressable
+                        style={style.button}
+                        disabled={isLoading || Boolean(visit.end_day_credentials) || visit.visit_reports.filter((report) => {
+                            if (!Boolean(report.visit_out_credentials))
+                                return report
+                        }).length > 0}
+                        onPress={
+                            handleValidation
+                        }
+                    >
+                        <Text style={style.buttontext}>Submit</Text>
+                    </Pressable> : null}
                 </View>
             </ScrollView > : null}
             {!display && location && <CameraComponent photo={photo} setPhoto={setPhoto} isLoading={isLoading} handlePress={handleSubmit} />}
@@ -119,6 +129,45 @@ const NewVisitForm = ({ visit, location }: { visit: IVisit, location: LocationOb
     )
 }
 
-
+const style = StyleSheet.create({
+    textinput: {
+        marginHorizontal: 15,
+        marginVertical: 5,
+        padding: 10,
+        fontSize: 20,
+        borderWidth: 1,
+        borderRadius: 10,
+    },
+    label: {
+        marginHorizontal: 15,
+        fontSize: 25,
+        marginVertical: 2,
+        textTransform: 'capitalize'
+    },
+    button: {
+        padding: 10,
+        marginHorizontal: 15,
+        marginVertical: 5,
+        backgroundColor: 'blue',
+        borderRadius: 5
+    },
+    buttontext: {
+        padding: 5,
+        color: 'white',
+        textAlign: 'center',
+        fontSize: 20,
+        fontWeight: 'bold'
+    },
+    heding: {
+        padding: 5,
+        textAlign: 'center',
+        fontSize: 30,
+        fontWeight: 'bold'
+    },
+    switch:{
+        fontSize: 30,
+        fontWeight: 'bold'
+    }
+})
 
 export default NewVisitForm

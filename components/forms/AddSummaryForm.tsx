@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import { Formik } from 'formik'
 import * as Yup from "yup";
-import { Alert, Button, ScrollView, Switch, Text, TextInput, View } from 'react-native';
+import { Alert, Button, Pressable, ScrollView, StyleSheet, Switch, Text, TextInput, View } from 'react-native';
 import { useMutation } from 'react-query';
 import { AxiosResponse } from 'axios';
 import { IVisitReport } from '../../types/visit';
@@ -84,6 +84,7 @@ const AddSummaryForm = ({ visit }: { visit: IVisitReport }) => {
 
                             <View style={{ flex: 1, gap: 15 }}>
                                 <TextInput
+                                    style={style.textinput}
                                     placeholder="Party Mobile"
                                     onChangeText={handleChange('mobile')}
                                     onBlur={handleBlur('mobile')}
@@ -92,6 +93,7 @@ const AddSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                                 />
 
                                 <TextInput
+                                    style={style.textinput}
                                     placeholder="Dealer Of"
                                     onChangeText={handleChange('dealer_of')}
                                     onBlur={handleBlur('dealer_of')}
@@ -100,6 +102,7 @@ const AddSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                                 />
 
                                 <TextInput
+                                    style={style.textinput}
                                     placeholder="Turn Over"
                                     onChangeText={handleChange('turnover')}
                                     onBlur={handleBlur('turnover')}
@@ -107,6 +110,7 @@ const AddSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                                     value={values.turnover}
                                 />
                                 <TextInput
+                                    style={style.textinput}
                                     placeholder="Refs Given"
                                     onChangeText={handleChange('refs_given')}
                                     onBlur={handleBlur('refs_given')}
@@ -114,6 +118,7 @@ const AddSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                                     value={values.refs_given}
                                 />
                                 <TextInput
+                                    style={style.textinput}
                                     keyboardType='numeric'
                                     placeholder="Google Review Taken"
                                     onChangeText={handleChange('reviews_taken')}
@@ -123,13 +128,14 @@ const AddSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                                     value={String(values.reviews_taken)}
                                 />
                                 <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
-                                    <Text>IS OLD PARTY ?</Text>
+                                    <Text style={style.label}>IS OLD PARTY ?</Text>
                                     <Switch
                                         value={isOld} onValueChange={() => setIsOld(!isOld)}
                                     />
                                 </View>
 
                                 <TextInput
+                                    style={style.textinput}
                                     multiline
                                     numberOfLines={4}
                                     placeholder="Summary"
@@ -138,12 +144,14 @@ const AddSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                                     autoCapitalize='none'
                                     value={values.summary}
                                 />
-
-                                <Button
-                                    title="Submit"
+                                < Pressable
+                                    style={style.button}
                                     disabled={isLoading}
-                                    onPress={() => handleSubmit()}>
-                                </Button>
+                                    onPress={() => handleSubmit()}
+                                >
+                                    <Text style={style.buttontext}>Submit</Text>
+                                </Pressable>
+                             
                             </View>
                         </ScrollView>
                     </>
@@ -152,6 +160,47 @@ const AddSummaryForm = ({ visit }: { visit: IVisitReport }) => {
         </>
     )
 }
+
+const style = StyleSheet.create({
+    textinput: {
+        marginHorizontal: 15,
+        marginVertical: 5,
+        padding: 10,
+        fontSize: 20,
+        borderWidth: 1,
+        borderRadius: 10,
+    },
+    label: {
+        marginHorizontal: 15,
+        fontSize: 25,
+        marginVertical: 2,
+        textTransform: 'capitalize'
+    },
+    button: {
+        padding: 10,
+        marginHorizontal: 15,
+        marginVertical: 5,
+        backgroundColor: 'blue',
+        borderRadius: 5
+    },
+    buttontext: {
+        padding: 5,
+        color: 'white',
+        textAlign: 'center',
+        fontSize: 20,
+        fontWeight: 'bold'
+    },
+    heding: {
+        padding: 5,
+        textAlign: 'center',
+        fontSize: 30,
+        fontWeight: 'bold'
+    },
+    switch: {
+        fontSize: 30,
+        fontWeight: 'bold'
+    }
+})
 
 
 

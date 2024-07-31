@@ -13,7 +13,13 @@ function AddSummaryDialog({ visit }: { visit: IVisitReport }) {
         >
             <GestureHandlerRootView>
                 <ScrollView>
-                    <Text style={{ textAlign: 'center', paddingTop: 20, fontWeight: 'bold', fontSize: 20 }}>{visit.party_name}</Text>
+                    <Text style={{
+                        padding: 5,
+                        textAlign: 'center',
+                        fontSize: 30,
+                        textTransform:'capitalize',
+                        fontWeight: 'bold'
+                    }}>{visit.party_name}</Text>
                     <AddSummaryForm visit={visit} />
                 </ScrollView>
             </GestureHandlerRootView>

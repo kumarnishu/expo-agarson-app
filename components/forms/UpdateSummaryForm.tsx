@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import { Formik } from 'formik'
 import * as Yup from "yup";
-import { ActivityIndicator, Button, ScrollView, Switch, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, Button, Pressable, ScrollView, StyleSheet, Switch, Text, TextInput, View } from 'react-native';
 import { useMutation } from 'react-query';
 import { AxiosResponse } from 'axios';
 import { IVisitReport } from '../../types/visit';
@@ -82,41 +82,45 @@ const UpdateSummaryForm = ({ visit }: { visit: IVisitReport }) => {
 
 
                             <View style={{ flex: 1, gap: 15 }}>
+                                <Text style={style.label}>Party Mobile</Text>
                                 <TextInput
-
+                                    style={style.textinput}
                                     placeholder="Party Mobile"
                                     onChangeText={handleChange('mobile')}
                                     onBlur={handleBlur('mobile')}
                                     autoCapitalize='none'
                                     value={values.mobile}
                                 />
+                                <Text style={style.label}>Dealer of</Text>
                                 <TextInput
-
+                                    style={style.textinput}
                                     placeholder="Dealer Of"
                                     onChangeText={handleChange('dealer_of')}
                                     onBlur={handleBlur('dealer_of')}
                                     autoCapitalize='none'
                                     value={values.dealer_of}
                                 />
-
+                                <Text style={style.label}>Turn Over</Text>
                                 <TextInput
-
+                                    style={style.textinput}
                                     placeholder="Turn Over"
                                     onChangeText={handleChange('turnover')}
                                     onBlur={handleBlur('turnover')}
                                     autoCapitalize='none'
                                     value={values.turnover}
                                 />
+                                <Text style={style.label}>Refs Given</Text>
                                 <TextInput
-
+                                    style={style.textinput}
                                     placeholder="Refs Given"
                                     onChangeText={handleChange('refs_given')}
                                     onBlur={handleBlur('refs_given')}
                                     autoCapitalize='none'
                                     value={values.refs_given}
                                 />
+                                <Text style={style.label}>Google Review Taken</Text>
                                 <TextInput
-
+                                    style={style.textinput}
                                     keyboardType='numeric'
                                     placeholder="Google Review Taken"
                                     onChangeText={handleChange('reviews_taken')}
@@ -126,14 +130,14 @@ const UpdateSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                                     value={String(values.reviews_taken)}
                                 />
                                 <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
-                                    <Text style={{ fontWeight: 'bold', marginLeft: 10 }}>IS OLD PARTY ?</Text>
+                                    <Text style={style.label}>IS OLD PARTY ?</Text>
                                     <Switch
                                         value={isOld} onValueChange={() => setIsOld(!isOld)}
                                     />
                                 </View>
 
                                 <TextInput
-
+                                    style={style.textinput}
                                     multiline
                                     numberOfLines={4}
                                     placeholder="Summary"
@@ -143,11 +147,14 @@ const UpdateSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                                     value={values.summary}
                                 />
                                 {isLoading && <ActivityIndicator size={'large'} animating={true} />}
-                                {<Button
-                                    title='Update'
+                                < Pressable
+                                    style={style.button}
                                     disabled={isLoading}
-                                    onPress={() => handleSubmit()}>
-                                </Button>}
+                                    onPress={() => handleSubmit()}
+                                >
+                                    <Text style={style.buttontext}>Update</Text>
+                                </Pressable>
+
                             </View>
                         </ScrollView>
                     </>
@@ -158,5 +165,43 @@ const UpdateSummaryForm = ({ visit }: { visit: IVisitReport }) => {
 }
 
 
-
+const style = StyleSheet.create({
+    textinput: {
+        marginHorizontal: 15,
+        marginVertical: 2,
+        padding: 10,
+        fontSize: 20,
+        borderWidth: 1,
+        borderRadius: 10,
+    },
+    label: {
+        marginHorizontal: 15,
+        fontSize: 15,
+        textTransform: 'capitalize'
+    },
+    button: {
+        padding: 10,
+        marginHorizontal: 15,
+        marginVertical: 5,
+        backgroundColor: 'blue',
+        borderRadius: 5
+    },
+    buttontext: {
+        padding: 5,
+        color: 'white',
+        textAlign: 'center',
+        fontSize: 20,
+        fontWeight: 'bold'
+    },
+    heding: {
+        padding: 5,
+        textAlign: 'center',
+        fontSize: 30,
+        fontWeight: 'bold'
+    },
+    switch: {
+        fontSize: 30,
+        fontWeight: 'bold'
+    }
+})
 export default UpdateSummaryForm

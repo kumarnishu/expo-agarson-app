@@ -7,7 +7,7 @@ import { AxiosResponse } from 'axios';
 import { BackendError } from '../..';
 import { MakeVisitOut } from '../../services/VisitServices';
 import { queryClient } from '../../app/_layout';
-import { ActivityIndicator, Button, Text, View } from 'react-native';
+import { ActivityIndicator, Button, Pressable, Text, View } from 'react-native';
 import { LocationObject } from "expo-location";
 import * as Location from "expo-location"
 
@@ -71,10 +71,10 @@ function MakeVisitOutDialog({ visit }: { visit: IVisitReport }) {
             >
                 <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', gap: 50, alignItems: 'center', marginTop: 200, padding: 10 }}>
 
-                    <Text style={{ fontWeight: 'bold', fontSize: 25 }}>{visit.party_name}</Text>
-                    < Button
+                    <Text style={{ fontWeight: 'bold', fontSize: 45,textTransform:'capitalize' }}>{visit.party_name}</Text>
+                    < Pressable
+                        style={{ backgroundColor: 'red', borderRadius: 10,padding:10 }}
                         disabled={isLoading}
-                        title='VISIT OUT'
                         onPress={
                             () => {
                                 handleSubmit()
@@ -82,8 +82,9 @@ function MakeVisitOutDialog({ visit }: { visit: IVisitReport }) {
                             }
                         }
                     >
-                    </Button>
-                        {isLoading && <ActivityIndicator size="large" />}
+                        <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'white' }}>VISIT OUT</Text>
+                    </Pressable>
+                    {isLoading && <ActivityIndicator size="large" />}
                 </View >
             </Dialog>
         </>
