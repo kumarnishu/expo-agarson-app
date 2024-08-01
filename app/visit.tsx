@@ -40,7 +40,7 @@ const visit = () => {
 
                     <Image source={require("../assets/visit_back.jpg")} height={300} />
                     < Pressable
-                        style={style.button}
+                        style={style.largebutton}
                         disabled={isLoading}
                         onPress={
                             () => {
@@ -227,6 +227,10 @@ const style = StyleSheet.create({
         fontSize: 18,
         flex: 1,
         textTransform: 'capitalize'
+    },
+    largebutton:{
+        padding: 25,
+        backgroundColor: 'red',
     },
     button: {
         padding: 5,

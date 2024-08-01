@@ -76,13 +76,14 @@ const UpdateSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                     mutate({ id: visit._id, body: Data })
                 }}
             >
-                {({ handleChange, handleBlur, handleSubmit, values }) => (
+                {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
                     <>
                         <ScrollView contentContainerStyle={{ flex: 1, justifyContent: 'center', padding: 10 }}>
 
 
                             <View style={{ flex: 1, gap: 5 }}>
                                 <Text style={style.label}>Party Mobile</Text>
+
                                 <TextInput
                                     style={style.textinput}
                                     placeholder="Party Mobile"
@@ -91,6 +92,8 @@ const UpdateSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                                     autoCapitalize='none'
                                     value={values.mobile}
                                 />
+                                <Text style={style.errorlabel}>{errors.mobile}</Text>
+
                                 <Text style={style.label}>Dealer of</Text>
                                 <TextInput
                                     style={style.textinput}
@@ -167,13 +170,20 @@ const UpdateSummaryForm = ({ visit }: { visit: IVisitReport }) => {
 
 const style = StyleSheet.create({
     textinput: {
-        fontFamily:'Roboto',
+        fontFamily: 'Roboto',
         marginHorizontal: 5,
         padding: 15,
-        paddingLeft:10,
+        paddingLeft: 10,
         fontSize: 25,
         borderWidth: 1,
         borderRadius: 10,
+    },
+    errorlabel: {
+        fontFamily: 'Roboto',
+        marginHorizontal: 5,
+        fontSize: 15,
+        textTransform: 'capitalize',
+        color: 'red'
     },
     label: {
         fontFamily: 'Roboto',
