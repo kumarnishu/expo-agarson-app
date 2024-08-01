@@ -92,7 +92,7 @@ const style = StyleSheet.create({
     padding: 10,
     fontSize:20,
     borderWidth: 1,
-    borderRadius: 10,
+    borderRadius: 5,
   },
   label: {
     marginHorizontal: 15,

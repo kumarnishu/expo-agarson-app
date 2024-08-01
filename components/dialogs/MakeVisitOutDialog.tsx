@@ -71,7 +71,7 @@ function MakeVisitOutDialog({ visit }: { visit: IVisitReport }) {
             >
                 <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', gap: 50, alignItems: 'center', marginTop: 200, padding: 10 }}>
 
-                    <Text style={{ fontWeight: 'bold', fontSize: 45,textTransform:'capitalize' }}>{visit.party_name}</Text>
+                    <Text style={{ fontWeight: '400', fontSize: 45,textTransform:'capitalize' }}>{visit.party_name}</Text>
                     < Pressable
                         style={{ backgroundColor: 'red', borderRadius: 10,padding:10 }}
                         disabled={isLoading}
@@ -82,7 +82,7 @@ function MakeVisitOutDialog({ visit }: { visit: IVisitReport }) {
                             }
                         }
                     >
-                        <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'white' }}>VISIT OUT</Text>
+                        <Text style={{ fontSize: 20, paddingHorizontal:20,fontWeight: 'bold', color: 'white' }}>VISIT OUT</Text>
                     </Pressable>
                     {isLoading && <ActivityIndicator size="large" />}
                 </View >

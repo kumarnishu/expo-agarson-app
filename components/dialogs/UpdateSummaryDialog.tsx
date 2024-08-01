@@ -14,11 +14,12 @@ function UpdateSummaryDialog({ visit }: { visit: IVisitReport }) {
             <GestureHandlerRootView>
                 <ScrollView>
                     <Text style={{
+                        fontFamily:'Roboto',
                         padding: 5,
                         textAlign: 'center',
                         fontSize: 30,
                         textTransform: 'capitalize',
-                        fontWeight: 'bold'
+                        fontWeight: '500'
                     }}>{visit.party_name}</Text>
                     <UpdateSummaryForm visit={visit} />
                 </ScrollView>

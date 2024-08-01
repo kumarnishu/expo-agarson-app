@@ -61,6 +61,14 @@
             "usesCleartextTraffic": true
           }
         }
+      ],
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/Roboto-Regular.ttf"
+          ]
+        }
       ]
     ],
     "extra": {

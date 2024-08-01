@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { Text } from 'react-native';
+import { Alert, Text } from 'react-native';
 import { CameraCapturedPicture } from 'expo-camera';
 import { BackendError } from '../..';
 import { StartMyDay } from '../../services/VisitServices';
@@ -50,10 +50,14 @@ function StartMydayForm({ location }: { location: LocationObject }) {
             setChoice({ type: VisitChoiceActions.close_visit })
         }
     }, [isSuccess])
+    useEffect(() => {
+        if (!location) {
+            Alert.alert('Please Allow Location Access')
+        }
+    }, [location])
     return (
         <>
 
-            {!location && <Text style={{ color: 'red' }}>Please Allow Location Access</Text>}
             {location && <CameraComponent photo={photo} setPhoto={setPhoto} isLoading={isLoading} handlePress={handlePress} />}
         </>
     )

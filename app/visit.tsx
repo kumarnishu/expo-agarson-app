@@ -48,7 +48,7 @@ const visit = () => {
                             }
                         }
                     >
-                        <Text style={style.buttontext}>START MY DAY</Text>
+                        <Text style={style.buttontext}>Take Selfie And Start Day</Text>
                     </Pressable>
                 </View > : null
             }
@@ -102,7 +102,7 @@ const visit = () => {
                                             setChoice({ type: VisitChoiceActions.visit_out })
                                         }}
                                     >
-                                        <Text style={style.label2}>Visit Out</Text>
+                                        <Text style={style.label3}>Visit Out</Text>
                                     </Pressable>
 
                                 }
@@ -145,7 +145,7 @@ const visit = () => {
 
                 {/* end my day */}
                 {
-                    visit && <View style={{ width: '100%', padding: 10 }}>
+                    visit && 
                         < Pressable
                             style={style.endday}
                             disabled={isLoading || Boolean(visit.end_day_credentials) || visit.visit_reports.filter((report) => {
@@ -160,7 +160,7 @@ const visit = () => {
                         >
                             <Text style={style.buttontext}>{Boolean(visit.end_day_credentials) ? `Day ended at ${new Date(visit.end_day_credentials.timestamp).toLocaleTimeString()}` : "End My Day"}</Text>
                         </Pressable>
-                    </View>
+                    
                 }
 
             </ScrollView>}
@@ -222,15 +222,14 @@ const style = StyleSheet.create({
         padding: 2,
         marginHorizontal: 15,
         marginVertical: 5,
-        color: 'black',
+        color: 'red',
         fontWeight:'bold',
         fontSize: 18,
         flex: 1,
         textTransform: 'capitalize'
     },
     button: {
-        padding: 10,
-        borderRadius:10,
+        padding: 5,
         backgroundColor: 'blue',
     },
     buttonsmall: {

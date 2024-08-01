@@ -163,22 +163,22 @@ const AddSummaryForm = ({ visit }: { visit: IVisitReport }) => {
 
 const style = StyleSheet.create({
     textinput: {
-        marginHorizontal: 15,
+        marginHorizontal: 5,
         marginVertical: 5,
         padding: 10,
-        fontSize: 20,
+        fontSize: 30,
         borderWidth: 1,
         borderRadius: 10,
     },
     label: {
-        marginHorizontal: 15,
+        marginHorizontal: 5,
         fontSize: 25,
         marginVertical: 2,
         textTransform: 'capitalize'
     },
     button: {
         padding: 10,
-        marginHorizontal: 15,
+        marginHorizontal: 5,
         marginVertical: 5,
         backgroundColor: 'blue',
         borderRadius: 5

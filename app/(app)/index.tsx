@@ -35,13 +35,16 @@ const Dashboard = () => {
 
 const style = StyleSheet.create({
   button: {
-    flex: 1, paddingTop: 50,
+    fontFamily:'Roboto',
     backgroundColor:'white',
+    padding:20,
+    paddingLeft:10,
     borderBottomWidth:1
   },
   buttontext: {
+    fontFamily: 'Roboto',
     fontSize: 40,
-    fontWeight:'bold',
+    fontWeight:'400',
     margin:10
   }
 })

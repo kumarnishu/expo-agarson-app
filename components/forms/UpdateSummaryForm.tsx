@@ -81,7 +81,7 @@ const UpdateSummaryForm = ({ visit }: { visit: IVisitReport }) => {
                         <ScrollView contentContainerStyle={{ flex: 1, justifyContent: 'center', padding: 10 }}>
 
 
-                            <View style={{ flex: 1, gap: 15 }}>
+                            <View style={{ flex: 1, gap: 5 }}>
                                 <Text style={style.label}>Party Mobile</Text>
                                 <TextInput
                                     style={style.textinput}
@@ -167,22 +167,23 @@ const UpdateSummaryForm = ({ visit }: { visit: IVisitReport }) => {
 
 const style = StyleSheet.create({
     textinput: {
-        marginHorizontal: 15,
-        marginVertical: 2,
-        padding: 10,
-        fontSize: 20,
+        fontFamily:'Roboto',
+        marginHorizontal: 5,
+        padding: 15,
+        paddingLeft:10,
+        fontSize: 25,
         borderWidth: 1,
         borderRadius: 10,
     },
     label: {
-        marginHorizontal: 15,
+        fontFamily: 'Roboto',
+        marginHorizontal: 5,
         fontSize: 15,
         textTransform: 'capitalize'
     },
     button: {
         padding: 10,
-        marginHorizontal: 15,
-        marginVertical: 5,
+        marginHorizontal: 5,
         backgroundColor: 'blue',
         borderRadius: 5
     },
@@ -197,7 +198,7 @@ const style = StyleSheet.create({
         padding: 5,
         textAlign: 'center',
         fontSize: 30,
-        fontWeight: 'bold'
+        fontWeight: '300'
     },
     switch: {
         fontSize: 30,
