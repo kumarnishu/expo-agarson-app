@@ -35,7 +35,7 @@ const Dashboard = () => {
 
 const style = StyleSheet.create({
   button: {
-    flex: 1, paddingTop: 50,marginLeft:10,
+    flex: 1, paddingTop: 50,
     backgroundColor:'white',
     borderBottomWidth:1
   },
