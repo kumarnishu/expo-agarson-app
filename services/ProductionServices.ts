@@ -76,6 +76,12 @@ export const GetProductions = async ({ limit, page, start_date, end_date, id }: 
 
 }
 
+
+
+export const GetMytodayShoeWeights = async () => {
+    return await apiClient.get(`weights/me`);
+}
+
 export const GetShoeWeights = async () => {
     return await apiClient.get(`weights`);
 }

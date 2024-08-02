@@ -22,8 +22,8 @@ const Dashboard = () => {
         {
           features.map((feat, index) => {
             return (
-              <Link key={index} style={style.button} href={feat.url}>
-                <Text style={style.buttontext}>{feat.feature.toUpperCase()}</Text>
+              <Link key={index} style={style.card} href={feat.url}>
+                <Text style={style.cardtext}>{feat.feature.toUpperCase()}</Text>
               </Link>
             )
           })
@@ -34,14 +34,14 @@ const Dashboard = () => {
 }
 
 const style = StyleSheet.create({
-  button: {
+  card: {
     fontFamily:'Roboto',
     backgroundColor:'white',
     padding:20,
     paddingLeft:10,
     borderBottomWidth:1
   },
-  buttontext: {
+  cardtext: {
     fontFamily: 'Roboto',
     fontSize: 40,
     fontWeight:'400',
