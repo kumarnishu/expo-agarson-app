@@ -29,10 +29,10 @@ const show_weight = () => {
           {
             weights && weights.map((weight, index) => {
               return (
-                <View key={index} style={{ gap: 2, padding: 10, borderBottomWidth: 2, backgroundColor: 'whitesmoke' }}>
+                <View key={index} style={{ gap: 2, padding: 10, borderBottomWidth: 1, backgroundColor: 'whitesmoke', shadowRadius: 10 }}>
                   <Text style={style.heding}>Dye - {weight.dye && weight.dye.dye_number}</Text>
-                  <Text style={style.label}>Running Article : {weight.article && weight.article.display_name}</Text>
-                  <Text style={style.label}>On Machine : {weight.dye && weight.dye.stdshoe_weight}</Text>
+                  <Text style={style.label}>Article : {weight.article && weight.article.display_name}</Text>
+                  <Text style={style.label}>On Machine : {weight.machine && weight.machine.display_name}</Text>
                   <Text style={style.label}>St. Weight : {weight.dye && weight.dye.stdshoe_weight}</Text>
                   <Text style={style.label}>Weight1 : {weight.shoe_weight1 ? weight.shoe_weight1 : 'Pending'}</Text>
                   <Text style={style.label}>Weight2 : {weight.shoe_weight2 ? weight.shoe_weight2 : 'Pending'}</Text>
@@ -114,8 +114,8 @@ const style = StyleSheet.create({
     fontFamily: 'Roboto',
     backgroundColor: 'white',
     padding: 20,
+    paddingBottom: 30,
     paddingLeft: 10,
-    borderBottomWidth: 1
   },
   circlebutton: {
     padding: 10,
@@ -160,7 +160,7 @@ const style = StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
     fontWeight: 'bold',
-    textTransform:'uppercase'
+    textTransform: 'uppercase'
   },
   heding: {
     padding: 5,

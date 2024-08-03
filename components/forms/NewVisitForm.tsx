@@ -123,7 +123,7 @@ const NewVisitForm = ({ visit, location }: { visit: IVisit, location: LocationOb
                     </Pressable> : null}
                 </View>
             </ScrollView > : null}
-            {!display && location && <CameraComponent photo={photo} setPhoto={setPhoto} isLoading={isLoading} handlePress={handleSubmit} />}
+            { location && <CameraComponent photo={photo} setPhoto={setPhoto} isLoading={isLoading} handlePress={handleSubmit} />}
         </>
     )
 }
