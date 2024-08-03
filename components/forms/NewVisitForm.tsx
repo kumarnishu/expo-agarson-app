@@ -64,7 +64,6 @@ const NewVisitForm = ({ visit, location }: { visit: IVisit, location: LocationOb
                     name: 'photo' + new Date().toDateString() + ".jpg",
                     type: 'image/jpeg'
                 })
-                console.log(formdata)
                 mutate({
                     id: visit._id,
                     body: formdata

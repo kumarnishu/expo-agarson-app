@@ -21,7 +21,6 @@ const show_weight = () => {
       setWeights(data.data)
     }
   }, [isSuccess])
-  console.log(data)
   return (
     <>
 
