@@ -8,6 +8,7 @@ import { AxiosResponse } from 'axios'
 import { IShoeWeight } from '../types/production'
 import { BackendError } from '..'
 import { GetMytodayShoeWeights } from '../services/ProductionServices'
+import { months } from '../utils/months'
 
 const show_weight = () => {
   const { setChoice } = useContext(ChoiceContext);
@@ -26,17 +27,29 @@ const show_weight = () => {
 
       <GestureHandlerRootView style={{ marginTop: 50, paddingVertical: 10 }}>
         <ScrollView>
+          < Pressable
+            style={style.button}
+            onPress={
+              () => {
+                setChoice({ type: ProductionChoiceActions.create_showweight })
+              }
+            }
+          >
+            <Text style={style.buttontext}>New Shoe Weight</Text>
+          </Pressable>
           {
             weights && weights.map((weight, index) => {
               return (
-                <View key={index} style={{ gap: 2, padding: 10, borderBottomWidth: 1, backgroundColor: 'whitesmoke', shadowRadius: 10 }}>
-                  <Text style={style.heding}>Dye - {weight.dye && weight.dye.dye_number}</Text>
+                <View key={index} style={{ gap: 2, padding: 10, borderBottomWidth: 1, backgroundColor: 'whitesmoke', shadowRadius: 10, justifyContent: 'center' }}>
+                  <Text style={style.heding}>DYE {weight.dye && weight.dye.dye_number}</Text>
                   <Text style={style.label}>Article : {weight.article && weight.article.display_name}</Text>
+                  <Text style={style.label}>Size : {weight.dye && weight.dye.size}</Text>
                   <Text style={style.label}>On Machine : {weight.machine && weight.machine.display_name}</Text>
                   <Text style={style.label}>St. Weight : {weight.dye && weight.dye.stdshoe_weight}</Text>
                   <Text style={style.label}>Weight1 : {weight.shoe_weight1 ? weight.shoe_weight1 : 'Pending'}</Text>
                   <Text style={style.label}>Weight2 : {weight.shoe_weight2 ? weight.shoe_weight2 : 'Pending'}</Text>
                   <Text style={style.label}>Weight3 : {weight.shoe_weight3 ? weight.shoe_weight3 : 'Pending'}</Text>
+                  <Text style={style.label}>Clock In : {months.find(m => m.month == weight.month)?.label || 'N/A'}</Text>
                   <View style={{ flex: 1, justifyContent: 'space-between', gap: 5, flexDirection: 'row', padding: 10 }}>
                     < Pressable
                       style={!weight.shoe_weight1 ? style.circleredbutton : style.circlebutton}
@@ -76,18 +89,9 @@ const show_weight = () => {
               )
             })
           }
+
         </ScrollView>
       </GestureHandlerRootView>
-      < Pressable
-        style={style.button}
-        onPress={
-          () => {
-            setChoice({ type: ProductionChoiceActions.create_showweight })
-          }
-        }
-      >
-        <Text style={style.buttontext}>New Shoe Weight</Text>
-      </Pressable>
       <NewShoeWeightDialog />
 
     </>
@@ -149,16 +153,16 @@ const style = StyleSheet.create({
     fontWeight: 'bold'
   },
   button: {
-    padding: 10,
+    padding: 15,
     bottom: 0,
     marginTop: 5,
-    backgroundColor: 'green',
+    backgroundColor: 'black',
   },
   buttontext: {
     padding: 5,
     color: 'white',
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: 'bold',
     textTransform: 'uppercase'
   },

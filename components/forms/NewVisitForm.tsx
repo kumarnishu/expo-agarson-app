@@ -101,13 +101,13 @@ const NewVisitForm = ({ visit, location }: { visit: IVisit, location: LocationOb
                         onChangeText={(value) => setMobile(value)}
 
                     />
-                    <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center',margin:5 }}>
+                    <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center', margin: 5 }}>
                         <Text style={style.label}>IS OLD PARTY ?</Text>
-                        <Switch style={{height:50}}
+                        <Switch style={{ height: 50 }}
                             value={isOld} onValueChange={() => setIsOld(!isOld)}
                         />
                     </View>
-                   
+
 
                     {!isLoading ? < Pressable
                         style={style.button}
@@ -123,7 +123,7 @@ const NewVisitForm = ({ visit, location }: { visit: IVisit, location: LocationOb
                     </Pressable> : null}
                 </View>
             </ScrollView > : null}
-            { location && <CameraComponent photo={photo} setPhoto={setPhoto} isLoading={isLoading} handlePress={handleSubmit} />}
+            {!display && location && <CameraComponent photo={photo} setPhoto={setPhoto} isLoading={isLoading} handlePress={handleSubmit} />}
         </>
     )
 }
@@ -133,7 +133,7 @@ const style = StyleSheet.create({
         marginHorizontal: 5,
         marginVertical: 5,
         padding: 5,
-        paddingVertical:10,
+        paddingVertical: 10,
         fontSize: 30,
         borderWidth: 1,
         borderRadius: 10,
@@ -164,7 +164,7 @@ const style = StyleSheet.create({
         fontSize: 30,
         fontWeight: 'bold'
     },
-    switch:{
+    switch: {
         fontSize: 30,
         fontWeight: 'bold'
     }

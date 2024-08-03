@@ -45,7 +45,6 @@ export function LoadingProvider(props: { children: JSX.Element }) {
             setUser(undefined)
         }
     }, [remoteUser, isError])
-
     return (
         <LoadingContext.Provider value={{ loading, setLoading }}>
             {props.children}

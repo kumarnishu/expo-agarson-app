@@ -10,25 +10,14 @@ import { CameraCapturedPicture } from 'expo-camera';
 import { IArticle, IDye, IMachine, IShoeWeight } from '../../types/production';
 import { CreateShoeWeight, GetArticles, GetDyeById, GetDyes, GetMachines } from '../../services/ProductionServices';
 import { months } from '../../utils/months';
-import RNPickerSelect from 'react-native-picker-select';
-import * as Yup from "yup";
-
-const Schema = Yup.object({
-    machine: Yup.string().required("required"),
-    article: Yup.string().required("required"),
-    dye: Yup.boolean().required("required"),
-    st_weight: Yup.number().required("required"),
-    size: Yup.string().required("required"),
-    weight: Yup.number().required("required"),
-    month: Yup.number().required("required")
-})
+import { Picker } from '@react-native-picker/picker';
 
 const NewShoeWeightForm = () => {
-    const [machine, setMachine] = useState("")
-    const [article, setArticle] = useState("")
-    const [dye, setDye] = useState("")
+    const [machine, setMachine] = useState<string>()
+    const [article, setArticle] = useState<string>()
+    const [dye, setDye] = useState<string>()
     const [st_weight, setStWeight] = useState(0)
-    const [size, setSize] = useState("")
+    const [size, setSize] = useState()
     const [weight, setWeight] = useState(0)
     const [month, setMonth] = useState(0)
     const [validated, setValidated] = useState(false)
@@ -38,7 +27,7 @@ const NewShoeWeightForm = () => {
         <AxiosResponse<IShoeWeight>, BackendError, { body: FormData }>
         (CreateShoeWeight, {
             onSuccess: () => {
-                queryClient.invalidateQueries('shoe_weights')
+                queryClient.invalidateQueries('weights')
             }
         })
     const [dyeid, setDyeid] = useState<string>('');
@@ -87,7 +76,9 @@ const NewShoeWeightForm = () => {
 
 
     function handleValidation() {
-        setValidated(true)
+        if (article && dye && weight && machine && month != undefined && st_weight) {
+            setValidated(true)
+        }
     }
     useEffect(() => {
         if (remoteDye && remoteDye.data) {
@@ -108,58 +99,41 @@ const NewShoeWeightForm = () => {
             {!validated ? <>
                 <ScrollView contentContainerStyle={{ paddingTop: 20, justifyContent: 'center' }}>
                     <View style={{ flex: 1, gap: 2 }}>
-                        <Text style={style.heding}>New Shoe Weight</Text>
-                        <Text style={style.label}>Select Machine</Text>
-                        {machinesdata && <RNPickerSelect
-                            useNativeAndroidPickerStyle={true}
-                            placeholder="Machine"
-                            onValueChange={(v) => setMachine(v)}
-                            value={String(machine)}
-                            items={machinesdata.data.map((machine) => {
-                                return { label: machine.display_name, value: machine._id }
+                        <Text style={style.heding}>Add Shoe Weight</Text>
+                        <Text style={style.label}>Machine</Text>
+
+                        <View style={style.picker}>
+                            <Picker
+                                placeholder="Machine"
+                                onValueChange={(v) => setMachine(v)}
+                                selectedValue={String(machine)}
+                                mode="dropdown"
+                            >
+                                <Picker.Item style={style.item} key={0} label="Select" value={undefined} />
+                                {machinesdata && machinesdata.data.map((machine, index) => {
+                                    return (
+                                        <Picker.Item style={style.item} key={index + 1} label={machine.display_name} value={machine._id} />
+                                    )
+                                })}
+
+                            </Picker>
+                        </View>
+                        <Text style={style.label}>Dye No.</Text>
+
+                        <View style={style.picker}><Picker
+                            placeholder="Dye"
+                            onValueChange={(v) => { setDye(v); setDyeid(v) }}
+                            selectedValue={String(dye)}
+
+                        >
+                            <Picker.Item style={style.item} key={0} label="Select" value={undefined} />
+                            {dyesdata && dyesdata.data.map((dye, index) => {
+                                return (
+                                    <Picker.Item style={style.item} key={index + 1} label={String(dye.dye_number)} value={dye._id} />
+                                )
                             })}
-                        />}
-                        <Text style={style.label}>Select Dye No.</Text>
-                        {dyesdata && <RNPickerSelect
-                            useNativeAndroidPickerStyle={true}
-                            placeholder="Dye No"
-                            onValueChange={(value) => {
-                                setDye(value)
-                                setDyeid(value)
-                            }}
-                            value={String(dye)}
-                            items={dyesdata.data.map((dye) => {
-                                return { label: dye.dye_number.toString(), value: dye._id }
-                            })}
-                        />}
-                        <Text style={style.label}>Article</Text>
-                        {articlesdata && <RNPickerSelect
-                            useNativeAndroidPickerStyle={true}
-                            // style={}
-                            placeholder="Article"
-                            onValueChange={(v) => setArticle(v)}
-                            value={String(article)}
-                            items={articlesdata.data.map((article) => {
-                                return { label: article.display_name, value: article._id }
-                            })}
-                        />}
-                        <Text style={style.label}>Std. Weight</Text>
-                        <TextInput
-                            style={style.textinput}
-                            keyboardType='numeric'
-                            placeholder="Std. Weight"
-                            onChangeText={(val) => setStWeight(Number(val))}
-                            value={String(st_weight)}
-                        />
-                        <Text style={style.label}>Clock In</Text>
-                        {months && <RNPickerSelect
-                            placeholder="Clock In"
-                            onValueChange={(val) => setMonth(val)}
-                            value={String(month)}
-                            items={months.map((month) => {
-                                return { label: month.label, value: month.month }
-                            })}
-                        />}
+
+                        </Picker></View>
                         <Text style={style.label}>Weight</Text>
                         <TextInput
                             style={style.textinput}
@@ -169,6 +143,50 @@ const NewShoeWeightForm = () => {
                             value={String(weight)}
                             autoCapitalize='none'
                         />
+                        <Text style={style.label}>Article</Text>
+
+                        <View style={style.picker}><Picker
+                            placeholder="Article"
+                            onValueChange={(v) => setArticle(v)}
+                            selectedValue={String(article)}
+                            enabled={false}
+                        >
+                            <Picker.Item style={style.item} key={0} label="Select" value={undefined} />
+                            {articlesdata && articlesdata.data.map((article, index) => {
+                                return (
+                                    <Picker.Item style={style.item} key={index + 1} label={article.display_name} value={article._id} />
+                                )
+                            })}
+
+                        </Picker>
+                        </View>
+                        <Text style={style.label}>Std. Weight</Text>
+                        <TextInput
+                            style={style.textinput}
+                            readOnly={true}
+                            keyboardType='numeric'
+                            placeholder="Std. Weight"
+                            onChangeText={(val) => setStWeight(Number(val))}
+                            value={String(st_weight)}
+                        />
+                        <Text style={style.label}>Clock In</Text>
+
+                        <View style={style.picker}><Picker
+                            placeholder="Clock In"
+                            onValueChange={(v) => setMonth(Number(v))}
+                            selectedValue={Number(month)}
+
+                        >
+                            <Picker.Item style={style.item} key={0} label="Select" value={undefined} />
+                            {months && months.map((month, index) => {
+                                return (
+                                    <Picker.Item style={style.item} key={index + 1} label={month.label} value={month.month} />
+                                )
+                            })}
+
+                        </Picker>
+                        </View>
+
 
                         < Pressable
                             style={style.button}
@@ -189,15 +207,22 @@ const NewShoeWeightForm = () => {
 
 const style = StyleSheet.create({
     textinput: {
-        marginLeft: 5,
+        marginHorizontal: 5,
+        marginVertical: 5,
         padding: 10,
         fontSize: 25,
+        borderWidth: 1,
+        borderRadius: 10,
     },
+    item: { fontSize: 20, paddingLeft: 50, marginHorizontal: 5, },
     label: {
-        marginHorizontal: 15,
+        marginHorizontal: 5,
         fontSize: 20,
         marginVertical: 2,
         textTransform: 'capitalize'
+    },
+    picker: {
+        borderWidth: 1, borderRadius: 4, marginHorizontal: 5,
     },
     button: {
         padding: 10,
