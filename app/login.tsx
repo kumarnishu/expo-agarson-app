@@ -57,7 +57,7 @@ const LoginScreen = () => {
 
       <ScrollView>
         <View style={{ flex: 1, alignItems: 'center', marginBottom: 50, paddingTop: 90 }}>
-          <Image style={{ height: 180, width: 180 }} source={require("../assets/icon.png")} />
+          <Image style={{ height: 180, width: 180 }} source={require("../assets/favicon.png")} />
           <Text>Long Lasting safety shoes</Text>
         </View>
         <Text style={style.label} >Username,email or mobile</Text>
@@ -104,7 +104,7 @@ const style = StyleSheet.create({
     padding: 10,
     marginHorizontal: 15,
     marginVertical: 5,
-    backgroundColor: 'blue',
+    backgroundColor: 'red',
     borderRadius: 5
   },
   buttontext: {

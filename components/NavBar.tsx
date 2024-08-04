@@ -15,7 +15,7 @@ const NavBar = () => {
     return (
         <>
             <SafeAreaView>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',height:80,borderBottomWidth:1,backgroundColor:'blue' }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',height:80,borderBottomWidth:1,backgroundColor:'red' }}>
                     {user?.dp && user?.dp?.public_url ? <Image source={{ uri: user?.dp?.public_url }} style={style.picture} /> : <Text style={style.text}>{user?.username.slice(0, 8).toUpperCase()}</Text>}
                     <Pressable style={{ flexDirection: 'row', gap: 5, alignItems: 'center', padding: 10 }} onPress={async () => {
                         await Logout().then(() => {

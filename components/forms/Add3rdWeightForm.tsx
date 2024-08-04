@@ -27,7 +27,7 @@ const Add3rdWeightForm = ({ shoeweight }: { shoeweight: IShoeWeight }) => {
         <AxiosResponse<IShoeWeight>, BackendError, { id: string, body: FormData }>
         (UpdateShoeWeight3, {
             onSuccess: () => {
-                queryClient.invalidateQueries('shoe_weights')
+                queryClient.invalidateQueries("shoe_weights")
             }
         })
     const { data: dyesdata, isLoading: dyeLoading } = useQuery<AxiosResponse<IDye[]>, BackendError>("dyes", async () => GetDyes())
@@ -84,7 +84,7 @@ const Add3rdWeightForm = ({ shoeweight }: { shoeweight: IShoeWeight }) => {
         <>
             {!validated ? <>
                 <ScrollView contentContainerStyle={{ paddingTop: 20, justifyContent: 'center' }}>
-                    <View style={{ flex: 1, gap: 2 }}>
+                    <View style={{ flex: 1, gap: 15 }}>
                         <Text style={style.heding}>3RD SHOE WEIGHT</Text>
                         <Text style={style.label}>Machine</Text>
 
@@ -214,7 +214,7 @@ const style = StyleSheet.create({
         padding: 10,
         marginHorizontal: 5,
         marginVertical: 5,
-        backgroundColor: 'blue',
+        backgroundColor: 'red',
         borderRadius: 5
     },
     buttontext: {

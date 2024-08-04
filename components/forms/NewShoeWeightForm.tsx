@@ -27,7 +27,7 @@ const NewShoeWeightForm = () => {
         <AxiosResponse<IShoeWeight>, BackendError, { body: FormData }>
         (CreateShoeWeight, {
             onSuccess: () => {
-                queryClient.invalidateQueries('shoe_weights')
+                queryClient.invalidateQueries("shoe_weights")
             }
         })
     const [dyeid, setDyeid] = useState<string>('');
@@ -97,7 +97,7 @@ const NewShoeWeightForm = () => {
         <>
             {!validated ? <>
                 <ScrollView contentContainerStyle={{ paddingTop: 20, justifyContent: 'center' }}>
-                    <View style={{ flex: 1, gap: 2 }}>
+                    <View style={{ flex: 1, gap: 15 }}>
                         <Text style={style.heding}>Add Shoe Weight</Text>
                         <Text style={style.label}>Machine</Text>
 
@@ -227,7 +227,7 @@ const style = StyleSheet.create({
         padding: 10,
         marginHorizontal: 5,
         marginVertical: 5,
-        backgroundColor: 'blue',
+        backgroundColor: 'red',
         borderRadius: 5
     },
     buttontext: {

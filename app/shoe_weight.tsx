@@ -25,7 +25,7 @@ const show_weight = () => {
     if (isSuccess) {
       setWeights(data.data)
     }
-  }, [isSuccess])
+  }, [isSuccess, data])
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
