@@ -27,7 +27,7 @@ const show_weight = () => {
   useEffect(() => {
     if (filter) {
       if (weights) {
-        const searcher = new FuzzySearch(weights, ["dye.dye_number", "article.name", "machine.name", "dye.stdshoe_weight"], {
+        const searcher = new FuzzySearch(weights, ["dye.dye_number", "article.name", "machine.name"], {
           caseSensitive: false,
         });
         const result = searcher.search(filter);
