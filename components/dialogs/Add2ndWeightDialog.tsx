@@ -12,11 +12,11 @@ function Add2ndWeightDialog({ shoeweight }: { shoeweight: IShoeWeight }) {
         <>
             <Dialog fullScreen visible={choice === ProductionChoiceActions.create_showweight2 ? true : false} handleClose={() => setChoice({ type: ProductionChoiceActions.close_production })}
             >
-                {!shoeweight.shoe_weight2 ? <Add2ndWeightForm shoeweight={shoeweight} /> :
+                
+                {!shoeweight.shoe_weight2? <Add2ndWeightForm shoeweight={shoeweight} /> :
 
-                    <View>
-                        <Image style={{ flex: 1, height: '100%', width: '100%' }} source={{ uri: shoeweight.shoe_photo2?.public_url }} />
-                    </View>}
+                    <Image style={{ flex: 1, height: '100%', width: '100%' }} source={{ uri: shoeweight.shoe_photo2?.public_url }} />}
+
 
             </Dialog>
         </>

@@ -8,7 +8,7 @@ import { ChoiceContext, ProductionChoiceActions } from '../../contexts/ModalCont
 import CameraComponent from '../Camera';
 import { CameraCapturedPicture } from 'expo-camera';
 import { IArticle, IDye, IMachine, IShoeWeight } from '../../types/production';
-import { CreateShoeWeight, GetArticles, GetDyeById, GetDyes, GetMachines } from '../../services/ProductionServices';
+import { GetArticles,  GetDyes, GetMachines, UpdateShoeWeight3 } from '../../services/ProductionServices';
 import { months } from '../../utils/months';
 import { Picker } from '@react-native-picker/picker';
 
@@ -25,7 +25,7 @@ const Add3rdWeightForm = ({ shoeweight }: { shoeweight: IShoeWeight }) => {
     const { setChoice } = useContext(ChoiceContext)
     const { mutate, isLoading, isSuccess, error } = useMutation
         <AxiosResponse<IShoeWeight>, BackendError, { id: string, body: FormData }>
-        (CreateShoeWeight, {
+        (UpdateShoeWeight3, {
             onSuccess: () => {
                 queryClient.invalidateQueries('shoe_weights')
             }
@@ -78,7 +78,7 @@ const Add3rdWeightForm = ({ shoeweight }: { shoeweight: IShoeWeight }) => {
             setValidated(true)
         }
     }
-    
+
 
     return (
         <>
@@ -108,7 +108,7 @@ const Add3rdWeightForm = ({ shoeweight }: { shoeweight: IShoeWeight }) => {
 
                         <View style={style.picker}><Picker
                             placeholder="Dye" enabled={false}
-                            onValueChange={(v) => { setDye(v)}}
+                            onValueChange={(v) => { setDye(v) }}
                             selectedValue={String(dye)}
 
                         >

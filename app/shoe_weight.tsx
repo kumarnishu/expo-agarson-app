@@ -22,7 +22,7 @@ const show_weight = () => {
     ("shoe_weights", GetMytodayShoeWeights);
 
   useEffect(() => {
-    if (isSuccess && data) {
+    if (isSuccess) {
       setWeights(data.data)
       setRefreshing(false);
 
