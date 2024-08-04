@@ -6,14 +6,14 @@ import { IShoeWeight } from '../../types/production';
 import { Image } from 'react-native';
 
 
-function NewShoeWeightDialog({ shoeweight }: { shoeweight?: IShoeWeight }) {
+function NewShoeWeightDialog({ shoeweight, useddyes }: {  useddyes: string[],shoeweight?: IShoeWeight}) {
     const { choice, setChoice } = useContext(ChoiceContext)
   
     return (
         <>
             <Dialog fullScreen visible={choice === ProductionChoiceActions.create_showweight ? true : false} handleClose={() => setChoice({ type: ProductionChoiceActions.close_production })}
             >
-                {!shoeweight ? <NewShoeWeightForm /> :
+                {!shoeweight ? <NewShoeWeightForm useddyes={useddyes}/> :
                     <Image style={{ flex: 1, height: '100%', width: '100%' }} source={{ uri: shoeweight.shoe_photo1?.public_url }} />}
             </Dialog>
         </>

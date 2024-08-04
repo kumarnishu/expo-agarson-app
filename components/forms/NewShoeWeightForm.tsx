@@ -12,7 +12,7 @@ import { CreateShoeWeight, GetArticles, GetDyeById, GetDyes, GetMachines } from 
 import { months } from '../../utils/months';
 import { Picker } from '@react-native-picker/picker';
 
-const NewShoeWeightForm = () => {
+const NewShoeWeightForm = ({ useddyes }: { useddyes: string[] }) => {
     const [machine, setMachine] = useState<string>()
     const [article, setArticle] = useState<string>()
     const [dye, setDye] = useState<string>()
@@ -127,9 +127,10 @@ const NewShoeWeightForm = () => {
                         >
                             <Picker.Item style={style.item} key={0} label="Select" value={undefined} />
                             {dyesdata && dyesdata.data.map((dye, index) => {
-                                return (
-                                    <Picker.Item style={style.item} key={index + 1} label={String(dye.dye_number)} value={dye._id} />
-                                )
+                                if (!useddyes.includes(dye._id))
+                                    return (
+                                        <Picker.Item style={style.item} key={index + 1} label={String(dye.dye_number)} value={dye._id} />
+                                    )
                             })}
 
                         </Picker></View>
