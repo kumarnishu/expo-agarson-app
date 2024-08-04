@@ -107,10 +107,11 @@ const Add3rdWeightForm = ({ shoeweight }: { shoeweight: IShoeWeight }) => {
                         <Text style={style.label}>Dye No.</Text>
 
                         <View style={style.picker}><Picker
-                            placeholder="Dye" enabled={false}
+                            placeholder="Dye" 
+                            enabled={false}
                             onValueChange={(v) => { setDye(v) }}
                             selectedValue={String(dye)}
-
+                            
                         >
                             <Picker.Item style={style.item} key={0} label="Select" value={undefined} />
                             {dyesdata && dyesdata.data.map((dye, index) => {

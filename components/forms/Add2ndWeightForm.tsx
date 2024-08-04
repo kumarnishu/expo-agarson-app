@@ -110,9 +110,9 @@ const Add2ndWeightForm = ({ shoeweight }: { shoeweight: IShoeWeight }) => {
                             placeholder="Dye"
                             onValueChange={(v) => { setDye(v); }}
                             selectedValue={String(dye)}
-
+                            enabled={false}
                         >
-                            <Picker.Item enabled={false} style={style.item} key={0} label="Select" value={undefined} />
+                            <Picker.Item  style={style.item} key={0} label="Select" value={undefined} />
                             {dyesdata && dyesdata.data.map((dye, index) => {
                                 return (
                                     <Picker.Item style={style.item} key={index + 1} label={String(dye.dye_number)} value={dye._id} />
