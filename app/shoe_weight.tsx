@@ -2,35 +2,54 @@ import { Alert, Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import NewShoeWeightDialog from '../components/dialogs/NewShoeWeightDialog'
 import { ChoiceContext, ProductionChoiceActions } from '../contexts/ModalContext'
-import { GestureHandlerRootView, ScrollView } from 'react-native-gesture-handler'
+import { GestureHandlerRootView, RefreshControl, ScrollView } from 'react-native-gesture-handler'
 import { useQuery } from 'react-query'
 import { AxiosResponse } from 'axios'
 import { IShoeWeight } from '../types/production'
 import { BackendError } from '..'
 import { GetMytodayShoeWeights } from '../services/ProductionServices'
 import { months } from '../utils/months'
+import Add2ndWeightDialog from '../components/dialogs/Add2ndWeightDialog'
+import Add3rdWeightDialog from '../components/dialogs/Add3rdWeightDialog'
 
 const show_weight = () => {
+  const [refreshing, setRefreshing] = React.useState(false);
   const { setChoice } = useContext(ChoiceContext);
+  const [weight, setWeight] = useState<IShoeWeight>()
   const [weights, setWeights] = useState<IShoeWeight[]>([])
-  const { data, isLoading, isSuccess, error } = useQuery
+  const { data, isLoading, isSuccess, refetch } = useQuery
     <AxiosResponse<IShoeWeight[]>, BackendError>
     ("weights", GetMytodayShoeWeights);
 
   useEffect(() => {
     if (isSuccess && data) {
       setWeights(data.data)
+      setRefreshing(false);
+
     }
   }, [isSuccess])
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+      refetch()
+    }, 2000);
+  }, []);
   return (
     <>
 
       <GestureHandlerRootView style={{ marginTop: 50, paddingVertical: 10 }}>
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
           < Pressable
             style={style.button}
             onPress={
               () => {
+                setWeight(undefined)
                 setChoice({ type: ProductionChoiceActions.create_showweight })
               }
             }
@@ -38,27 +57,28 @@ const show_weight = () => {
             <Text style={style.buttontext}>New Shoe Weight</Text>
           </Pressable>
           {
-            weights && weights.map((weight, index) => {
+            !refreshing && weights && weights.map((weight, index) => {
               return (
                 <View key={index} style={{ gap: 2, padding: 10, borderBottomWidth: 1, backgroundColor: 'whitesmoke', shadowRadius: 10, justifyContent: 'center' }}>
                   <Text style={style.heding}>DYE {weight.dye && weight.dye.dye_number}</Text>
                   <Text style={style.label}>Article : {weight.article && weight.article.display_name}</Text>
                   <Text style={style.label}>Size : {weight.dye && weight.dye.size}</Text>
-                  <Text style={style.label}>On Machine : {weight.machine && weight.machine.display_name}</Text>
+                  <Text style={style.label}>Machine : {weight.machine && weight.machine.display_name}</Text>
                   <Text style={style.label}>St. Weight : {weight.dye && weight.dye.stdshoe_weight}</Text>
-                  <Text style={style.label}>Weight1 : {weight.shoe_weight1 ? weight.shoe_weight1 : 'Pending'}</Text>
-                  <Text style={style.label}>Weight2 : {weight.shoe_weight2 ? weight.shoe_weight2 : 'Pending'}</Text>
-                  <Text style={style.label}>Weight3 : {weight.shoe_weight3 ? weight.shoe_weight3 : 'Pending'}</Text>
+                  <Text style={style.label}>Weight1 : {weight.shoe_weight1 ? weight.shoe_weight1 : 'Pending'}  At {weight.weighttime1 && new Date(weight.weighttime1).toLocaleTimeString()}</Text>
+                  <Text style={style.label}>Weight2 : {weight.shoe_weight2 ? weight.shoe_weight2 : 'Pending'}  At {weight.weighttime2 && new Date(weight.weighttime2).toLocaleTimeString()}</Text>
+                  <Text style={style.label}>Weight3 : {weight.shoe_weight3 ? weight.shoe_weight3 : 'Pending'}  At {weight.weighttime3 && new Date(weight.weighttime3).toLocaleTimeString()}</Text>
                   <Text style={style.label}>Clock In : {months.find(m => m.month == weight.month)?.label || 'N/A'}</Text>
                   <View style={{ flex: 1, justifyContent: 'space-between', gap: 5, flexDirection: 'row', padding: 10 }}>
                     < Pressable
                       style={!weight.shoe_weight1 ? style.circleredbutton : style.circlebutton}
                       onPress={
                         () => {
-                          Alert.alert("1")
+                          setWeight(weight)
+                          setChoice({ type: ProductionChoiceActions.create_showweight })
                         }
                       }
-                      disabled={isLoading || Boolean(weight.shoe_weight1)}
+                      disabled={isLoading}
                     >
                       <Text style={style.buttontext}>1</Text>
                     </Pressable>
@@ -66,10 +86,11 @@ const show_weight = () => {
                       style={!weight.shoe_weight2 ? style.circleredbutton : style.circlebutton}
                       onPress={
                         () => {
-                          Alert.alert("2")
+                          setWeight(weight)
+                          setChoice({ type: ProductionChoiceActions.create_showweight2 })
                         }
                       }
-                      disabled={isLoading || Boolean(weight.shoe_weight2)}
+                      disabled={isLoading}
                     >
                       <Text style={style.buttontext}>2</Text>
                     </Pressable>
@@ -77,10 +98,11 @@ const show_weight = () => {
                       style={!weight.shoe_weight3 ? style.circleredbutton : style.circlebutton}
                       onPress={
                         () => {
-                          Alert.alert("3")
+                          setWeight(weight)
+                          setChoice({ type: ProductionChoiceActions.create_showweight3 })
                         }
                       }
-                      disabled={isLoading || Boolean(weight.shoe_weight3)}
+                      disabled={isLoading}
                     >
                       <Text style={style.buttontext}>3</Text>
                     </Pressable>
@@ -92,7 +114,11 @@ const show_weight = () => {
 
         </ScrollView>
       </GestureHandlerRootView>
-      <NewShoeWeightDialog />
+      <NewShoeWeightDialog shoeweight={weight} />
+      {weight != undefined && <>
+        <Add2ndWeightDialog shoeweight={weight} />
+        <Add3rdWeightDialog shoeweight={weight} />
+      </>}
 
     </>
 

@@ -3,7 +3,7 @@ import React, { useReducer } from "react"
 type UserChoices = "close_user" | "update_profile" | "update_password" | "verify_email"
 
 type NavChoices = "close_nav" | "view_home_sidebar"
-type ProductionChoices = "close_production" | "create_showweight"|"view_shoeweight"
+type ProductionChoices = "close_production" | "create_showweight" | "create_showweight2" | "create_showweight3" | "view_shoe_photo" | "view_shoe_photo2" | "view_shoe_photo3"
 
 type VisitChoices = "start_day" | "end_day" | "visit_in" | "visit_out" | "close_visit" | "add_summary" | "edit_summary" | "upload_sample"
 
@@ -26,8 +26,12 @@ export enum VisitChoiceActions {
 }
 export enum ProductionChoiceActions {
     close_production="close_production",
-    create_showweight="create_showweight",
-    view_shoeweight="view_shoeweight"
+    create_showweight = "create_showweight",
+    create_showweight2="create_showweight2",
+    create_showweight3="create_showweight3",
+    view_shoe_photo = "view_shoe_photo",
+    view_shoe_photo2="view_shoe_photo2",
+    view_shoe_photo3 = "view_shoe_photo3"
 }
 export enum NavChoiceActions {
     close_nav = "close_nav",
@@ -59,7 +63,11 @@ function reducer(state: ChoiceState | null, action: Action) {
 
         case ProductionChoiceActions.close_production: return type
         case ProductionChoiceActions.create_showweight: return type
-        case ProductionChoiceActions.view_shoeweight: return type
+        case ProductionChoiceActions.create_showweight2: return type
+        case ProductionChoiceActions.create_showweight3: return type
+        case ProductionChoiceActions.view_shoe_photo: return type
+        case ProductionChoiceActions.view_shoe_photo2: return type
+        case ProductionChoiceActions.view_shoe_photo3: return type
 
 
         // visit

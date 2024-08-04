@@ -11,7 +11,7 @@ const Dashboard = () => {
   const { user } = useContext(UserContext)
   useEffect(() => {
     let tmpfeatures: { feature: string, url: string }[] = []
-    user?.is_active && tmpfeatures.push({ feature: 'my visit ', url: paths.visit })
+    user?.assigned_permissions.includes("visit_view") && tmpfeatures.push({ feature: 'my visit ', url: paths.visit })
     user?.assigned_permissions.includes("shoe_weight_view") && tmpfeatures.push({ feature: 'shoe weight', url: paths.shoe_weight })
 
     setFeatures(tmpfeatures)

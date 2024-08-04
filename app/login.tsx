@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../contexts/UserContext';
 import { Login } from '../services/UserServices';
-import { Alert, Button, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, Alert, Button, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { isError, useMutation } from 'react-query';
 import { AxiosResponse } from 'axios';
 import { IUser } from '../types/user';
@@ -77,7 +77,7 @@ const LoginScreen = () => {
           value={password}
         />
         <Pressable style={style.button} onPress={() => handleSubmit()} disabled={isLoading}>
-          <Text style={style.buttontext}>{!isLoading ? "SIGN IN" : "LOGGING IN ..."}</Text>
+          {isLoading ? <ActivityIndicator  /> : <Text style={style.buttontext}>SIGN IN</Text>}
         </Pressable>
 
       </ScrollView>
@@ -88,31 +88,31 @@ const LoginScreen = () => {
 const style = StyleSheet.create({
   textinput: {
     marginHorizontal: 15,
-    marginVertical:5,
+    marginVertical: 5,
     padding: 10,
-    fontSize:20,
+    fontSize: 20,
     borderWidth: 1,
     borderRadius: 5,
   },
   label: {
     marginHorizontal: 15,
-    marginVertical:2,
+    marginVertical: 2,
     flex: 1,
     textTransform: 'capitalize'
   },
   button: {
     padding: 10,
     marginHorizontal: 15,
-    marginVertical:5,
-    backgroundColor:'blue',
-    borderRadius:5
+    marginVertical: 5,
+    backgroundColor: 'blue',
+    borderRadius: 5
   },
   buttontext: {
     padding: 5,
-    color:'white',
-    textAlign:'center',
-    fontSize:20,
-    fontWeight:'bold'
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold'
   }
 })
 

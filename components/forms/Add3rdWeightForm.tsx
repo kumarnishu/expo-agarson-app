@@ -12,14 +12,14 @@ import { CreateShoeWeight, GetArticles, GetDyeById, GetDyes, GetMachines } from 
 import { months } from '../../utils/months';
 import { Picker } from '@react-native-picker/picker';
 
-const NewShoeWeightForm = () => {
-    const [machine, setMachine] = useState<string>()
-    const [article, setArticle] = useState<string>()
-    const [dye, setDye] = useState<string>()
-    const [st_weight, setStWeight] = useState(0)
-    const [size, setSize] = useState()
+const Add3rdWeightForm = ({ shoeweight }: { shoeweight: IShoeWeight }) => {
+    const [machine, setMachine] = useState<string>(shoeweight.machine._id)
+    const [article, setArticle] = useState<string>(shoeweight.article._id)
+    const [dye, setDye] = useState<string>(String(shoeweight.dye._id))
+    const [st_weight, setStWeight] = useState(shoeweight.dye.stdshoe_weight)
+    const [size, setSize] = useState(shoeweight.dye.size)
     const [weight, setWeight] = useState(0)
-    const [month, setMonth] = useState(0)
+    const [month, setMonth] = useState(shoeweight.month)
     const [validated, setValidated] = useState(false)
     const [photo, setPhoto] = useState<CameraCapturedPicture>()
     const { setChoice } = useContext(ChoiceContext)
@@ -30,8 +30,6 @@ const NewShoeWeightForm = () => {
                 queryClient.invalidateQueries('weights')
             }
         })
-    const [dyeid, setDyeid] = useState<string>('');
-    const { data: remoteDye } = useQuery<AxiosResponse<IDye>, BackendError>(["dye", dyeid], async () => GetDyeById(dyeid))
     const { data: dyesdata, isLoading: dyeLoading } = useQuery<AxiosResponse<IDye[]>, BackendError>("dyes", async () => GetDyes())
     const { data: machinesdata, isLoading: machineLoading } = useQuery<AxiosResponse<IMachine[]>, BackendError>("machines", async () => GetMachines())
     const { data: articlesdata, isLoading: articleLoading } = useQuery<AxiosResponse<IArticle[]>, BackendError>("articles", async () => GetArticles())
@@ -79,26 +77,14 @@ const NewShoeWeightForm = () => {
             setValidated(true)
         }
     }
-    useEffect(() => {
-        if (remoteDye && remoteDye.data) {
-            if (remoteDye.data.article) {
-                setArticle(remoteDye.data.article._id)
-                setStWeight(remoteDye.data.stdshoe_weight)
-            }
-            else {
-                setArticle("")
-                setStWeight(0)
-            }
-        }
-
-    }, [remoteDye])
+    
 
     return (
         <>
             {!validated ? <>
                 <ScrollView contentContainerStyle={{ paddingTop: 20, justifyContent: 'center' }}>
                     <View style={{ flex: 1, gap: 2 }}>
-                        <Text style={style.heding}>Add Shoe Weight</Text>
+                        <Text style={style.heding}>3RD SHOE WEIGHT</Text>
                         <Text style={style.label}>Machine</Text>
 
                         <View style={style.picker}>
@@ -106,7 +92,7 @@ const NewShoeWeightForm = () => {
                                 placeholder="Machine"
                                 onValueChange={(v) => setMachine(v)}
                                 selectedValue={String(machine)}
-                                mode="dropdown"
+                                mode="dropdown" enabled={false}
                             >
                                 <Picker.Item style={style.item} key={0} label="Select" value={undefined} />
                                 {machinesdata && machinesdata.data.map((machine, index) => {
@@ -120,8 +106,8 @@ const NewShoeWeightForm = () => {
                         <Text style={style.label}>Dye No.</Text>
 
                         <View style={style.picker}><Picker
-                            placeholder="Dye"
-                            onValueChange={(v) => { setDye(v); setDyeid(v) }}
+                            placeholder="Dye" enabled={false}
+                            onValueChange={(v) => { setDye(v)}}
                             selectedValue={String(dye)}
 
                         >
@@ -174,7 +160,7 @@ const NewShoeWeightForm = () => {
                             placeholder="Clock In"
                             onValueChange={(v) => setMonth(Number(v))}
                             selectedValue={Number(month)}
-
+                            enabled={false}
                         >
                             <Picker.Item style={style.item} key={0} label="Select" value={undefined} />
                             {months && months.map((month, index) => {
@@ -250,4 +236,4 @@ const style = StyleSheet.create({
     }
 })
 
-export default NewShoeWeightForm
+export default Add3rdWeightForm

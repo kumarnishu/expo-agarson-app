@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { IVisit, IVisitReport } from '../types/visit';
 import { ChoiceContext, VisitChoiceActions } from '../contexts/ModalContext';
 import { Text, View, ScrollView, Image, Button, StyleSheet, Pressable } from 'react-native';
@@ -13,13 +13,15 @@ import AddSummaryDialog from '../components/dialogs/AddSummaryDialog';
 import UpdateSummaryDialog from '../components/dialogs/UpdateSummaryDialog';
 import EndMydayDialog from '../components/dialogs/EndMydayDialog';
 import UploadSamplesDialog from '../components/dialogs/UploadSamplesDialog';
+import { GestureHandlerRootView, RefreshControl } from 'react-native-gesture-handler';
 
 const visit = () => {
+    const [refreshing, setRefreshing] = useState(false);
     const [visits, setVisits] = useState<IVisitReport[]>([])
     const [visitReport, setVisitReport] = useState<IVisitReport>()
     const [visit, setVisit] = useState<IVisit>()
     const { setChoice } = useContext(ChoiceContext)
-    const { data, isLoading, isSuccess } = useQuery<AxiosResponse<IVisit>, BackendError>("visit", getMyTodayVisit)
+    const { data, isLoading, isSuccess, refetch } = useQuery<AxiosResponse<IVisit>, BackendError>("visit", getMyTodayVisit)
 
     useEffect(() => {
         if (data && data.data) {
@@ -30,10 +32,19 @@ const visit = () => {
             setVisit(undefined)
             setVisits([])
         }
+        setRefreshing(false);
 
     }, [isSuccess, data])
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            setRefreshing(false);
+            refetch()
+        }, 2000);
+    }, []);
+
     return (
-        <View style={{ paddingTop: 50 }}>
+        <GestureHandlerRootView style={{ paddingTop: 50 }}>
             {/* start day Button */}
             {
                 !isLoading && !visit ? <View>
@@ -52,100 +63,103 @@ const visit = () => {
                     </Pressable>
                 </View > : null
             }
-            {!isLoading && <ScrollView contentContainerStyle={{ flexDirection: 'column', gap: 15, alignItems: 'flex-start', padding: 10 }}>
+            {!isLoading && 
+                <ScrollView refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                } contentContainerStyle={{ flexDirection: 'column', gap: 15, alignItems: 'flex-start', padding: 10 }}>
 
-                {visit && visit.start_day_credientials &&
-                    <>
-                        {/* new visit */}
+                    {visit && visit.start_day_credientials &&
+                        <>
+                            {/* new visit */}
 
-                        <Text style={{ textAlign: 'center', fontWeight: 'bold', width: '100%', padding: 5, fontSize: 25 }} >STARTED DAY AT : {new Date(visit?.start_day_credientials.timestamp).toLocaleTimeString()}</Text>
+                            <Text style={{ textAlign: 'center', fontWeight: 'bold', width: '100%', padding: 5, fontSize: 25 }} >STARTED DAY AT : {new Date(visit?.start_day_credientials.timestamp).toLocaleTimeString()}</Text>
 
-                        {!Boolean(visit.end_day_credentials) &&
-                            < Pressable
-                                style={style.newvisit}
-                                disabled={visit.visit_reports.filter((report) => {
-                                    if (!Boolean(report.visit_out_credentials))
-                                        return report
-                                }).length > 0}
-                                onPress={() => setChoice({ type: VisitChoiceActions.visit_in })}
+                            {!Boolean(visit.end_day_credentials) &&
+                                < Pressable
+                                    style={style.newvisit}
+                                    disabled={visit.visit_reports.filter((report) => {
+                                        if (!Boolean(report.visit_out_credentials))
+                                            return report
+                                    }).length > 0}
+                                    onPress={() => setChoice({ type: VisitChoiceActions.visit_in })}
+                                >
+                                    <Text style={style.buttontext}>NEW VISIT</Text>
+                                </Pressable>}
+                        </>
+                    }
+
+                    {/* list visits */}
+                    {visits && visits.map((visit, index) => {
+                        return (
+                            <View key={index}
+                                style={style.box}
                             >
-                                <Text style={style.buttontext}>NEW VISIT</Text>
-                            </Pressable>}
-                    </>
-                }
+                                <Text style={style.label}>
+                                    Party   :   {visit.party_name}
+                                </Text>
+                                <Text style={style.label}>
+                                    Station   :   {visit.city}
+                                </Text>
+                                <Text style={style.label}>
+                                    Visit In   :   {new Date(visit.visit_in_credientials && visit.visit_in_credientials.timestamp).toLocaleTimeString()}
+                                </Text>
+                                <Text style={style.label}>
+                                    Visit Out   :   {new Date(visit.visit_out_credentials && visit.visit_out_credentials.timestamp).toLocaleTimeString()}
+                                </Text>
+                                <View style={{ flexDirection: 'row', gap: 2, paddingTop: 5 }}>
+                                    {visit && !Boolean(visit.visit_out_credentials) && visit.visit_samples_photo &&
+                                        < Pressable
+                                            style={style.buttonsmall}
 
-                {/* list visits */}
-                {visits && visits.map((visit, index) => {
-                    return (
-                        <View key={index}
-                            style={style.box}
-                        >
-                            <Text style={style.label}>
-                                Party   :   {visit.party_name}
-                            </Text>
-                            <Text style={style.label}>
-                                Station   :   {visit.city}
-                            </Text>
-                            <Text style={style.label}>
-                                Visit In   :   {new Date(visit.visit_in_credientials && visit.visit_in_credientials.timestamp).toLocaleTimeString()}
-                            </Text>
-                            <Text style={style.label}>
-                                Visit Out   :   {new Date(visit.visit_out_credentials && visit.visit_out_credentials.timestamp).toLocaleTimeString()}
-                            </Text>
-                            <View style={{ flexDirection: 'row', gap:2, paddingTop: 5 }}>
-                                {visit && !Boolean(visit.visit_out_credentials) && visit.visit_samples_photo &&
-                                    < Pressable
-                                        style={style.buttonsmall}
+                                            onPress={() => {
+                                                setVisitReport(visit)
+                                                setChoice({ type: VisitChoiceActions.visit_out })
+                                            }}
+                                        >
+                                            <Text style={style.label3}>Visit Out</Text>
+                                        </Pressable>
 
-                                        onPress={() => {
-                                            setVisitReport(visit)
-                                            setChoice({ type: VisitChoiceActions.visit_out })
-                                        }}
-                                    >
-                                        <Text style={style.label3}>Visit Out</Text>
-                                    </Pressable>
+                                    }
+                                    {visit && !Boolean(visit.visit_out_credentials) && !visit.visit_samples_photo &&
 
-                                }
-                                {visit && !Boolean(visit.visit_out_credentials) && !visit.visit_samples_photo &&
+                                        < Pressable
+                                            style={style.buttonsmall}
 
-                                    < Pressable
-                                        style={style.buttonsmall}
+                                            onPress={() => {
+                                                setVisitReport(visit)
+                                                setChoice({ type: VisitChoiceActions.upload_sample })
+                                            }}
+                                        >
+                                            <Text style={style.label3}>Upload Sample</Text>
+                                        </Pressable>
+                                    }
+                                    {!visit.summary ?
 
-                                        onPress={() => {
-                                            setVisitReport(visit)
-                                            setChoice({ type: VisitChoiceActions.upload_sample })
-                                        }}
-                                    >
-                                        <Text style={style.label3}>Upload Sample</Text>
-                                    </Pressable>
-                                }
-                                {!visit.summary ?
+                                        < Pressable
+                                            style={style.buttonsmall}
 
-                                    < Pressable
-                                        style={style.buttonsmall}
+                                            onPress={() => { setVisitReport(visit); setChoice({ type: VisitChoiceActions.add_summary }) }}
+                                        >
+                                            <Text style={style.label2}>Add Summary</Text>
+                                        </Pressable>
 
-                                        onPress={() => { setVisitReport(visit); setChoice({ type: VisitChoiceActions.add_summary }) }}
-                                    >
-                                        <Text style={style.label2}>Add Summary</Text>
-                                    </Pressable>
+                                        :
+                                        < Pressable
+                                            style={style.buttonsmall}
+                                            onPress={() => { setVisitReport(visit); setChoice({ type: VisitChoiceActions.edit_summary }) }}
+                                        >
+                                            <Text style={style.label2}>Edit Summary</Text>
+                                        </Pressable>
+                                    }
+                                </View>
 
-                                    :
-                                    < Pressable
-                                        style={style.buttonsmall}
-                                        onPress={() => { setVisitReport(visit); setChoice({ type: VisitChoiceActions.edit_summary }) }}
-                                    >
-                                        <Text style={style.label2}>Edit Summary</Text>
-                                    </Pressable>
-                                }
                             </View>
+                        )
+                    })}
 
-                        </View>
-                    )
-                })}
-
-                {/* end my day */}
-                {
-                    visit && 
+                    {/* end my day */}
+                    {
+                        visit &&
                         < Pressable
                             style={style.endday}
                             disabled={isLoading || Boolean(visit.end_day_credentials) || visit.visit_reports.filter((report) => {
@@ -160,10 +174,10 @@ const visit = () => {
                         >
                             <Text style={style.buttontext}>{Boolean(visit.end_day_credentials) ? `Day ended at ${new Date(visit.end_day_credentials.timestamp).toLocaleTimeString()}` : "End My Day"}</Text>
                         </Pressable>
-                    
-                }
 
-            </ScrollView>}
+                    }
+
+                </ScrollView>}
 
             {visitReport && <UploadSamplesDialog visit={visitReport} />}
             {visitReport && !visitReport.summary && <AddSummaryDialog visit={visitReport} />}
@@ -174,7 +188,7 @@ const visit = () => {
             {visit && <EndMydayDialog visit={visit} />}
             {!visit && <StartMydayDialog />}
             {visit && <MakeVisitInDialog visit={visit} />}
-        </View>
+        </GestureHandlerRootView>
     )
 }
 
@@ -204,7 +218,7 @@ const style = StyleSheet.create({
         padding: 2,
         marginHorizontal: 15,
         marginVertical: 5,
-        color:'blue',
+        color: 'blue',
         fontWeight: 'bold',
         fontSize: 18,
         flex: 1,
@@ -223,12 +237,12 @@ const style = StyleSheet.create({
         marginHorizontal: 15,
         marginVertical: 5,
         color: 'red',
-        fontWeight:'bold',
+        fontWeight: 'bold',
         fontSize: 18,
         flex: 1,
         textTransform: 'capitalize'
     },
-    largebutton:{
+    largebutton: {
         padding: 25,
         backgroundColor: 'red',
     },
@@ -238,7 +252,7 @@ const style = StyleSheet.create({
     },
     buttonsmall: {
         padding: 3,
-        borderRadius:20
+        borderRadius: 20
     },
     newvisit: {
         padding: 10,
@@ -246,7 +260,7 @@ const style = StyleSheet.create({
         backgroundColor: 'blue',
         width: '100%'
     },
-    
+
     endday: {
         padding: 5,
         borderRadius: 10,
