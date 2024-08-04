@@ -32,7 +32,6 @@ const visit = () => {
             setVisit(undefined)
             setVisits([])
         }
-        setRefreshing(false);
 
     }, [isSuccess, data])
     const onRefresh = useCallback(() => {

@@ -24,8 +24,6 @@ const show_weight = () => {
   useEffect(() => {
     if (isSuccess) {
       setWeights(data.data)
-      setRefreshing(false);
-
     }
   }, [isSuccess])
 
@@ -60,7 +58,7 @@ const show_weight = () => {
             </Pressable>
           </View>
           {
-            !refreshing && weights && weights.map((weight, index) => {
+            weights && weights.map((weight, index) => {
               return (
                 <View key={index} style={{ gap: 2, padding: 10, borderBottomWidth: 1, backgroundColor: 'whitesmoke', shadowRadius: 10, justifyContent: 'center' }}>
                   <Text style={style.heding}>DYE {weight.dye && weight.dye.dye_number}</Text>
@@ -68,9 +66,9 @@ const show_weight = () => {
                   <Text style={style.label}>Size : {weight.dye && weight.dye.size}</Text>
                   <Text style={style.label}>Machine : {weight.machine && weight.machine.display_name}</Text>
                   <Text style={style.label}>St. Weight : {weight.dye && weight.dye.stdshoe_weight}</Text>
-                  <Text style={style.label}>Weight1 : {weight.shoe_weight1 ? weight.shoe_weight1 : 'Pending'}  At {weight.weighttime1 && new Date(weight.weighttime1).toLocaleTimeString()}</Text>
-                  <Text style={style.label}>Weight2 : {weight.shoe_weight2 ? weight.shoe_weight2 : 'Pending'}  At {weight.weighttime2 && new Date(weight.weighttime2).toLocaleTimeString()}</Text>
-                  <Text style={style.label}>Weight3 : {weight.shoe_weight3 ? weight.shoe_weight3 : 'Pending'}  At {weight.weighttime3 && new Date(weight.weighttime3).toLocaleTimeString()}</Text>
+                  <Text style={style.label}>Weight1 : {weight.shoe_weight1 ? weight.shoe_weight1 : 'Pending'}  : {weight.weighttime1 && new Date(weight.weighttime1).toLocaleTimeString()}</Text>
+                  <Text style={style.label}>Weight2 : {weight.shoe_weight2 ? weight.shoe_weight2 : 'Pending'}  : {weight.weighttime2 && new Date(weight.weighttime2).toLocaleTimeString()}</Text>
+                  <Text style={style.label}>Weight3 : {weight.shoe_weight3 ? weight.shoe_weight3 : 'Pending'}  : {weight.weighttime3 && new Date(weight.weighttime3).toLocaleTimeString()}</Text>
                   <Text style={style.label}>Clock In : {months.find(m => m.month == weight.month)?.label || 'N/A'}</Text>
                   <View style={{ flex: 1, justifyContent: 'space-between', gap: 5, flexDirection: 'row', padding: 10 }}>
                     < Pressable
@@ -83,7 +81,7 @@ const show_weight = () => {
                       }
                       disabled={isLoading}
                     >
-                      <Text style={style.buttontext}>1</Text>
+                      <Text style={style.circlebuttontext}>1</Text>
                     </Pressable>
                     < Pressable
                       style={!weight.shoe_weight2 ? style.circleredbutton : style.circlebutton}
@@ -95,7 +93,7 @@ const show_weight = () => {
                       }
                       disabled={isLoading}
                     >
-                      <Text style={style.buttontext}>2</Text>
+                      <Text style={style.circlebuttontext}>2</Text>
                     </Pressable>
                     < Pressable
                       style={!weight.shoe_weight3 ? style.circleredbutton : style.circlebutton}
@@ -107,7 +105,7 @@ const show_weight = () => {
                       }
                       disabled={isLoading}
                     >
-                      <Text style={style.buttontext}>3</Text>
+                      <Text style={style.circlebuttontext}>3</Text>
                     </Pressable>
                   </View>
                 </View>
