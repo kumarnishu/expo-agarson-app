@@ -91,6 +91,7 @@ const show_weight = () => {
                   {weight.shoe_weight3 && <Text style={style.label}>Weight3 : {weight.shoe_weight3}  {weight.weighttime2 && new Date(weight.weighttime3).toLocaleTimeString()}</Text>}
                   <Text style={style.label}>Clock In : {months.find(m => m.month == weight.month)?.label || 'N/A'}</Text>
                   <View style={{ flex: 1, justifyContent: 'space-between', gap: 5, flexDirection: 'row', padding: 10 }}>
+
                     < Pressable
                       style={!weight.shoe_weight1 ? style.circleredbutton : weight.shoe_weight1 > weight.dye.stdshoe_weight ? style.circleyellowbutton : style.circlebutton}
                       onPress={
@@ -103,8 +104,11 @@ const show_weight = () => {
                     >
                       <Text style={weight.shoe_weight1 > weight.dye.stdshoe_weight ? style.circlebuttonblacktext : style.circlebuttontext}>1</Text>
                     </Pressable>
+
+
+
                     < Pressable
-                      style={!weight.shoe_weight2 ? style.circleredbutton : style.circlebutton}
+                      style={!weight.shoe_weight2 ? style.circleredbutton : weight.shoe_weight2 > weight.dye.stdshoe_weight ? style.circleyellowbutton : style.circlebutton}
                       onPress={
                         () => {
                           setWeight(weight)
@@ -113,10 +117,12 @@ const show_weight = () => {
                       }
                       disabled={isLoading}
                     >
-                      <Text style={style.circlebuttontext}>2</Text>
+                      <Text style={weight.shoe_weight2 > weight.dye.stdshoe_weight ? style.circlebuttonblacktext : style.circlebuttontext}>2</Text>
                     </Pressable>
+
+
                     < Pressable
-                      style={!weight.shoe_weight3 ? style.circleyellowbutton : style.circlebutton}
+                      style={!weight.shoe_weight3 ? style.circleredbutton : weight.shoe_weight3 > weight.dye.stdshoe_weight ? style.circleyellowbutton : style.circlebutton}
                       onPress={
                         () => {
                           setWeight(weight)
@@ -125,7 +131,7 @@ const show_weight = () => {
                       }
                       disabled={isLoading}
                     >
-                      <Text style={style.circlebuttonblacktext}>3</Text>
+                      <Text style={weight.shoe_weight3 > weight.dye.stdshoe_weight ? style.circlebuttonblacktext : style.circlebuttontext}>3</Text>
                     </Pressable>
                   </View>
                 </View>
