@@ -27,7 +27,7 @@ const NewShoeWeightForm = () => {
         <AxiosResponse<IShoeWeight>, BackendError, { body: FormData }>
         (CreateShoeWeight, {
             onSuccess: () => {
-                queryClient.invalidateQueries('weights')
+                queryClient.invalidateQueries('shoe_weights')
             }
         })
     const [dyeid, setDyeid] = useState<string>('');

@@ -24,10 +24,10 @@ const Add3rdWeightForm = ({ shoeweight }: { shoeweight: IShoeWeight }) => {
     const [photo, setPhoto] = useState<CameraCapturedPicture>()
     const { setChoice } = useContext(ChoiceContext)
     const { mutate, isLoading, isSuccess, error } = useMutation
-        <AxiosResponse<IShoeWeight>, BackendError, { body: FormData }>
+        <AxiosResponse<IShoeWeight>, BackendError, { id: string, body: FormData }>
         (CreateShoeWeight, {
             onSuccess: () => {
-                queryClient.invalidateQueries('weights')
+                queryClient.invalidateQueries('shoe_weights')
             }
         })
     const { data: dyesdata, isLoading: dyeLoading } = useQuery<AxiosResponse<IDye[]>, BackendError>("dyes", async () => GetDyes())
@@ -64,6 +64,7 @@ const Add3rdWeightForm = ({ shoeweight }: { shoeweight: IShoeWeight }) => {
                     type: 'image/jpeg'
                 })
                 mutate({
+                    id: shoeweight._id,
                     body: formdata
                 })
             }

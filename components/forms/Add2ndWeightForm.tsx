@@ -8,7 +8,7 @@ import { ChoiceContext, ProductionChoiceActions } from '../../contexts/ModalCont
 import CameraComponent from '../Camera';
 import { CameraCapturedPicture } from 'expo-camera';
 import { IArticle, IDye, IMachine, IShoeWeight } from '../../types/production';
-import { CreateShoeWeight, GetArticles, GetDyeById, GetDyes, GetMachines } from '../../services/ProductionServices';
+import { GetArticles, GetDyes, GetMachines, UpdateShoeWeight2 } from '../../services/ProductionServices';
 import { months } from '../../utils/months';
 import { Picker } from '@react-native-picker/picker';
 
@@ -24,10 +24,10 @@ const Add2ndWeightForm = ({ shoeweight }: { shoeweight: IShoeWeight }) => {
     const [photo, setPhoto] = useState<CameraCapturedPicture>()
     const { setChoice } = useContext(ChoiceContext)
     const { mutate, isLoading, isSuccess, error } = useMutation
-        <AxiosResponse<IShoeWeight>, BackendError, { body: FormData }>
-        (CreateShoeWeight, {
+        <AxiosResponse<IShoeWeight>, BackendError, { id: string, body: FormData }>
+        (UpdateShoeWeight2, {
             onSuccess: () => {
-                queryClient.invalidateQueries('weights')
+                queryClient.invalidateQueries('shoe_weights')
             }
         })
     const { data: dyesdata, isLoading: dyeLoading } = useQuery<AxiosResponse<IDye[]>, BackendError>("dyes", async () => GetDyes())
@@ -64,6 +64,7 @@ const Add2ndWeightForm = ({ shoeweight }: { shoeweight: IShoeWeight }) => {
                     type: 'image/jpeg'
                 })
                 mutate({
+                    id:shoeweight._id,
                     body: formdata
                 })
             }
@@ -77,7 +78,7 @@ const Add2ndWeightForm = ({ shoeweight }: { shoeweight: IShoeWeight }) => {
             setValidated(true)
         }
     }
-    
+
 
     return (
         <>
@@ -107,7 +108,7 @@ const Add2ndWeightForm = ({ shoeweight }: { shoeweight: IShoeWeight }) => {
 
                         <View style={style.picker}><Picker
                             placeholder="Dye"
-                            onValueChange={(v) => { setDye(v);  }}
+                            onValueChange={(v) => { setDye(v); }}
                             selectedValue={String(dye)}
 
                         >

@@ -19,7 +19,7 @@ const show_weight = () => {
   const [weights, setWeights] = useState<IShoeWeight[]>([])
   const { data, isLoading, isSuccess, refetch } = useQuery
     <AxiosResponse<IShoeWeight[]>, BackendError>
-    ("weights", GetMytodayShoeWeights);
+    ("shoe_weights", GetMytodayShoeWeights);
 
   useEffect(() => {
     if (isSuccess && data) {
