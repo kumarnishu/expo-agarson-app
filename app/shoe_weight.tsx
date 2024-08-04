@@ -45,17 +45,20 @@ const show_weight = () => {
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
         >
-          < Pressable
-            style={style.button}
-            onPress={
-              () => {
-                setWeight(undefined)
-                setChoice({ type: ProductionChoiceActions.create_showweight })
+          <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', marginVertical: 10 }}>
+            <Text style={style.heding}>Weights : {weights.length}</Text>
+            < Pressable
+              style={style.button}
+              onPress={
+                () => {
+                  setWeight(undefined)
+                  setChoice({ type: ProductionChoiceActions.create_showweight })
+                }
               }
-            }
-          >
-            <Text style={style.buttontext}>New Shoe Weight</Text>
-          </Pressable>
+            >
+              <Text style={style.buttontext}>Add New</Text>
+            </Pressable>
+          </View>
           {
             !refreshing && weights && weights.map((weight, index) => {
               return (
@@ -179,14 +182,15 @@ const style = StyleSheet.create({
     fontWeight: 'bold'
   },
   button: {
-    padding: 15,
+    padding: 5,
+    paddingHorizontal: 10,
     bottom: 0,
     marginTop: 5,
-    backgroundColor: 'black',
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 10
   },
   buttontext: {
-    padding: 5,
-    color: 'white',
     textAlign: 'center',
     fontSize: 25,
     fontWeight: 'bold',
