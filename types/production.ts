@@ -22,6 +22,7 @@ export type IShoeWeight = {
     is_validated: boolean,
     month: number,
     shoe_weight1: number,
+    upper_weight:number,
     shoe_photo1: Asset,
     weighttime1: Date,
     weighttime2: Date,

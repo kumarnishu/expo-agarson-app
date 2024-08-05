@@ -12,10 +12,12 @@ import { months } from '../utils/months'
 import Add2ndWeightDialog from '../components/dialogs/Add2ndWeightDialog'
 import Add3rdWeightDialog from '../components/dialogs/Add3rdWeightDialog'
 import FuzzySearch from 'fuzzy-search'
+import { UserContext } from '../contexts/UserContext'
 
 const show_weight = () => {
   const [refreshing, setRefreshing] = React.useState(false);
   const { setChoice } = useContext(ChoiceContext);
+  const { user } = useContext(UserContext)
   const [filter, setFilter] = useState<string | undefined>()
   const [weight, setWeight] = useState<IShoeWeight>()
   const [weights, setWeights] = useState<IShoeWeight[]>([])
@@ -62,9 +64,9 @@ const show_weight = () => {
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
         >
-          <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', marginVertical: 10 }}>
+          <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 10 }}>
             <Text style={style.heding}>Weights : {weights.length}</Text>
-            < Pressable
+            {user?.assigned_permissions.includes('shoe_weight_create')&&< Pressable
               style={style.button}
               onPress={
                 () => {
@@ -74,7 +76,7 @@ const show_weight = () => {
               }
             >
               <Text style={style.buttontext}>Add New</Text>
-            </Pressable>
+            </Pressable>}
           </View>
           <TextInput style={style.textinput} value={filter} onChangeText={(value) => setFilter(value)} placeholder='Search' />
           {
@@ -86,14 +88,16 @@ const show_weight = () => {
                   <Text style={style.label}>Size : {weight.dye && weight.dye.size}</Text>
                   <Text style={style.label}>Machine : {weight.machine && weight.machine.display_name}</Text>
                   <Text style={style.label}>St. Weight : {weight.dye && weight.dye.stdshoe_weight}</Text>
-                  {weight.shoe_weight1 && <Text style={style.label}>Weight1 : {weight.shoe_weight1}  {weight.weighttime2 && new Date(weight.weighttime1).toLocaleTimeString()}</Text>}
-                  {weight.shoe_weight2 && <Text style={style.label}>Weight2 : {weight.shoe_weight2}  {weight.weighttime2 && new Date(weight.weighttime2).toLocaleTimeString()}</Text>}
-                  {weight.shoe_weight3 && <Text style={style.label}>Weight3 : {weight.shoe_weight3}  {weight.weighttime2 && new Date(weight.weighttime3).toLocaleTimeString()}</Text>}
+                  {weight.upper_weight && <Text style={style.label}>Upper Weight - {weight.upper_weight}</Text>}
+                  {weight.shoe_weight1 && <Text style={style.label}>Weight1 - {weight.shoe_weight1} | {weight.weighttime1 && new Date(weight.weighttime1).toLocaleTimeString()}</Text>}
+                  {weight.shoe_weight2 && <Text style={style.label}>Weight2 - {weight.shoe_weight2} | {weight.weighttime2 && new Date(weight.weighttime2).toLocaleTimeString()}</Text>}
+                  {weight.shoe_weight3 && <Text style={style.label}>Weight3 - {weight.shoe_weight3} | {weight.weighttime3 && new Date(weight.weighttime3).toLocaleTimeString()}</Text>}
                   <Text style={style.label}>Clock In : {months.find(m => m.month == weight.month)?.label || 'N/A'}</Text>
-                  <View style={{ flex: 1, justifyContent: 'space-between', gap: 5, flexDirection: 'row', padding: 10 }}>
+                  <Text style={style.label}>By : {weight.created_by && weight.created_by.username.toUpperCase() || 'N/A'}</Text>
+                  <View style={{ flex: 1, gap: 5, flexDirection: 'row' }}>
 
                     < Pressable
-                      style={!weight.shoe_weight1 ? style.circleredbutton : weight.shoe_weight1 > weight.dye.stdshoe_weight ? style.circleyellowbutton : style.circlebutton}
+                      style={!weight.shoe_weight1 ? style.circleredbutton : weight.shoe_weight1 - weight.upper_weight + 30 > weight.dye.stdshoe_weight ? style.circleyellowbutton : style.circlebutton}
                       onPress={
                         () => {
                           setWeight(weight)
@@ -102,13 +106,13 @@ const show_weight = () => {
                       }
                       disabled={isLoading}
                     >
-                      <Text style={weight.shoe_weight1 > weight.dye.stdshoe_weight ? style.circlebuttonblacktext : style.circlebuttontext}>1</Text>
+                      <Text style={weight.shoe_weight1 - weight.upper_weight + 30 > weight.dye.stdshoe_weight ? style.circlebuttonblacktext : style.circlebuttontext}>{weight.shoe_weight1 - weight.upper_weight + 30}</Text>
                     </Pressable>
 
 
 
                     < Pressable
-                      style={!weight.shoe_weight2 ? style.circleredbutton : weight.shoe_weight2 > weight.dye.stdshoe_weight ? style.circleyellowbutton : style.circlebutton}
+                      style={!weight.shoe_weight2 ? style.circleredbutton : weight.shoe_weight2 - weight.upper_weight + 30 > weight.dye.stdshoe_weight ? style.circleyellowbutton : style.circlebutton}
                       onPress={
                         () => {
                           setWeight(weight)
@@ -117,12 +121,12 @@ const show_weight = () => {
                       }
                       disabled={isLoading}
                     >
-                      <Text style={weight.shoe_weight2 > weight.dye.stdshoe_weight ? style.circlebuttonblacktext : style.circlebuttontext}>2</Text>
+                      <Text style={weight.shoe_weight2 - weight.upper_weight + 30 > weight.dye.stdshoe_weight ? style.circlebuttonblacktext : style.circlebuttontext}>{weight.shoe_weight2 - weight.upper_weight + 30}</Text>
                     </Pressable>
 
 
                     < Pressable
-                      style={!weight.shoe_weight3 ? style.circleredbutton : weight.shoe_weight3 > weight.dye.stdshoe_weight ? style.circleyellowbutton : style.circlebutton}
+                      style={!weight.shoe_weight3 ? style.circleredbutton : weight.shoe_weight3 - weight.upper_weight + 30 > weight.dye.stdshoe_weight ? style.circleyellowbutton : style.circlebutton}
                       onPress={
                         () => {
                           setWeight(weight)
@@ -131,7 +135,7 @@ const show_weight = () => {
                       }
                       disabled={isLoading}
                     >
-                      <Text style={weight.shoe_weight3 > weight.dye.stdshoe_weight ? style.circlebuttonblacktext : style.circlebuttontext}>3</Text>
+                      <Text style={weight.shoe_weight3 - weight.upper_weight + 30 > weight.dye.stdshoe_weight ? style.circlebuttonblacktext : style.circlebuttontext}>{weight.shoe_weight3 - weight.upper_weight + 30}</Text>
                     </Pressable>
                   </View>
                 </View>
@@ -156,14 +160,15 @@ const style = StyleSheet.create({
   textinput: {
     marginHorizontal: 5,
     marginVertical: 5,
-    padding: 10,
-    fontSize: 30,
+    padding: 15,
+    fontSize: 20,
     borderWidth: 1,
     borderRadius: 10,
   },
   label: {
     marginHorizontal: 5,
-    fontSize: 25,
+    fontWeight:'bold',
+    fontSize: 20,
     marginVertical: 2,
     textTransform: 'capitalize'
   },
@@ -177,11 +182,10 @@ const style = StyleSheet.create({
   circlebutton: {
     padding: 10,
     alignItems: 'center',
-    marginHorizontal: 10,
     justifyContent: 'center',
-    width: 60,
+    width: 120,
     height: 60,
-    borderRadius: 50,
+    borderRadius: 10,
     borderWidth: 2,
     borderColor: 'black',
     backgroundColor: 'green'
@@ -189,11 +193,10 @@ const style = StyleSheet.create({
   circleredbutton: {
     padding: 10,
     alignItems: 'center',
-    marginHorizontal: 10,
     justifyContent: 'center',
-    width: 60,
+    width: 120,
     height: 60,
-    borderRadius: 50,
+    borderRadius: 10,
     borderWidth: 2,
     borderColor: 'black',
     backgroundColor: 'red'
@@ -201,11 +204,10 @@ const style = StyleSheet.create({
   circleyellowbutton: {
     padding: 10,
     alignItems: 'center',
-    marginHorizontal: 10,
     justifyContent: 'center',
-    width: 60,
+    width: 120,
     height: 60,
-    borderRadius: 50,
+    borderRadius: 10,
     borderWidth: 2,
     borderColor: 'black',
     backgroundColor: 'yellow'
@@ -242,7 +244,7 @@ const style = StyleSheet.create({
   heding: {
     padding: 5,
     textAlign: 'center',
-    fontSize: 30,
+    fontSize: 24,
     fontWeight: 'bold'
   },
   switch: {

@@ -18,6 +18,7 @@ const Add3rdWeightForm = ({ shoeweight }: { shoeweight: IShoeWeight }) => {
     const [dye, setDye] = useState<string>(String(shoeweight.dye._id))
     const [st_weight, setStWeight] = useState(shoeweight.dye.stdshoe_weight)
     const [size, setSize] = useState(shoeweight.dye.size)
+    const [upper_weight, setUpperWeight] = useState(shoeweight.upper_weight||0)
     const [weight, setWeight] = useState(0)
     const [month, setMonth] = useState(shoeweight.month)
     const [validated, setValidated] = useState(false)
@@ -53,6 +54,7 @@ const Add3rdWeightForm = ({ shoeweight }: { shoeweight: IShoeWeight }) => {
                     size: size,
                     weight: weight,
                     month: month,
+                    upper_weight:upper_weight
 
                 }
 
@@ -121,6 +123,16 @@ const Add3rdWeightForm = ({ shoeweight }: { shoeweight: IShoeWeight }) => {
                             })}
 
                         </Picker></View>
+                        <Text style={style.label}>Upper Weight</Text>
+                        <TextInput
+                            style={style.textinput}
+                            readOnly
+                            keyboardType='numeric'
+                            placeholder="Upper Weight"
+                            onChangeText={(value) => setUpperWeight(Number(value))}
+                            value={String(upper_weight)}
+                            autoCapitalize='none'
+                        />
                         <Text style={style.label}>Weight</Text>
                         <TextInput
                             style={style.textinput}
