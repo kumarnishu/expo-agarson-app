@@ -98,7 +98,7 @@ const show_weight = () => {
                   <View style={{ flex: 1, gap: 5, flexDirection: 'row' }}>
 
                     < Pressable
-                      style={!weight.shoe_weight1 ? style.circleredbutton : weight.shoe_weight1 - weight.dye.stdshoe_weight - weight.upper_weight + 30 > weight.dye.stdshoe_weight ? style.circleyellowbutton : style.circlebutton}
+                      style={!weight.shoe_weight1 ? style.circleredbutton : weight.shoe_weight1 - weight.upper_weight - weight.dye.stdshoe_weight > 30 ? style.circleyellowbutton : style.circlebutton}
                       onPress={
                         () => {
                           setWeight(weight)
@@ -107,13 +107,13 @@ const show_weight = () => {
                       }
                       disabled={isLoading}
                     >
-                      <Text style={weight.shoe_weight1 - weight.dye.stdshoe_weight - weight.upper_weight + 30 > weight.dye.stdshoe_weight ? style.circlebuttonblacktext : style.circlebuttontext}>{weight.shoe_weight1 - weight.upper_weight + 30}</Text>
+                      <Text style={weight.shoe_weight1 - weight.upper_weight - weight.dye.stdshoe_weight > 30 ? style.circlebuttonblacktext : style.circlebuttontext}>{weight.shoe_weight1 - weight.upper_weight - weight.dye.stdshoe_weight}</Text>
                     </Pressable>
 
 
 
                     < Pressable
-                      style={!weight.shoe_weight2 ? style.circleredbutton : weight.shoe_weight2 - weight.dye.stdshoe_weight - weight.upper_weight + 30 > weight.dye.stdshoe_weight ? style.circleyellowbutton : style.circlebutton}
+                      style={!weight.shoe_weight2 ? style.circleredbutton : weight.shoe_weight2 - weight.upper_weight - weight.dye.stdshoe_weight > 30 ? style.circleyellowbutton : style.circlebutton}
                       onPress={
                         () => {
                           setWeight(weight)
@@ -122,12 +122,12 @@ const show_weight = () => {
                       }
                       disabled={isLoading}
                     >
-                      <Text style={weight.shoe_weight2 - weight.dye.stdshoe_weight - weight.upper_weight + 30 > weight.dye.stdshoe_weight ? style.circlebuttonblacktext : style.circlebuttontext}>{weight.shoe_weight2 - weight.upper_weight + 30}</Text>
+                      <Text style={weight.shoe_weight2 - weight.upper_weight - weight.dye.stdshoe_weight > 30 ? style.circlebuttonblacktext : style.circlebuttontext}>{weight.shoe_weight2 - weight.upper_weight - weight.dye.stdshoe_weight}</Text>
                     </Pressable>
 
 
                     < Pressable
-                      style={!weight.shoe_weight3 ? style.circleredbutton : weight.shoe_weight3 - weight.dye.stdshoe_weight - weight.upper_weight + 30 > weight.dye.stdshoe_weight ? style.circleyellowbutton : style.circlebutton}
+                      style={!weight.shoe_weight3 ? style.circleredbutton : weight.shoe_weight3 - weight.upper_weight - weight.dye.stdshoe_weight > 30  ? style.circleyellowbutton : style.circlebutton}
                       onPress={
                         () => {
                           setWeight(weight)
@@ -136,7 +136,7 @@ const show_weight = () => {
                       }
                       disabled={isLoading}
                     >
-                      <Text style={weight.shoe_weight3 - weight.upper_weight + 30 > weight.dye.stdshoe_weight ? style.circlebuttonblacktext : style.circlebuttontext}>{weight.shoe_weight3 - weight.dye.stdshoe_weight - weight.upper_weight + 30}</Text>
+                      <Text style={weight.shoe_weight3 - weight.upper_weight - weight.dye.stdshoe_weight > 30 ? style.circlebuttonblacktext : style.circlebuttontext}>{weight.shoe_weight3 - weight.upper_weight - weight.dye.stdshoe_weight}</Text>
                     </Pressable>
                   </View>
                 </View>
