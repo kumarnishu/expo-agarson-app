@@ -78,7 +78,7 @@ const show_weight = () => {
               <Text style={style.buttontext}>Add New</Text>
             </Pressable>}
           </View>
-          <TextInput style={style.textinput} value={filter} onChangeText={(value) => setFilter(value)} placeholder='Search' />
+          <TextInput style={style.textinput} value={filter} onChangeText={(value) => setFilter(value)} placeholder='Search Dye,Article,Machine' />
           {
             weights && weights.map((weight, index) => {
               return (
