@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../../contexts/UserContext'
 import { paths } from '../../utils/paths'
 import { GestureHandlerRootView, ScrollView } from 'react-native-gesture-handler'
-import { StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, View } from 'react-native'
 import { Link } from 'expo-router'
 
 
@@ -13,6 +13,7 @@ const Dashboard = () => {
     let tmpfeatures: { feature: string, url: string }[] = []
     user?.assigned_permissions.includes("visit_view") && tmpfeatures.push({ feature: 'my visit ', url: paths.visit })
     user?.assigned_permissions.includes("shoe_weight_view") && tmpfeatures.push({ feature: 'shoe weight', url: paths.shoe_weight })
+    user?.assigned_permissions.includes("dye_status_view") && tmpfeatures.push({ feature: 'dye status', url: paths.dye_status })
 
     setFeatures(tmpfeatures)
   }, [])
@@ -23,7 +24,14 @@ const Dashboard = () => {
           features.map((feat, index) => {
             return (
               <Link key={index} style={style.card} href={feat.url}>
-                <Text style={style.cardtext}>{feat.feature.toUpperCase()}</Text>
+                <View style={{ flexDirection: 'row', gap: 15, alignItems: 'center' }}>
+                  <Image source={require("../../assets/OIP.jpeg")} style={{
+                    width: 50,
+                    height: 50,
+                    borderRadius:50
+                  }} />
+                  <Text style={style.cardtext}>{feat.feature.toUpperCase()}</Text>
+                </View>
               </Link>
             )
           })
@@ -35,17 +43,16 @@ const Dashboard = () => {
 
 const style = StyleSheet.create({
   card: {
-    fontFamily:'Roboto',
-    backgroundColor:'white',
-    padding:20,
-    paddingLeft:10,
-    borderBottomWidth:1
+    fontFamily: 'Roboto',
+    backgroundColor: 'white',
+    borderBottomWidth: 1,
+    paddingVertical: 30,
+    paddingHorizontal:10
   },
   cardtext: {
     fontFamily: 'Roboto',
-    fontSize: 40,
-    fontWeight:'400',
-    margin:10
+    fontSize: 25,
+    fontWeight: '400',
   }
 })
 export default Dashboard
