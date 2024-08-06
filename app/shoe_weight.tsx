@@ -171,7 +171,8 @@ const style = StyleSheet.create({
   },
   label: {
     marginHorizontal: 5,
-    fontWeight: 'bold',
+    fontWeight: '500',
+    fontFamily:'Roboto',
     fontSize: 20,
     marginVertical: 2,
     textTransform: 'capitalize'

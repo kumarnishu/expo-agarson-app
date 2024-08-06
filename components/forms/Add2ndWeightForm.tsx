@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import React, { useContext,  useState } from 'react'
+import { Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useMutation, useQuery } from 'react-query';
 import { AxiosResponse } from 'axios';
 import { BackendError } from '../..';
@@ -34,13 +34,12 @@ const Add2ndWeightForm = ({ shoeweight }: { shoeweight: IShoeWeight }) => {
     const { data: dyesdata, isLoading: dyeLoading } = useQuery<AxiosResponse<IDye[]>, BackendError>("dyes", async () => GetDyes())
     const { data: machinesdata, isLoading: machineLoading } = useQuery<AxiosResponse<IMachine[]>, BackendError>("machines", async () => GetMachines())
     const { data: articlesdata, isLoading: articleLoading } = useQuery<AxiosResponse<IArticle[]>, BackendError>("articles", async () => GetArticles())
-    const formikRef = useRef();
 
-    useEffect(() => {
+    {/* useEffect(() => {
         if (isSuccess) {
             setChoice({ type: ProductionChoiceActions.close_production })
         }
-    }, [isSuccess])
+    }, [isSuccess]) */}
 
     function handleSubmit() {
         async function submit() {
@@ -69,6 +68,8 @@ const Add2ndWeightForm = ({ shoeweight }: { shoeweight: IShoeWeight }) => {
                     id:shoeweight._id,
                     body: formdata
                 })
+                setChoice({ type: ProductionChoiceActions.close_production })
+                Alert.alert("saved weight successfully");
             }
         }
         submit()
@@ -198,7 +199,7 @@ const Add2ndWeightForm = ({ shoeweight }: { shoeweight: IShoeWeight }) => {
 
 
             </> : null}
-            {validated && <CameraComponent photo={photo} setPhoto={setPhoto} isLoading={isLoading} handlePress={handleSubmit} />}
+            {validated && <CameraComponent photo={photo} setPhoto={setPhoto} isLoading={false} handlePress={handleSubmit} />}
         </>
     )
 }
