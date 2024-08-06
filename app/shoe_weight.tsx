@@ -64,9 +64,9 @@ const show_weight = () => {
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
         >
-          <View style={{ flex: 1, flexDirection: 'row', padding: 5, alignItems: 'center', justifyContent: 'space-between', marginVertical: 10 }}>
+          <View style={{ flex: 1, flexDirection: 'row', padding: 10, alignItems: 'center', justifyContent: 'space-between', marginVertical: 10 }}>
             <Text style={style.heding}>Weights : {weights.length}</Text>
-            {user?.assigned_permissions.includes('shoe_weight_create') && < Pressable
+            {user && user?.assigned_permissions.includes('shoe_weight_create') && < Pressable
               style={style.button}
               onPress={
                 () => {
@@ -81,67 +81,70 @@ const show_weight = () => {
           <TextInput style={style.textinput} value={filter} onChangeText={(value) => setFilter(value)} placeholder='Search Dye,Article,Machine' />
 
           {isLoading ? <ActivityIndicator /> :
-            weights && weights.map((weight, index) => {
-              return (
-                <View key={index} style={{ gap: 2, padding: 10, borderBottomWidth: 1, backgroundColor: 'whitesmoke', shadowRadius: 10, justifyContent: 'center' }}>
-                  <Text style={style.heding}>DYE {weight.dye && weight.dye.dye_number}</Text>
-                  <Text style={style.label}>Article : {weight.article && weight.article.display_name}</Text>
-                  <Text style={style.label}>Size : {weight.dye && weight.dye.size}</Text>
-                  <Text style={style.label}>Machine : {weight.machine && weight.machine.display_name}</Text>
-                  <Text style={style.label}>St. Weight : {weight.dye && weight.dye.stdshoe_weight}</Text>
-                  {weight.upper_weight && <Text style={style.label}>Upper Weight   : {weight.upper_weight}</Text>}
-                  {weight.shoe_weight1 && <Text style={style.label}>Weight1 : {weight.shoe_weight1}   | {weight.weighttime1 && new Date(weight.weighttime1).toLocaleTimeString()}</Text>}
-                  {weight.shoe_weight2 && <Text style={style.label}>Weight2 : {weight.shoe_weight2}   | {weight.weighttime2 && new Date(weight.weighttime2).toLocaleTimeString()}</Text>}
-                  {weight.shoe_weight3 && <Text style={style.label}>Weight3 : {weight.shoe_weight3}   | {weight.weighttime3 && new Date(weight.weighttime3).toLocaleTimeString()}</Text>}
-                  <Text style={style.label}>Clock In : {months.find(m => m.month == weight.month)?.label || 'N/A'}</Text>
-                  <Text style={style.label}>By : {weight.created_by && weight.created_by.username.toUpperCase() || 'N/A'}</Text>
-                  <View style={{ flex: 1, gap: 5, flexDirection: 'row' }}>
+            <>{
+              weights && weights.map((weight, index) => {
+                return (
+                  <View key={index} style={{ gap: 2, padding: 10, borderBottomWidth: 1, backgroundColor: 'whitesmoke', shadowRadius: 10, justifyContent: 'center' }}>
+                    <Text style={style.heding}>DYE {weight.dye && weight.dye.dye_number}</Text>
+                    <Text style={style.label}>Article : {weight.article && weight.article.display_name}</Text>
+                    <Text style={style.label}>Size : {weight.dye && weight.dye.size}</Text>
+                    <Text style={style.label}>Machine : {weight.machine && weight.machine.display_name}</Text>
+                    <Text style={style.label}>St. Weight : {weight.dye && weight.dye.stdshoe_weight}</Text>
+                    <Text style={style.label}>Upper Weight   : {weight.upper_weight}</Text>
+                    {weight.shoe_weight1 && <Text style={style.label}>Weight1 : {weight.shoe_weight1}   | {weight.weighttime1 && new Date(weight.weighttime1).toLocaleTimeString()}</Text>}
+                    {weight.shoe_weight2 && <Text style={style.label}>Weight2 : {weight.shoe_weight2}   | {weight.weighttime2 && new Date(weight.weighttime2).toLocaleTimeString()}</Text>}
+                    {weight.shoe_weight3 && <Text style={style.label}>Weight3 : {weight.shoe_weight3}   | {weight.weighttime3 && new Date(weight.weighttime3).toLocaleTimeString()}</Text>}
+                    <Text style={style.label}>Clock In : {months.find(m => m.month == weight.month)?.label || 'N/A'}</Text>
+                    <Text style={style.label}>By : {weight.created_by && weight.created_by.username.toUpperCase() || 'N/A'}</Text>
+                    <View style={{ flex: 1, gap: 5, flexDirection: 'row' }}>
 
-                    < Pressable
-                      style={!weight.shoe_weight1 ? style.circleredbutton : weight.shoe_weight1 - weight.upper_weight - weight.dye.stdshoe_weight > 30 ? style.circleyellowbutton : style.circlebutton}
-                      onPress={
-                        () => {
-                          setWeight(weight)
-                          setChoice({ type: ProductionChoiceActions.create_showweight })
+                      < Pressable
+                        style={!weight.shoe_weight1 ? style.circleredbutton : weight.shoe_weight1 - weight.upper_weight - weight.dye.stdshoe_weight > 30 ? style.circleyellowbutton : style.circlebutton}
+                        onPress={
+                          () => {
+                            setWeight(weight)
+                            setChoice({ type: ProductionChoiceActions.create_showweight })
+                          }
                         }
-                      }
-                      disabled={isLoading}
-                    >
-                      <Text style={weight.shoe_weight1 - weight.upper_weight - weight.dye.stdshoe_weight > 30 ? style.circlebuttonblacktext : style.circlebuttontext}>{weight.shoe_weight1 - weight.upper_weight - weight.dye.stdshoe_weight}</Text>
-                    </Pressable>
+                        disabled={isLoading}
+                      >
+                        <Text style={weight.shoe_weight1 - weight.upper_weight - weight.dye.stdshoe_weight > 30 ? style.circlebuttonblacktext : style.circlebuttontext}>{weight.shoe_weight1 - weight.upper_weight - weight.dye.stdshoe_weight}</Text>
+                      </Pressable>
 
 
 
-                    < Pressable
-                      style={!weight.shoe_weight2 ? style.circleredbutton : weight.shoe_weight2 - weight.upper_weight - weight.dye.stdshoe_weight > 30 ? style.circleyellowbutton : style.circlebutton}
-                      onPress={
-                        () => {
-                          setWeight(weight)
-                          setChoice({ type: ProductionChoiceActions.create_showweight2 })
+                      < Pressable
+                        style={!weight.shoe_weight2 ? style.circleredbutton : weight.shoe_weight2 - weight.upper_weight - weight.dye.stdshoe_weight > 30 ? style.circleyellowbutton : style.circlebutton}
+                        onPress={
+                          () => {
+                            setWeight(weight)
+                            setChoice({ type: ProductionChoiceActions.create_showweight2 })
+                          }
                         }
-                      }
-                      disabled={isLoading}
-                    >
-                      <Text style={weight.shoe_weight2 - weight.upper_weight - weight.dye.stdshoe_weight > 30 ? style.circlebuttonblacktext : style.circlebuttontext}>{weight.shoe_weight2 - weight.upper_weight - weight.dye.stdshoe_weight}</Text>
-                    </Pressable>
+                        disabled={isLoading}
+                      >
+                        <Text style={weight.shoe_weight2 - weight.upper_weight - weight.dye.stdshoe_weight > 30 ? style.circlebuttonblacktext : style.circlebuttontext}>{weight.shoe_weight2 - weight.upper_weight - weight.dye.stdshoe_weight}</Text>
+                      </Pressable>
 
 
-                    < Pressable
-                      style={!weight.shoe_weight3 ? style.circleredbutton : weight.shoe_weight3 - weight.upper_weight - weight.dye.stdshoe_weight > 30  ? style.circleyellowbutton : style.circlebutton}
-                      onPress={
-                        () => {
-                          setWeight(weight)
-                          setChoice({ type: ProductionChoiceActions.create_showweight3 })
+                      < Pressable
+                        style={!weight.shoe_weight3 ? style.circleredbutton : weight.shoe_weight3 - weight.upper_weight - weight.dye.stdshoe_weight > 30 ? style.circleyellowbutton : style.circlebutton}
+                        onPress={
+                          () => {
+                            setWeight(weight)
+                            setChoice({ type: ProductionChoiceActions.create_showweight3 })
+                          }
                         }
-                      }
-                      disabled={isLoading}
-                    >
-                      <Text style={weight.shoe_weight3 - weight.upper_weight - weight.dye.stdshoe_weight > 30 ? style.circlebuttonblacktext : style.circlebuttontext}>{weight.shoe_weight3 - weight.upper_weight - weight.dye.stdshoe_weight}</Text>
-                    </Pressable>
+                        disabled={isLoading}
+                      >
+                        <Text style={weight.shoe_weight3 - weight.upper_weight - weight.dye.stdshoe_weight > 30 ? style.circlebuttonblacktext : style.circlebuttontext}>{weight.shoe_weight3 - weight.upper_weight - weight.dye.stdshoe_weight}</Text>
+                      </Pressable>
+                    </View>
                   </View>
-                </View>
-              )
-            })
+                )
+              })
+            }
+            </>
           }
 
         </ScrollView>
