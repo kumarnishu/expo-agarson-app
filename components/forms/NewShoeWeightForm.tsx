@@ -33,9 +33,9 @@ const NewShoeWeightForm = ({ useddyes }: { useddyes: string[] }) => {
         })
     const [dyeid, setDyeid] = useState<string>('');
     const { data: remoteDye } = useQuery<AxiosResponse<IDye>, BackendError>(["dye", dyeid], async () => GetDyeById(dyeid))
-    const { data: dyesdata, isLoading: dyeLoading } = useQuery<AxiosResponse<IDye[]>, BackendError>("dyes", async () => GetDyes())
-    const { data: machinesdata, isLoading: machineLoading } = useQuery<AxiosResponse<IMachine[]>, BackendError>("machines", async () => GetMachines())
-    const { data: articlesdata, isLoading: articleLoading } = useQuery<AxiosResponse<IArticle[]>, BackendError>("articles", async () => GetArticles())
+    const { data: dyesdata } = useQuery<AxiosResponse<IDye[]>, BackendError>("dyes", async () => GetDyes())
+    const { data: machinesdata } = useQuery<AxiosResponse<IMachine[]>, BackendError>("machines", async () => GetMachines())
+    const { data: articlesdata } = useQuery<AxiosResponse<IArticle[]>, BackendError>("articles", async () => GetArticles())
 
     {/* useEffect(() => {
         if (isSuccess) {
@@ -79,7 +79,7 @@ const NewShoeWeightForm = ({ useddyes }: { useddyes: string[] }) => {
 
 
     function handleValidation() {
-        if (article && dye && weight && machine && month != undefined && st_weight && upper_weight) {
+        if (article && dye && weight && upper_weight && machine && month != undefined && st_weight && upper_weight) {
             setValidated(true)
         }
     }
