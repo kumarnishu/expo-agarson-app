@@ -69,7 +69,7 @@ const Add2ndWeightForm = ({ shoeweight }: { shoeweight: IShoeWeight }) => {
                     body: formdata
                 })
                 setChoice({ type: ProductionChoiceActions.close_production })
-                Alert.alert("saved weight successfully");
+                Alert.alert("Saved weight successfully", "Warning ! Do not close the app photo is saving in background.");
             }
         }
         submit()
