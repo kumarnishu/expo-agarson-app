@@ -35,11 +35,6 @@ const Add2ndWeightForm = ({ shoeweight }: { shoeweight: IShoeWeight }) => {
     const { data: machinesdata, isLoading: machineLoading } = useQuery<AxiosResponse<IMachine[]>, BackendError>("machines", async () => GetMachines())
     const { data: articlesdata, isLoading: articleLoading } = useQuery<AxiosResponse<IArticle[]>, BackendError>("articles", async () => GetArticles())
 
-    {/* useEffect(() => {
-        if (isSuccess) {
-            setChoice({ type: ProductionChoiceActions.close_production })
-        }
-    }, [isSuccess]) */}
 
     function handleSubmit() {
         async function submit() {
@@ -123,6 +118,23 @@ const Add2ndWeightForm = ({ shoeweight }: { shoeweight: IShoeWeight }) => {
                             })}
 
                         </Picker></View>
+                        <Text style={style.label}>Article</Text>
+
+                        <View style={style.picker}><Picker
+                            placeholder="Article"
+                            onValueChange={(v) => setArticle(v)}
+                            selectedValue={String(article)}
+                            enabled={false}
+                        >
+                            <Picker.Item style={style.item} key={0} label="Select" value={undefined} />
+                            {articlesdata && articlesdata.data.map((article, index) => {
+                                return (
+                                    <Picker.Item style={style.item} key={index + 1} label={article.display_name} value={article._id} />
+                                )
+                            })}
+
+                        </Picker>
+                        </View>
                         <Text style={style.label}>Upper Weight</Text>
                         <TextInput
                             style={style.textinput}
@@ -141,23 +153,7 @@ const Add2ndWeightForm = ({ shoeweight }: { shoeweight: IShoeWeight }) => {
                             value={String(weight)}
                             autoCapitalize='none'
                         />
-                        <Text style={style.label}>Article</Text>
-
-                        <View style={style.picker}><Picker
-                            placeholder="Article"
-                            onValueChange={(v) => setArticle(v)}
-                            selectedValue={String(article)}
-                            enabled={false}
-                        >
-                            <Picker.Item style={style.item} key={0} label="Select" value={undefined} />
-                            {articlesdata && articlesdata.data.map((article, index) => {
-                                return (
-                                    <Picker.Item style={style.item} key={index + 1} label={article.display_name} value={article._id} />
-                                )
-                            })}
-
-                        </Picker>
-                        </View>
+                      
                         <Text style={style.label}>Std. Weight</Text>
                         <TextInput
                             style={style.textinput}

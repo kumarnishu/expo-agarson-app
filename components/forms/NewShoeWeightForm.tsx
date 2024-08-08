@@ -20,7 +20,7 @@ const NewShoeWeightForm = ({ useddyes }: { useddyes: string[] }) => {
     const [upper_weight, setUpperWeight] = useState(0)
     const [size, setSize] = useState()
     const [weight, setWeight] = useState(0)
-    const [month, setMonth] = useState(0)
+    const [month, setMonth] = useState(new Date().getMonth())
     const [validated, setValidated] = useState(false)
     const [photo, setPhoto] = useState<CameraCapturedPicture>()
     const { setChoice } = useContext(ChoiceContext)
@@ -33,15 +33,11 @@ const NewShoeWeightForm = ({ useddyes }: { useddyes: string[] }) => {
         })
     const [dyeid, setDyeid] = useState<string>('');
     const { data: remoteDye } = useQuery<AxiosResponse<IDye>, BackendError>(["dye", dyeid], async () => GetDyeById(dyeid))
+    const [articles,setArticles]=useState<IArticle[]>([])
     const { data: dyesdata } = useQuery<AxiosResponse<IDye[]>, BackendError>("dyes", async () => GetDyes())
     const { data: machinesdata } = useQuery<AxiosResponse<IMachine[]>, BackendError>("machines", async () => GetMachines())
-    const { data: articlesdata } = useQuery<AxiosResponse<IArticle[]>, BackendError>("articles", async () => GetArticles())
+    
 
-    {/* useEffect(() => {
-        if (isSuccess) {
-           
-        }
-    }, [isSuccess]) */}
 
     function handleSubmit() {
         async function submit() {
@@ -85,12 +81,12 @@ const NewShoeWeightForm = ({ useddyes }: { useddyes: string[] }) => {
     }
     useEffect(() => {
         if (remoteDye && remoteDye.data) {
-            if (remoteDye.data.article) {
-                setArticle(remoteDye.data.article._id)
+            if (remoteDye.data.articles) {
+                setArticles(remoteDye.data.articles)
                 setStWeight(remoteDye.data.stdshoe_weight)
             }
             else {
-                setArticle("")
+                setArticles([])
                 setStWeight(0)
             }
         }
@@ -138,6 +134,23 @@ const NewShoeWeightForm = ({ useddyes }: { useddyes: string[] }) => {
                             })}
 
                         </Picker></View>
+                        <Text style={style.label}>Article</Text>
+
+                        <View style={style.picker}><Picker
+                            placeholder="Article"
+                            onValueChange={(v) => setArticle(v)}
+                            selectedValue={String(article)}
+
+                        >
+                            <Picker.Item style={style.item} key={0} label="Select" value={undefined} />
+                            {articles && articles.map((article, index) => {
+                                return (
+                                    <Picker.Item style={style.item} key={index + 1} label={article.display_name} value={article._id} />
+                                )
+                            })}
+
+                        </Picker>
+                        </View>
                         <Text style={style.label}>Upper Weight</Text>
                         <TextInput
                             style={style.textinput}
@@ -157,23 +170,7 @@ const NewShoeWeightForm = ({ useddyes }: { useddyes: string[] }) => {
                             value={String(weight)}
                             autoCapitalize='none'
                         />
-                        <Text style={style.label}>Article</Text>
-
-                        <View style={style.picker}><Picker
-                            placeholder="Article"
-                            onValueChange={(v) => setArticle(v)}
-                            selectedValue={String(article)}
-                            enabled={false}
-                        >
-                            <Picker.Item style={style.item} key={0} label="Select" value={undefined} />
-                            {articlesdata && articlesdata.data.map((article, index) => {
-                                return (
-                                    <Picker.Item style={style.item} key={index + 1} label={article.display_name} value={article._id} />
-                                )
-                            })}
-
-                        </Picker>
-                        </View>
+                      
                         <Text style={style.label}>Std. Weight</Text>
                         <TextInput
                             style={style.textinput}
